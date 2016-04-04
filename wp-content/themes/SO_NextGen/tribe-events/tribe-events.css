@@ -1,0 +1,95 @@
+/* Styling of Individual Events pages - overrides default Events style */
+
+.single-tribe_events .entry-title {
+	font-size: 2.5rem;
+}
+
+.single-tribe_events h2.entry-title a:visited {
+	color: #775077;
+}
+
+.single-tribe_events .url {
+	text-decoration: none;
+	color: #775077;
+}
+
+.single-tribe_events a:visited {
+	color: #775077;
+} 
+
+.single-tribe_events #register h2 {
+	color: #775077;
+}
+
+.single-tribe_events .time-details {
+	clear: both;
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: #775077;
+	padding-top: 1rem;
+}
+
+.single-tribe_events .tribe-events-single-event-description {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.single-tribe_events .event-image {
+	float: left;
+	padding-right: 2rem;
+}
+
+.single-tribe_events #register {
+	float: left;
+	margin-bottom: 2rem;
+}
+
+.single-tribe_events .event-details dt {
+	clear: left;
+	float: left;
+}
+
+.single-tribe_events .event-details dd {
+	clear: right;
+	padding-left: 3rem;
+}
+
+.single-tribe_events .alternate-meeting-places {
+	padding-left: 2rem;
+}
+
+.single-tribe_events .other-info {
+	margin-bottom: 0;
+}
+
+
+/*  Events page - Calendar View */
+
+.tribe-filter-live h1 {
+	display: none;
+}
+
+#tribe-events-content table.tribe-events-calendar {
+	border: 1px solid #F7E0AA;
+}
+
+.tribe-events-calendar div[id*=tribe-events-event-] h3.entry-title a {
+  font-size: .9rem;
+  font-weight: bold;
+}
+
+.events-list #tribe-events-footer, .single-tribe_events #tribe-events-footer, .tribe-events-day #tribe-events-footer, .tribe-events-map #tribe-events-footer, .tribe-events-photo #tribe-events-footer {
+    padding-top: 2em;
+}
+
+
+#tribe-events-footer .tribe-events-sub-nav li.tribe-events-nav-previous, #tribe-events-header .tribe-events-sub-nav li.tribe-events-nav-previous {
+	display: block;
+	float: left;
+}
+
+#tribe-events-footer .tribe-events-sub-nav li.tribe-events-nav-next, #tribe-events-header .tribe-events-sub-nav li.tribe-events-nav-next {
+	display: block;
+	float: right;
+}
+

@@ -1,0 +1,31 @@
+<?php 
+/*
+Template Name: List Organizers & Venues
+*/
+
+
+// the query
+$the_query = new WP_Query( $args ); ?>
+
+<?php if ( $the_query->have_events() ) : ?>
+
+	<!-- pagination here -->
+
+	<!-- the loop -->
+	<?php while ( $the_query->have_events() ) : $the_query->the_event(); ?>
+		<p><?php tribe_get_organizer(); ?>, <?php tribe_get_organizer_id(); ?></p>
+	<?php endwhile; ?>
+
+	<?php while ( $the_query->have_events() ) : $the_query->the_event(); ?>
+		<p><?php tribe_get_venue(); ?>, <?php tribe_get_venue_id(); ?></p>
+	<?php endwhile; ?>
+
+	<!-- end of the loop -->
+
+	<!-- pagination here -->
+
+	<?php wp_reset_postdata(); ?>
+
+<?php else : ?>
+	<p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+<?php endif; ?>
