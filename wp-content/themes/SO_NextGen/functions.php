@@ -160,3 +160,11 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 require get_template_directory() . '/inc/jetpack.php';
+
+
+/** Admin Slug Function */
+function the_slug() {
+    $post_data = get_post($post->ID, ARRAY_A);
+    $slug = $post_data['post_name'];
+    return $slug;
+}

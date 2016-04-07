@@ -1,12 +1,12 @@
   //Start hover text
   //"mousemove" code came from: http://www.alessioatzeni.com/blog/simple-tooltip-with-jquery-only-text/
-    $("[class^=tribe-events-category-] a").hover(function() {
+/*    $("[class^=tribe-events-category-] a").hover(function() {
       $(this).parent().after("<div class='hover-text'>Here's some info about this outing.</div>");
       },
     function() {
       $(this).parent().parent().find("div.hover-text").remove();
     });
-  /*    }).mousemove(function(e) {
+*/  /*    }).mousemove(function(e) {
             var mousex = e.pageX + 20; //Get X coordinates
             var mousey = e.pageY + 10; //Get Y coordinates
             $('.hover-text')

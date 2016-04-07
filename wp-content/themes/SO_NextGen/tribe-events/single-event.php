@@ -35,7 +35,7 @@ $event_id = get_the_ID();
 	$featured_image = get_field('featured_image');
 
 	// Organizer
-	$organizer = tribe_get_organizer();
+	$organizer = get_field('leader');
 
 	// Difficulty
 	$difficulty = get_field('difficulty');
@@ -107,7 +107,7 @@ $event_id = get_the_ID();
 					echo tribe_get_end_date(null,FALSE,'F j'); 
 				endif; ?>
 
-				<?php if (! ($rsvp == 'No')): ?>
+				<?php if ( ($rsvp == 'Yes') OR ($rsvp == 'Non-members only') ): ?>
 
 					<button class="register-button">Register Now</button>
 					<?php if ($rsvp == 'Non-members only'): ?>
