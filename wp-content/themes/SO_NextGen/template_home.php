@@ -50,7 +50,7 @@ Template Name: Custom Homepage Template
                         $searchString = 'General Meeting'; 
                         $title= get_the_title(); ?>
 
-                        <h2>SO! General Meeting:</h2>
+                        <h2>SO! General Meeting</h2>
         			    <h3 class="event-title"><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>
         			    <p class="single-space"><?php echo $venue; ?></p>
                         <p><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?></p>
@@ -64,23 +64,35 @@ Template Name: Custom Homepage Template
                         <?php endif; ?>
             		    <?php the_content(); ?>
                     <?php endif; 
+                    if (has_term('changed','tribe_events_cat')) : ?>
+                        <div class="event-changes">
+                            <h2>Schedule Changes</h2>
+                            <h3><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?>: </h3>
+                            <h4><?php the_title(); ?></h4>
+                        </div>
+                    <?php endif;
                 endwhile; ?>
                 </div>
             <?php endif; ?>
+
         </section>
 
         <section class="list-view">
            <?php $eventsPosted = 0;
-            $wp_query = new WP_Query( array( 'post_type' => 'tribe_events', 'nopaging' => true ) );
-            if ( $wp_query->have_posts() ): ?>
-                <h2>Upcoming Events:</h2>
+            $wp_query = new WP_Query( array( 'post_type' => 'tribe_events', 'nopaging' => true ) ); ?>
+            <h2>Upcoming Events:</h2>
+            <?php if ( $wp_query->have_posts() ): ?>
                     <?php while ( ( $wp_query->have_posts() ) && ($eventsPosted < 5) ) : $wp_query->the_post();
                         if (!(has_term('general-meeting','tribe_events_cat'))) :
                            $startDate = tribe_get_start_date();
                            $endDate = tribe_get_end_date(); ?>
                             <div class="events-list">
-                                <h3 class="event-title"><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>
-                                <?php if ($startDate != $endDate) : ?>
+                                <?php if (has_term('new','tribe_events_cat')) : ?>
+                                    <h3 class="event-title"><span class="new-outing">NEW!</span><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>                                
+                                <?php else : ?>
+                                    <h3 class="event-title"><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>
+                                <?php endif;
+                                if ($startDate != $endDate) : ?>
                                     <p><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?> - <?php echo tribe_get_end_date(null,FALSE,'l, F j'); ?></p>
                                 <?php else : ?>    
                                     <p><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?></p>
@@ -92,7 +104,10 @@ Template Name: Custom Homepage Template
                         endif;
                     $eventsPosted++; 
                     endwhile; ?>
-                <p><a class="text-link" href="<?php echo get_stylesheet_directory_uri(); ?>/events">See full schedule&rsaquo;&rsaquo;</a></p>
+                <p><a class="text-link" href="/so_nextgen/events">Go to full calendar&rsaquo;&rsaquo;</a></p>
+                <p><a class="text-link" href="/so_nextgen/printable-schedule">Go to printable schedule&rsaquo;&rsaquo;</a></p>
+           <?php else : ?>
+                <p>Sorry - no events found</p>
            <?php endif; ?>
         </section>
 

@@ -521,9 +521,6 @@ a:active {
 5.2 Menus
 --------------------------------------------------------------*/
 .main-navigation {
-	clear: both;
-	display: block;
-	float: left;
 	width: 99.7%;
 	position: absolute;
 	top: 11.5rem; 
@@ -531,6 +528,7 @@ a:active {
 	height: 2.2rem;
 	background-color: #563A56;
 	color: white;
+	text-align: center;
 }
 
 .main-navigation ul {
@@ -540,11 +538,9 @@ a:active {
 }
 
 .main-navigation li {
-	display: block;
+	display: inline;
 	margin: 0;
 	line-height: 2.2rem;
-	float: left;
-	position: relative;
 	font-size: .9rem;
 	font-weight: bold;
 	color: white;
@@ -553,7 +549,7 @@ a:active {
 
 .main-navigation a {
 	color: white;
-	display: block;
+	display: inline-block;
 	padding: 0 2.5rem;
 	text-decoration: none;
 }
@@ -579,7 +575,10 @@ a:active {
 }
 
 .main-navigation ul ul a {
-	width: 200px;
+	width: 180px;
+	margin-top: 13px;
+	padding: 2px 10px;
+	background-color: #563A56;
 }
 
 .main-navigation ul ul li {
@@ -605,7 +604,11 @@ a:active {
 
 .main-navigation .current_page_item > a,
 .main-navigation .current-menu-item > a,
-.main-navigation .current_page_ancestor > a {
+.main-navigation .current_page_ancestor > a,
+.main-navigation .current-menu-ancestor > a {
+	color: #563A56;
+	background-color: #F7E0AA;
+	font-weight: bold;
 }
 
 /* Small menu. */
@@ -928,6 +931,17 @@ a.text-link:hover {
 	text-decoration: underline;
 }
 
+.new-outing {
+	display: inline-block;
+	background-color: #EDBB66;
+	color: #222;
+	padding: 1px 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	border-radius: 5px;
+	font-size: .9em;
+}
+
 .page-content {
 	margin: 0;
 }
@@ -1076,6 +1090,7 @@ header {
 
 .main-content a:hover {
 	color: #EDBB66;
+	text-decoration: underline;
 }
 
 .slider-caption {
@@ -1135,12 +1150,17 @@ div.events-list p:nth-of-type(2) {
 	padding-left: 1.5rem;
 }
 
+
+
 .featured h2 {
 	border-bottom: 1px solid #EDBB66;
+	margin-top: 2rem;
 	margin-bottom: 0;
 	padding-bottom: 0.5rem;
 	font-size: 1.5em;
 }
+
+
 
 .featured h3 {
 	padding-top: 0.5rem;
@@ -1149,6 +1169,11 @@ div.events-list p:nth-of-type(2) {
 .featured p {
 	margin-top: 0;
 }
+
+.event-changes h3 {
+	margin-top: 0;
+}
+
 
 .single-space {
 	margin-bottom: 0;
@@ -1165,6 +1190,15 @@ div.events-list p:nth-of-type(2) {
 .single-tribe_events .entry-title  {
 	font-size: 1.5rem;
 	width: 60%;
+}
+
+.single-tribe_events .field-label {
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+.single-tribe_events dt.field-label {
+	margin-right: 8px;
 }
 
 .entry-header {
@@ -1212,37 +1246,6 @@ div.events-list p:nth-of-type(2) {
 .non-members-only {
 	color: #222;
 	font-size: 1rem;
-}
-
-#outing-registration {
-  position: absolute;
-  left: 350px;
-  top: 30px;
-  border: 2px solid #000;
-  background-color: #D5DBD8;
-  border-radius: 5px;
-  padding: 15px;
-  color: #2B2828;
-  z-index: 3;
-}
-
-#outing-registration p {
-  font-size: 1.2rem;
-  line-height: 2rem;
-  margin: 5px;
-}
-
-#background-overlay {
-    background-color: #333;
-    opacity: 0.8;
-    position: absolute;
-    left: 0px;
-    z-index: 2;
-    margin-top: -30rem;
-    margin-left: -5rem;
-    height: 160%;
-    width: 109%;
-    overflow: hidden;
 }
 
 .single-tribe_events a:visited {
@@ -1294,6 +1297,12 @@ div.events-list p:nth-of-type(2) {
 	margin: 0 auto;
 }
 
+a.printable-list {
+	display: block;
+	padding-top: 10px;
+	text-align: right;
+}
+
 #tribe-events-footer {
 	width: 90%;
 	margin: 0 auto;
@@ -1326,28 +1335,109 @@ div.events-list p:nth-of-type(2) {
 
 /* Membership Page */
 
-.membership-dues {
+.so-table {
 	width: 36em;
 }
 
 
-.membership-dues tr {
+.so-table tr {
 	border-top: 1px solid #563A56;
 }
 
-.membership-dues tr:last-of-type {
+.so-table tr:last-of-type {
 	border-bottom: 1px solid #563A56;
 }
 
-.membership-dues tr:first-of-type {
+.so-table tr:first-of-type {
 	background-color: #F7E0AA;
 }
 
-.membership-dues td {
+.so-table td {
 	padding: 0 0.5em;
 }
 
+.so-table.board {
+	width: 60em;
+}
+
+.so-table.other {
+	width: 60em;
+}
+
+.so-table.subgroups {
+	width: 60em;
+}
+
+.so-table.board tr:nth-of-type(3) {
+	border-top: none;
+}
+
+
+.so-table.other tr:nth-of-type(5) {
+	border-top: none;
+}
+
+.so-table.subgroups tr:nth-of-type(4) {
+	border-top: none;
+}
+
 /* End of Membership page */
+
+
+/* Printable List page */
+
+.events-list {
+	margin-right: 1em;
+}
+
+.events-list h1 {
+	text-align: center;
+}
+
+#printable-table {
+	table-layout: fixed;
+	width: 80%;
+	margin: 0 auto;
+	font-size: .9em;
+}
+
+#printable-table td, #printable-table th {
+	border: 1px solid #333;
+	padding: 0.5em;
+	vertical-align: top;
+}
+
+#printable-table th {
+	text-align: left;
+}
+
+#printable-table td {
+  overflow: hidden;
+}
+
+#printable-table h4, #printable-table p {
+	margin: 0;
+}
+
+.printable-table-wrapper p {
+	margin-left: 10%;
+}
+
+.date-loc {
+	width: 15%;
+}
+
+.outing-desc {
+	width: 70%;
+}
+
+.difficulty {
+	width: 15%;
+}
+
+/* End of Printable List page */
+
+
 
 
 /* Global stuff */

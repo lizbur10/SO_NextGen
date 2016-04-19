@@ -20,8 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<h1 class="page-title">Upcoming Outings</h1>
 
+<a class="printable-list text-link" href="/so_nextgen/printable-schedule">Printable version&rsaquo;&rsaquo;</a>
+
 
 <?php do_action( 'tribe_events_before_template' ) ?>
+
 
 
 <!-- Main Events Content -->
@@ -31,7 +34,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 <!-- Upcoming Meeting -->
 
 <?php do_action( 'tribe_events_after_template' ) ?>
-
 
 
 

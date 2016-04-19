@@ -24,18 +24,25 @@ $event_id = get_the_ID();
 	// Setup an array of venue details for use later in the template
 	//$venue_details = array();
 
-	if ( $venue_name = tribe_get_meta( 'tribe_event_venue_name' ) ) {
+/*	if ( $venue_name = tribe_get_meta( 'tribe_event_venue_name' ) ) {
 		$venue_details[] = $venue_name;
 	}
 
 	if ( $venue_address = tribe_get_meta( 'tribe_event_venue_address' ) ) {
 		$venue_details[] = $venue_address;
 	}
+*/
+
+	$venue_name = tribe_get_meta ('tribe_event_venue_name');
 
 	$featured_image = get_field('featured_image');
 
 	// Organizer
 	$organizer = get_field('leader');
+	$organizer_phone = get_field('leader_phone');
+	$organizer_email = get_field('leader_email');
+	$organizer_nospaces = str_replace(" ", "%20", $organizer);
+
 
 	// Difficulty
 	$difficulty = get_field('difficulty');
@@ -60,26 +67,22 @@ $event_id = get_the_ID();
 
 	//Other info
 	$other_info = get_field('other_info');
+	$title = get_the_title();
+
 
 
 	?>
 
 
-	<!-- Event Cost -->
-	<?php if ( tribe_get_cost() ) : ?>
-		<div class="tribe-events-event-cost">
-			<p><span><?php echo tribe_get_cost( null, true ); ?></span>
-		</div>
-	<?php endif; ?>
-
-	<h1 class="page-title visually-hidden">Upcoming Events</h1>
+	<h1 class="page-title visually-hidden">Event Details</h1>
 
 	<!-- Event Title -->
 	<?php do_action( 'tribe_events_before_the_event_title' ) ?>
 	<h2 class="tribe-events-list-event-title entry-title summary">
-		<a class="url" href="<?php echo tribe_get_event_link() ?>" title="<?php the_title() ?>" rel="bookmark">
-			<?php the_title() ?>
-		</a>
+        <?php if (has_term('new','tribe_events_cat')) : ?>
+        	 <span class="new-outing"> New!</span>
+		<?php endif; 
+		the_title(); ?>
 	</h2>
 	<?php do_action( 'tribe_events_after_the_event_title' ) ?>
 
@@ -101,29 +104,24 @@ $event_id = get_the_ID();
 			<!-- Schedule & Recurrence Details -->
 			<div class="updated published time-details">
 				<?php if ( !tribe_event_is_all_day( $event ) ):
-					echo tribe_get_start_date(null,TRUE,'l, F j, g:i a');  
+					echo tribe_get_start_date(null,TRUE,'l, F j, g:i a');
+					$rsvp_email="mailto:%22" . $organizer_nospaces . "%22%3c" . $organizer_email . "%3e?Subject=RSVP for " . $title . ", " . tribe_get_start_date(null,TRUE,'F j');
 				else :
 					echo tribe_get_start_date(null,FALSE,'F j'); ?> - <?php
 					echo tribe_get_end_date(null,FALSE,'F j'); 
+					$rsvp_email="mailto:%22" . $organizer_nospaces . "%22%3c" . $organizer_email . "%3e?Subject=RSVP for " . $title . ", " . tribe_get_start_date(null,TRUE,'F j') . " - " . tribe_get_end_date(null,FALSE,'F j');
 				endif; ?>
 
-				<?php if ( ($rsvp == 'Yes') OR ($rsvp == 'Non-members only') ): ?>
-
-					<button class="register-button">Register Now</button>
-					<?php if ($rsvp == 'Non-members only'): ?>
+				<?php if ( ($rsvp == 'Yes') OR ($rsvp == 'Non-members only') ): 
+					$reg = true; ?>
+					<button class="register-button"><a href="<?php echo $rsvp_email; ?>">Register by Email</a></button>
+					
+  					<?php if ($rsvp == 'Non-members only'): ?>
 						<p class="non-members-only"><strong>Note:</strong> Registration is required for non-members only</p>
 					<?php endif; ?>
-					<div id="outing-registration" class="visually-hidden">
-						<form name="outing-registration" action="#" method="post">
-							<p><label for="name">Name</label>: <input id="name" type="text" name="name" size="30" autofocus></p>
-							<p><label for="email">E-mail</label>: <input id="email" type="email" name="email" size="30"></p>
-							<p><label for="number_of_people">Number of people</label>: <input id="number_of_people" type="number" name="number_of_people" min="1" max="4" value="1" required></p>
-							<button id="rsvp-button">RSVP Now</button><button id="cancel-button">Cancel</button>
-						</form>
-					</div>
-					<div id="background-overlay" class="visually-hidden"></div>
-					<div id="thanks-message" class="visually-hidden">Thanks for registering!</div>
-				<?php endif; ?>
+ 				<?php else :
+					$reg = false;
+				endif; ?>
 			</div>
 
 			<!-- Event description -->
@@ -136,20 +134,7 @@ $event_id = get_the_ID();
 
 			<!-- Event Meta -->
 			<div class="event-details">
-				<?php if (has_term('so-meeting','tribe_events_cat') ): 
-					if ($venue_name) : ?>
-						<dt class="field-label">Meet at: <?php echo $venue_name ?></dt>
-					<?php else: ?>
-						<p><span class="field-label">Meet at: </span>TBD</p>
-					<?php endif;
-
-					if($other_info): ?>
-						<p class="other-info"><span class="field-label">Other info: </span></p>
-							<p><?php echo $other_info ?></p>
-					<?php endif; ?>
-
-				<?php else: 
-					if ( $venue_name ) : ?>
+					<?php if ( $venue_name ) : ?>
 						<dt class="field-label">Meet at: <?php echo $venue_name ?></dt>
 					<?php else: ?>
 						<p><span class="field-label">Meet at: </span>TBD</p>
@@ -182,7 +167,15 @@ $event_id = get_the_ID();
 						<p><span class="field-label">Organizer:  </span><?php echo $organizer ?></p>
 					<?php endif; 
 
-					 if($carpool): ?>
+					if ($organizer_phone) : ?>
+						<p><span class="field-label">Phone:  </span><?php echo $organizer_phone ?></p>
+					<?php endif;
+
+					if ($organizer_email) : ?>
+						<p><span class="field-label">Email:  </span><?php echo $organizer_email ?></p>
+					<?php endif;
+
+					if($carpool): ?>
 						<p><span class="field-label">Carpool:  </span>$<?php echo $carpool ?></p>
 					<?php endif; 
 
@@ -199,7 +192,6 @@ $event_id = get_the_ID();
 						<p><?php echo $other_info ?></p>
 					<?php endif; ?>
 
-				<?php endif; ?>
 
 			</div><!-- .tribe-events-event-meta -->
 		</div>
