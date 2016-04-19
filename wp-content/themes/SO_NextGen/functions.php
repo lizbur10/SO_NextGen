@@ -171,16 +171,3 @@ function the_slug() {
 
 
 /** My Functions */
-
-//Shortcode CF7 Email autore annuncio
-function get_title($post_ID)  {
-	$title = get_the_title(); // retrieve user email
-	return $title;
-}
-add_shortcode('title', 'get_title');
-
-function get_leader_email($post_ID)  {
-	$leader_email = get_field('leader_email'); // retrieve leader's email
-	return $leader_email;
-}
-add_shortcode('leader-email', 'get_leader_email');

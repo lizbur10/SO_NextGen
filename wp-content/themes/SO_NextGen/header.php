@@ -22,6 +22,7 @@
 <div id="page" class="hfeed site">
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'seniorsoutdoors' ); ?></a>
 
+	<header id="masthead" class="site-header" role="banner">
 		<div class="site-branding">
 			<a href="<?php echo home_url(); ?>">
 				<img id="logo" src="<?php  echo get_stylesheet_directory_uri().'/images/SO_logo_small_cleaned.png' ; ?>" alt="<?php bloginfo( 'name' );?> ">
@@ -29,7 +30,6 @@
 			</a>
 			<p class="tagline"><span>A club for active seniors</span><br/ > in Durango, Colorado</p>
 		</div><!-- .site-branding -->
-	<header id="masthead" class="site-header" role="banner">
 
 
 		<nav id="site-navigation" class="main-navigation" role="navigation">
