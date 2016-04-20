@@ -7,6 +7,7 @@ Template Name: Custom Homepage Template
 
 
     $date = tribe_get_month_view_date();
+    $counter = -1;
 ?>
 
 <h1 class="page-title visually-hidden">Welcome to Seniors Outdoors!</h1>
@@ -64,16 +65,30 @@ Template Name: Custom Homepage Template
                         <?php endif; ?>
             		    <?php the_content(); ?>
                     <?php endif; 
-                    if (has_term('changed','tribe_events_cat')) : ?>
-                        <div class="event-changes">
-                            <h2>Schedule Changes</h2>
-                            <h3><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?>: </h3>
-                            <h4><?php the_title(); ?></h4>
-                        </div>
-                    <?php endif;
                 endwhile; ?>
-                </div>
-            <?php endif; ?>
+                </div> 
+            <?php endif;
+
+            $wp_query = new WP_Query( array( 'post_type' => 'tribe_events', 'nopaging' => true ) );
+
+            if ( $wp_query->have_posts() ): 
+                while ( $wp_query->have_posts() ) : $wp_query->the_post();
+                    if (has_term('changed','tribe_events_cat')) : 
+                        $counter++;
+                        $event_change = get_field('event_change'); 
+                        if ($counter == 0) : ?>
+                            <div class="event-changes">
+                                <h2>Schedule Changes</h2>
+                        <?php endif; ?>
+                                <h3><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?>: </h3>
+                                <h4><?php the_title(); ?></h4>
+                                <p><?php echo $event_change ?></p>
+                    <?php endif; ?>
+                <?php endwhile;
+                if ($counter != -1) : ?>
+                            </div>
+                <?php endif;
+            endif; ?>
 
         </section>
 

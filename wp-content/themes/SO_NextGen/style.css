@@ -1145,7 +1145,7 @@ div.events-list p:nth-of-type(2) {
 	color: #222;
 }
 
-.featured-event-details {
+.featured-event-details, .event-changes {
 	padding-left: 1.5rem;
 }
 
@@ -1167,6 +1167,20 @@ div.events-list p:nth-of-type(2) {
 
 .event-changes h3 {
 	margin-top: 0;
+	margin-bottom: 0.5em;
+}
+
+.event-changes h4 {
+	margin: 0 0 0 1em;
+}
+
+.event-changes p {
+	text-transform: uppercase;
+	color: red;
+	font-weight: bold;
+	margin-top: 0;
+	margin-left: 1em;
+	font-size: 0.9em;
 }
 
 .single-space {
@@ -1432,6 +1446,12 @@ a.printable-list {
 
 .difficulty {
 	width: 15%;
+}
+
+p.changed {
+	text-transform: uppercase;
+	color: red;
+	font-weight: bold;
 }
 
 /* End of Printable List page */
