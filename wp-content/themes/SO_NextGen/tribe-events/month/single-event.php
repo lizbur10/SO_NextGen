@@ -188,9 +188,9 @@ $end      = tribe_get_end_date( $post, false, 'U' );
 
 ?>
 
-<?php if (has_term('changed','tribe_events_cat')) : ?>
+<?php if (get_field('event_change')) : ?>
 	<div id="tribe-events-event-<?php echo $event_id ?>" class="<?php tribe_events_event_classes() ?>" data-tribejson='<?php echo tribe_events_template_data( $post ); ?>'>
-		<h3 class="tribe-events-month-event-title entry-title summary"><a href="<?php tribe_event_link( $post ); ?>" class="url"><?php the_title() ?></a><p class="changed"><?php echo get_field('event_change'); ?></p></h3>
+		<h3 class="tribe-events-month-event-title entry-title summary"><a href="<?php tribe_event_link( $post ); ?>" class="url"><?php the_title() ?><p class="changed"><?php echo get_field('event_change'); ?></p></a></h3>
 	</div><!-- #tribe-events-event-# -->
 <?php else : ?>
 	<div id="tribe-events-event-<?php echo $event_id ?>" class="<?php tribe_events_event_classes() ?>" data-tribejson='<?php echo tribe_events_template_data( $post ); ?>'>

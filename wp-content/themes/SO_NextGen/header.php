@@ -15,6 +15,7 @@
 <script src="<?php echo get_stylesheet_directory_uri(); ?>/js/jquery-1.11.3.min.js">
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" >
+<link href='https://fonts.googleapis.com/css?family=Merriweather:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
 <?php wp_head(); ?>
 </head>
 

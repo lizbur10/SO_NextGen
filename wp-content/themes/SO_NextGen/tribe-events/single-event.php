@@ -69,6 +69,8 @@ $event_id = get_the_ID();
 	$other_info = get_field('other_info');
 	$title = get_the_title();
 
+	//Change info
+	$event_change = get_field('event_change');
 
 
 	?>
@@ -111,6 +113,10 @@ $event_id = get_the_ID();
 					echo tribe_get_end_date(null,FALSE,'F j'); 
 					$rsvp_email="mailto:%22" . $organizer_nospaces . "%22%3c" . $organizer_email . "%3e?Subject=RSVP for " . $title . ", " . tribe_get_start_date(null,TRUE,'F j') . " - " . tribe_get_end_date(null,FALSE,'F j');
 				endif; ?>
+
+                <?php if ( get_field('event_change') ) : ?>
+					<p class="changed"><?php echo get_field('event_change') ?></p>
+				<?php endif; ?>
 
 				<?php if ( ($rsvp == 'Yes') OR ($rsvp == 'Non-members only') ): 
 					$reg = true; ?>

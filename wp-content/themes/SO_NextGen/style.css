@@ -285,6 +285,7 @@ h3,
 h4,
 h5,
 h6 {
+	font-family: 'Merriweather', serif;
 	clear: both;
 }
 
@@ -546,14 +547,13 @@ a:active {
 #primary-menu a {
 	color: white;
 	display: inline-block;
-	padding: 0 2.5rem;
+	padding: 0 3rem;
 	text-decoration: none;
 }
 
 #primary-menu a:hover {
-	color: #563A56;
-	background-color: #F7E0AA;
-	opacity: 0.9;
+	color: #F7E0AA;
+	text-decoration: underline;
 	font-weight: bold;
 }
 
@@ -572,6 +572,7 @@ a:active {
 
 #primary-menu ul a {
 	display: inline-block;
+	min-width: 100%;
 	white-space: nowrap;
 	padding: 2px 10px;
 	background-color: #563A56;
@@ -583,6 +584,12 @@ a:active {
 
 #primary-menu li:hover ul {
 	left: 0;
+	text-align: center;
+	width: 100%;
+}
+
+#primary-menu li:hover ul li {
+	width: 100%;
 }
 
 #primary-menu ul ul :hover > a {
@@ -610,6 +617,12 @@ a:active {
 	font-weight: bold;
 }
 
+#primary-menu .current_page_item > a:hover,
+#primary-menu .current-menu-item > a:hover,
+#primary-menu .current_page_ancestor > a:hover,
+#primary-menu .current-menu-ancestor > a:hover {
+	text-decoration: none;
+}
 
 /* Small menu. */
 .menu-toggle {
@@ -1175,9 +1188,6 @@ div.events-list p:nth-of-type(2) {
 }
 
 .event-changes p {
-	text-transform: uppercase;
-	color: red;
-	font-weight: bold;
 	margin-top: 0;
 	margin-left: 1em;
 	font-size: 0.9em;
@@ -1430,6 +1440,10 @@ a.printable-list {
 
 #printable-table h4, #printable-table p {
 	margin: 0;
+}
+
+#printable-table h4 {
+	font-size: 1.1em;
 }
 
 .printable-table-wrapper p {

@@ -100,15 +100,13 @@ Template Name: Printable List Template
 										<p class="alternate-meeting-places"><?php the_sub_field('meeting_place'); ?> <?php the_sub_field('time'); ?></p>
 									<?php endwhile; 
 								endif; ?>
-
 							</td>
 							<td>
 							<h4><a class="text-link" href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h4>
-								<?php if (has_term('changed','tribe_events_cat')) : ?>
+								<?php if (get_field('event_change')) : ?>
 									<p class="changed"><?php echo get_field('event_change'); ?></p>
-								<?php else : 
+								<?php endif;
 									the_content(); 
-								endif;
 								if($other_info): ?>
 									<span class="other-info"><?php echo $other_info ?></span></p>
 								<?php endif; 
@@ -138,7 +136,6 @@ Template Name: Printable List Template
 								if($limit): ?>
 									Limit: <?php echo $limit ?></p>
 								<?php endif; ?>
-
 							</td>
 							<td>
 								<?php if($difficulty): ?>
@@ -153,8 +150,8 @@ Template Name: Printable List Template
 									<p><?php echo $elevation_gain ?> feet</p>
 								<?php endif; ?>
 							</td>
-				<?php endwhile; ?>
 						</tr>
+				<?php endwhile; ?>
 					</table>
 					<p><a class="text-link" href="/so_nextgen/events">See calendar view&rsaquo;&rsaquo;</a></p>
 			<?php else : ?>

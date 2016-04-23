@@ -44,7 +44,7 @@ Template Name: Custom Homepage Template
             if ( $wp_query->have_posts() ): ?>
                 <div class="featured-event-details">
                 <?php while ( $wp_query->have_posts() ) : $wp_query->the_post();
-        	    	if (has_term('general-meeting','tribe_events_cat') AND !$featureFound ) : 
+                  if ( (strpos (get_the_title(), "General Meeting") > -1) AND !$featureFound ) :
                         $other_info = get_field('other_info');
                         $venue = tribe_get_venue();
         				$featureFound = true;  
@@ -55,14 +55,9 @@ Template Name: Custom Homepage Template
         			    <h3 class="event-title"><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>
         			    <p class="single-space"><?php echo $venue; ?></p>
                         <p><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?></p>
-                        <?php 
-                        if (strpos($title, $searchString) > -1 ) : ?>
                             <p class="single-space">New member orientation: 5:30pm</p>
                             <p class="single-space">Social: 6:30pm</p>
                             <p>Meeting: 7:00pm</p>
-                        <?php elseif ($other_info) : ?>
-                            <p><?php echo $other_info; ?></p>
-                        <?php endif; ?>
             		    <?php the_content(); ?>
                     <?php endif; 
                 endwhile; ?>
@@ -73,16 +68,15 @@ Template Name: Custom Homepage Template
 
             if ( $wp_query->have_posts() ): 
                 while ( $wp_query->have_posts() ) : $wp_query->the_post();
-                    if (has_term('changed','tribe_events_cat')) : 
+                    if ( get_field('event_change') ) :
                         $counter++;
-                        $event_change = get_field('event_change'); 
                         if ($counter == 0) : ?>
                             <div class="event-changes">
                                 <h2>Schedule Changes</h2>
                         <?php endif; ?>
                                 <h3><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?>: </h3>
                                 <h4><?php the_title(); ?></h4>
-                                <p><?php echo $event_change ?></p>
+                                <p class="changed"><?php echo get_field('event_change') ?></p>
                     <?php endif; ?>
                 <?php endwhile;
                 if ($counter != -1) : ?>
@@ -99,8 +93,8 @@ Template Name: Custom Homepage Template
             <?php if ( $wp_query->have_posts() ): ?>
                     <?php while ( ( $wp_query->have_posts() ) && ($eventsPosted < 5) ) : $wp_query->the_post();
                         if (!(has_term('general-meeting','tribe_events_cat'))) :
-                           $startDate = tribe_get_start_date();
-                           $endDate = tribe_get_end_date(); ?>
+                           $startDate = tribe_get_start_date(false);
+                           $endDate = tribe_get_end_date(false); ?>
                             <div class="events-list">
                                 <?php if (has_term('new','tribe_events_cat')) : ?>
                                     <h3 class="event-title"><span class="new-outing">NEW!</span><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>                                
@@ -111,6 +105,9 @@ Template Name: Custom Homepage Template
                                     <p><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?> - <?php echo tribe_get_end_date(null,FALSE,'l, F j'); ?></p>
                                 <?php else : ?>    
                                     <p><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?></p>
+                                <?php endif; ?>
+                                <?php if (get_field('event_change')) : ?>
+                                    <p class="changed"><?php echo get_field('event_change') ?></p>
                                 <?php endif; ?>
                                 <?php the_content(); ?>
                             </div>
