@@ -8,6 +8,7 @@ Template Name: Custom Homepage Template
 
     $date = tribe_get_month_view_date();
     $counter = -1;
+    $feedbackEmail = "mailto:djwright001@gmail.com";
 ?>
 
 <h1 class="page-title visually-hidden">Welcome to Seniors Outdoors!</h1>
@@ -32,11 +33,19 @@ Template Name: Custom Homepage Template
         <?php endif; ?>
         <p class="slider-caption"><?php echo get_field('outing_name'); ?></p>
 
+
+
     </section>
 
     <section class="main-content">
+        <div class="announcement">
+            <h3>Welcome to the Preview Version of the new SO! website!</h3>
+            <p>Let us know what you think: <a class="text-link" href="<?php echo eae_encode_emails($feedbackEmail); ?>">Send Feedback via Email</a></p>
+
+        </div>
 
         <section class="featured">
+
             <?php $featureFound = false;
      
             $wp_query = new WP_Query( array( 'post_type' => 'tribe_events', 'nopaging' => true ) );
@@ -44,22 +53,26 @@ Template Name: Custom Homepage Template
             if ( $wp_query->have_posts() ): ?>
                 <div class="featured-event-details">
                 <?php while ( $wp_query->have_posts() ) : $wp_query->the_post();
-                  if ( (strpos (get_the_title(), "General Meeting") > -1) AND !$featureFound ) :
+/*                  if ( (strpos (get_the_title(), "General Meeting") > -1) AND !$featureFound ) :
+*/                       if ( (has_term('general-meeting','tribe_events_cat') ) AND !$featureFound ) :
                         $other_info = get_field('other_info');
-                        $venue = tribe_get_venue();
-        				$featureFound = true;  
-                        $searchString = 'General Meeting'; 
-                        $title= get_the_title(); ?>
+/*                        $venue = tribe_get_venue();
+*/        				$featureFound = true;  
+ /*                       $searchString = 'General Meeting'; 
+ */                       $title= get_the_title(); ?>
 
                         <h2>SO! General Meeting</h2>
         			    <h3 class="event-title"><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>
         			    <p class="single-space"><?php echo $venue; ?></p>
                         <p><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?></p>
-                            <p class="single-space">New member orientation: 5:30pm</p>
+                        <?php 
+/*                        if ( !(strpos (get_the_title(), "Potluck") > -1) AND ( !(strpos (get_the_content(), "Potluck") ) ) ) : ?>
+                             <p class="single-space">New member orientation: 5:30pm</p>
                             <p class="single-space">Social: 6:30pm</p>
                             <p>Meeting: 7:00pm</p>
-            		    <?php the_content(); ?>
-                    <?php endif; 
+                        <?php endif;
+*/            		    the_content(); 
+                    endif; 
                 endwhile; ?>
                 </div> 
             <?php endif;
@@ -101,31 +114,35 @@ Template Name: Custom Homepage Template
                                 <?php else : ?>
                                     <h3 class="event-title"><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>
                                 <?php endif;
-                                if ($startDate != $endDate) : ?>
-                                    <p><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?> - <?php echo tribe_get_end_date(null,FALSE,'l, F j'); ?></p>
-                                <?php else : ?>    
-                                    <p><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?></p>
-                                <?php endif; ?>
+                                if ( !tribe_event_is_all_day( $event ) ):
+                                    echo tribe_get_start_date(null,TRUE,'l, F j, g:i a');
+                                else :
+                                    echo tribe_get_start_date(null,FALSE,'F j'); ?> - <?php
+                                    echo tribe_get_end_date(null,FALSE,'F j'); 
+                                endif;
+                                ?>
                                 <?php if (get_field('event_change')) : ?>
                                     <p class="changed"><?php echo get_field('event_change') ?></p>
-                                <?php endif; ?>
-                                <?php the_content(); ?>
+                                <?php endif; 
+                                echo the_content();
+                                ?>
+
                             </div>
                         <?php else :
                             $eventsPosted--;
                         endif;
                     $eventsPosted++; 
                     endwhile; ?>
-                <p><a class="text-link" href="/so_nextgen/events">Go to full calendar&rsaquo;&rsaquo;</a></p>
-                <p><a class="text-link" href="/so_nextgen/printable-schedule">Go to printable schedule&rsaquo;&rsaquo;</a></p>
+                <p><a class="text-link" href="/seniorsoutdoors/events">Go to full calendar&rsaquo;&rsaquo;</a></p>
+                <p><a class="text-link" href="/seniorsoutdoors/printable-schedule">Go to printable schedule&rsaquo;&rsaquo;</a></p>
+
            <?php else : ?>
                 <p>Sorry - no events found</p>
            <?php endif; ?>
         </section>
 
     </section>
-
 <script src="<?php echo get_stylesheet_directory_uri(); ?>/js/image-slider.js"></script>
 
-<?php get_footer(); ?>
 
+<?php get_footer(); ?>

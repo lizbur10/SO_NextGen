@@ -12,13 +12,13 @@ Template Name: Printable List Template
 		while ( $wp_query->have_posts() )  : $wp_query->the_post();
 			$month = tribe_get_start_date(null,false,'M');
 			$year = tribe_get_start_date(null,false,'Y');
-			if ($month == 'Mar' || $month == 'Apr') :
+			if ($month == 'Apr' || $month == 'May') :
 				$season = 'Spring';
 			elseif ($month == 'Jul' || $month == 'Aug') :
 				$season = 'Summer';
 			elseif ($month == 'Oct' || $month == 'Nov') :
 				$season = 'Fall';
-			elseif ($month == 'Dec' || $month == 'Jan') :
+			elseif ($month == 'Jan' || $month == 'Feb') :
 				$season = 'Winter';
 			endif; 
 		endwhile;
@@ -49,10 +49,13 @@ Template Name: Printable List Template
 
 					<?php while ( $wp_query->have_posts() )  : $wp_query->the_post();
 
-						$startDate = tribe_get_start_date(false);
-						$endDate = tribe_get_end_date(false); 
+						$startDate = tribe_get_start_date(null,FALSE,'M j');
+						$endDate = tribe_get_end_date(null,FALSE,'M j'); 
 
-						$venue_name = tribe_get_venue() ;
+						$location_info = get_field('location_info');
+						$difficulty_info = get_field('difficulty_info');
+
+/*						$venue_name = tribe_get_venue() ;
 
 						$featured_image = get_field('featured_image');
 
@@ -83,15 +86,24 @@ Template Name: Printable List Template
 						$rsvp = get_field('rsvp');
 
 						//Other info
-						$other_info = get_field('other_info'); ?>
+						$other_info = get_field('other_info'); 
+*/						?>
+			            <?php if ( (has_term('general-meeting','tribe_events_cat') ) OR (has_term('featured-event','tribe_events_cat')) )  : ?>
+			            	<tr class="featured-event">
+			            <?php else : ?>
+							<tr>								
+						<?php endif; ?>
 
-						<tr>
-							<td>
-								<?php if ($startDate != $endDate) : ?>
-									<p><?php echo tribe_get_start_date(null,FALSE,'D, M j'); ?> - <?php echo tribe_get_end_date(null,FALSE,'D, F j'); ?></p>
+						<td> <?php
+								if ($startDate == $endDate) : ?>
+									<p><?php echo tribe_get_start_date(null,FALSE,'D, M j'); ?> <?php echo tribe_get_start_time(); ?></p>
 								<?php else : ?>    
-									<p><?php echo tribe_get_start_date(null,FALSE,'D, M j'); ?></p>
-								<?php endif; ?>
+									<p><?php echo tribe_get_start_date(null,FALSE,'D, M j'); ?> - <?php echo tribe_get_end_date(null,FALSE,'D, M j'); ?></p>
+								<?php endif; 
+								if ($location_info) : ?>
+									<p><?php echo $location_info ?></p>
+								<?php endif;
+/*								?>
 								<?php if  ( ( $venue_name ) && ($startDate == $endDate) ) :  ?>
 									<p><?php echo $venue_name ?> <?php echo tribe_get_start_time() ?></p>
 								<?php endif; 
@@ -99,15 +111,16 @@ Template Name: Printable List Template
 									<?php while(have_rows('alternate_meeting_places')): the_row(); ?>
 										<p class="alternate-meeting-places"><?php the_sub_field('meeting_place'); ?> <?php the_sub_field('time'); ?></p>
 									<?php endwhile; 
-								endif; ?>
+								endif; 
+*/								?>
 							</td>
 							<td>
 							<h4><a class="text-link" href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h4>
 								<?php if (get_field('event_change')) : ?>
 									<p class="changed"><?php echo get_field('event_change'); ?></p>
 								<?php endif;
-									the_content(); 
-								if($other_info): ?>
+								the_content(); 
+/*								if($other_info): ?>
 									<span class="other-info"><?php echo $other_info ?></span></p>
 								<?php endif; 
 								if ($organizer): ?>
@@ -118,10 +131,10 @@ Template Name: Printable List Template
 								<?php endif;
 								if ($organizer_email) : ?>
 									<?php echo $organizer_email ?>
-								<?php endif; ?>
-								</p>
+								<?php endif; */?>
 
-								<?php if($carpool): ?>
+								<?php 
+/*								if($carpool): ?>
 									Carpool $<?php echo $carpool ?>. 
 								<?php endif; 
 
@@ -135,10 +148,15 @@ Template Name: Printable List Template
 
 								if($limit): ?>
 									Limit: <?php echo $limit ?></p>
-								<?php endif; ?>
+								<?php endif; */
+								?>
 							</td>
 							<td>
-								<?php if($difficulty): ?>
+								<?php 
+								if ($difficulty_info): ?>
+									<p><?php echo $difficulty_info ?></p>
+								<?php endif;
+/*								if($difficulty): ?>
 									<p><?php echo $difficulty ?></p>
 								<?php endif; 
 								
@@ -148,12 +166,13 @@ Template Name: Printable List Template
 								
 								if ($elevation_gain): ?>
 									<p><?php echo $elevation_gain ?> feet</p>
-								<?php endif; ?>
+								<?php endif; */
+								?>
 							</td>
 						</tr>
 				<?php endwhile; ?>
 					</table>
-					<p><a class="text-link" href="/so_nextgen/events">See calendar view&rsaquo;&rsaquo;</a></p>
+					<p><a class="text-link" href="/seniorsoutdoors/events">See calendar view&rsaquo;&rsaquo;</a></p>
 			<?php else : ?>
 				<p>Sorry - no events found</p>
 			<?php endif; ?>

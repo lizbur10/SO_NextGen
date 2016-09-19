@@ -61,10 +61,23 @@ if ( ! function_exists('pmai_render_field')){
 						<?php
 						break;										
 					case 'file':
+						?>
+						<input type="text" placeholder="" value="<?php echo (!is_array($current_field)) ? esc_attr( $current_field ) : esc_attr( $current_field['url'] );?>" name="fields<?php echo $field_name;?>[<?php echo $field['key'];?>][url]" class="text w95 widefat rad4"/>
+						<a href="#help" class="wpallimport-help" title="<?php _e('Specify the URL to the image or file.', 'pmxi_plugin'); ?>" style="top:0;">?</a>			
+						<input type="hidden" name="fields<?php echo $field_name;?>[<?php echo $field['key'];?>][search_in_media]" value="0"/>
+						<input type="checkbox" id="<?php echo $field_name . $field['key'] . '_search_in_media';?>" name="fields<?php echo $field_name;?>[<?php echo $field['key'];?>][search_in_media]" value="1" <?php echo (!empty($current_field['search_in_media'])) ? 'checked="checked"' : '';?>/>
+						<label for="<?php echo $field_name . $field['key'] . '_search_in_media';?>"><?php _e('Search through the Media Library for existing images before importing new images', 'wp_all_import_plugin'); ?></label>
+						<a href="#help" class="wpallimport-help" title="<?php _e('If an image with the same file name is found in the Media Library then that image will be attached to this record instead of importing a new image. Disable this setting if your import has different images with the same file name.', 'wp_all_import_plugin') ?>" style="position: relative; top: -2px;">?</a>
+						<?php
+						break;
 					case 'image':
 						?>
-						<input type="text" placeholder="" value="<?php echo esc_attr( $current_field );?>" name="fields<?php echo $field_name;?>[<?php echo $field['key'];?>]" class="text w95 widefat rad4"/>
+						<input type="text" placeholder="" value="<?php echo (!is_array($current_field)) ? esc_attr( $current_field ) : esc_attr( $current_field['url'] );?>" name="fields<?php echo $field_name;?>[<?php echo $field['key'];?>][url]" class="text w95 widefat rad4"/>
 						<a href="#help" class="wpallimport-help" title="<?php _e('Specify the URL to the image or file.', 'pmxi_plugin'); ?>" style="top:0;">?</a>
+						<input type="hidden" name="fields<?php echo $field_name;?>[<?php echo $field['key'];?>][search_in_media]" value="0"/>
+						<input type="checkbox" id="<?php echo $field_name . $field['key'] . '_search_in_media';?>" name="fields<?php echo $field_name;?>[<?php echo $field['key'];?>][search_in_media]" value="1" <?php echo (!empty($current_field['search_in_media'])) ? 'checked="checked"' : '';?>/>
+						<label for="<?php echo $field_name . $field['key'] . '_search_in_media';?>"><?php _e('Search through the Media Library for existing images before importing new images', 'wp_all_import_plugin'); ?></label>
+						<a href="#help" class="wpallimport-help" title="<?php _e('If an image with the same file name is found in the Media Library then that image will be attached to this record instead of importing a new image. Disable this setting if your import has different images with the same file name.', 'wp_all_import_plugin') ?>" style="position: relative; top: -2px;">?</a>
 						<?php
 						break;					
 					case 'gallery':
@@ -73,6 +86,10 @@ if ( ! function_exists('pmai_render_field')){
 							<label><?php _e('Enter image URL one per line, or separate them with a', 'pmxi_plugin'); ?> </label>
 							<input type="text" style="width:5%; text-align:center;" value="<?php echo (!empty($current_field['delim'])) ? esc_attr( $current_field['delim'] ) : '';?>" name="fields<?php echo $field_name;?>[<?php echo $field['key'];?>][delim]" class="small rad4">
 							<textarea placeholder="http://example.com/images/image-1.jpg" style="clear: both; display: block; margin-top: 10px;" class="newline rad4" name="fields<?php echo $field_name;?>[<?php echo $field['key'];?>][gallery]"><?php echo ( ! is_array($current_field)) ? esc_attr($current_field) : esc_attr( $current_field['gallery'] );?></textarea>			
+							<input type="hidden" name="fields<?php echo $field_name;?>[<?php echo $field['key'];?>][search_in_media]" value="0"/>
+							<input type="checkbox" id="<?php echo $field_name . $field['key'] . '_search_in_media';?>" name="fields<?php echo $field_name;?>[<?php echo $field['key'];?>][search_in_media]" value="1" <?php echo (!empty($current_field['search_in_media'])) ? 'checked="checked"' : '';?>/>
+							<label for="<?php echo $field_name . $field['key'] . '_search_in_media';?>"><?php _e('Search through the Media Library for existing images before importing new images', 'wp_all_import_plugin'); ?></label>
+							<a href="#help" class="wpallimport-help" title="<?php _e('If an image with the same file name is found in the Media Library then that image will be attached to this record instead of importing a new image. Disable this setting if your import has different images with the same file name.', 'wp_all_import_plugin') ?>" style="position: relative; top: -2px;">?</a>
 						</div>
 						<?php
 						break;					
@@ -111,14 +128,13 @@ if ( ! function_exists('pmai_render_field')){
 						<input type="text" placeholder="" value="<?php echo esc_attr( $current_field );?>" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>]" class="text datetimepicker widefat rad4" style="width:200px;"/>
 						<a href="#help" class="wpallimport-help" title="<?php _e('Use any format supported by the PHP strtotime function.', 'pmxi_plugin'); ?>" style="top:0;">?</a>
 						<?php
-						break;			
-					case 'google_map':
+						break;		
 					case 'location-field':
 						?>
 						<div class="input">
 							<label><?php _e("Address"); ?></label>
 							<input type="text" placeholder="" value="<?php echo esc_attr( $current_field['address'] );?>" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][address]" class="text widefat rad4"/>												
-						</div>
+						</div>												
 						<div class="input">
 							<label><?php _e("Lat"); ?></label>
 							<input type="text" placeholder="" value="<?php echo esc_attr( $current_field['lat'] );?>" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][lat]" class="text widefat rad4"/>												
@@ -128,6 +144,68 @@ if ( ! function_exists('pmai_render_field')){
 							<input type="text" placeholder="" value="<?php echo esc_attr( $current_field['lng'] );?>" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][lng]" class="text widefat rad4"/>
 						</div>
 						<?php
+						break;	
+					case 'google_map':					
+						?>
+						<div class="input">
+							<label><?php _e("Address"); ?></label>
+							<input type="text" placeholder="" value="<?php echo esc_attr( $current_field['address'] );?>" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][address]" class="text widefat rad4"/>												
+						</div>												
+						<div class="input">
+							<label><?php _e("Lat"); ?></label>
+							<input type="text" placeholder="" value="<?php echo esc_attr( $current_field['lat'] );?>" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][lat]" class="text widefat rad4"/>												
+						</div>
+						<div class="input">
+							<label><?php _e("Lng"); ?></label>
+							<input type="text" placeholder="" value="<?php echo esc_attr( $current_field['lng'] );?>" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][lng]" class="text widefat rad4"/>
+						</div>
+						<div class="wpallimport-collapsed wpallimport-section wpallimport-sub-options wpallimport-dependent-options">
+							<div class="wpallimport-content-section wpallimport-bottom-radius">								
+								<div style="padding: 0px; display: block;" class="wpallimport-collapsed-content">										
+									<div class="wpallimport-collapsed-content-inner">											
+										<label for="realhomes_addonaddress_geocode">Google Geocode API Settings</label>			
+										<div class="input">
+											<div class="form-field wpallimport-radio-field wpallimport-realhomes_addonaddress_geocode_address_no_key">						
+												<input type="radio" <?php if (empty($current_field['address_geocode']) or esc_attr( $current_field['address_geocode'] ) == 'address_no_key'):?>checked="checked"<?php endif;?> value="address_no_key" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][address_geocode]" class="switcher" id="<?php echo $field_name; ?>_<?php echo $field_name; ?>_geocode_address_no_key">
+												<label for="<?php echo $field_name; ?>_<?php echo $field_name; ?>_geocode_address_no_key">No API Key</label>
+												<a style="position: relative; top: -2px;" class="wpallimport-help" href="#help" original-title="Limited number of requests.">?</a>
+											</div>
+											<div class="form-field wpallimport-radio-field wpallimport-<?php echo $field_name; ?>_<?php echo $field_name; ?>_geocode_address_google_developers">						
+												<input type="radio" value="address_google_developers" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][address_geocode]" class="switcher" id="<?php echo $field_name; ?>_<?php echo $field_name; ?>_geocode_address_google_developers" <?php if (esc_attr( $current_field['address_geocode'] ) == 'address_google_developers'):?>checked="checked"<?php endif;?> >
+												<label for="<?php echo $field_name; ?>_<?php echo $field_name; ?>_geocode_address_google_developers">Google Developers API Key - <a href="https://developers.google.com/maps/documentation/geocoding/#api_key">Get free API key</a></label>
+												<a style="position: relative; top: -2px;" class="wpallimport-help" href="#help" original-title="Up to 2500 requests per day and 5 requests per second.">?</a>
+												<div class="switcher-target-<?php echo $field_name; ?>_<?php echo $field_name; ?>_geocode_address_google_developers" style="display: block;">
+													<div class="input sub_input">
+														<label for="<?php echo $field_name; ?>_<?php echo $field_name; ?>_google_developers_api_key">API Key</label>			
+														<div class="input">
+															<input type="text" style="width:100%;" value="<?php echo esc_attr( $current_field['address_google_developers_api_key'] );?>" id="<?php echo $field_name; ?>_<?php echo $field_name; ?>_google_developers_api_key" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][address_google_developers_api_key]">
+														</div>
+													</div>
+												</div>										
+											</div>
+											<div class="form-field wpallimport-radio-field wpallimport-<?php echo $field_name; ?>_<?php echo $field_name; ?>_geocode_address_google_for_work">						
+												<input type="radio" value="address_google_for_work" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][address_geocode]" class="switcher" <?php if (esc_attr( $current_field['address_geocode'] ) == 'address_google_for_work'):?>checked="checked"<?php endif;?> id="<?php echo $field_name; ?>_<?php echo $field_name; ?>_geocode_address_google_for_work">
+												<label for="<?php echo $field_name; ?>_<?php echo $field_name; ?>_geocode_address_google_for_work">Google for Work Client ID &amp; Digital Signature - <a href="https://developers.google.com/maps/documentation/business">Sign up for Google for Work</a></label>
+												<a style="position: relative; top: -2px;" class="wpallimport-help" href="#help" original-title="Up to 100,000 requests per day and 10 requests per second">?</a>
+												<div class="switcher-target-<?php echo $field_name; ?>_<?php echo $field_name; ?>_geocode_address_google_for_work" style="display: none;">
+													<div class="input sub_input">
+														<label for="<?php echo $field_name; ?>_<?php echo $field_name; ?>_google_for_work_client_id">Google for Work Client ID</label>			
+														<div class="input">
+															<input type="text" style="width:100%;" value="<?php echo esc_attr( $current_field['address_google_for_work_client_id'] );?>" id="<?php echo $field_name; ?>_<?php echo $field_name; ?>_google_for_work_client_id" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][address_google_for_work_client_id]">
+														</div>
+														<label for="<?php echo $field_name; ?>_<?php echo $field_name; ?>_google_for_work_digital_signature">Google for Work Digital Signature</label>			
+														<div class="input">
+															<input type="text" style="width:100%;" value="<?php echo esc_attr( $current_field['address_google_for_work_digital_signature'] );?>" id="<?php echo $field_name; ?>_<?php echo $field_name; ?>_google_for_work_digital_signature" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][address_google_for_work_digital_signature]">
+														</div>
+													</div>
+												</div>										
+											</div>																													
+										</div>								
+							 		</div>
+							 	</div>
+							 </div>
+						</div>
+					<?php
 						break;					
 					case 'paypal_item':
 						?>
@@ -400,29 +478,63 @@ if ( ! function_exists('pmai_render_field')){
 													<?php 
 
 													if ($acf and version_compare($acf->settings['version'], '5.0.0') >= 0){
-																												
-														$sub_fields = get_posts(array('posts_per_page' => -1, 'post_type' => 'acf-field', 'post_parent' => ((!empty($field['id'])) ? $field['id'] : $field['ID']), 'post_status' => 'publish'));
+														
+														$parent_field_id = (!empty($field['id'])) ? $field['id'] : $field['ID'];
 
-														if ( ! empty($sub_fields) ){
+														if ( ! empty($parent_field_id) )
+														{
+															if (is_numeric($parent_field_id))
+															{
+																$sub_fields = get_posts(array('posts_per_page' => -1, 'post_type' => 'acf-field', 'post_parent' => $parent_field_id, 'post_status' => 'publish'));
 
-															foreach ($sub_fields as $n => $sub_field){
-																$sub_fieldData = (!empty($sub_field->post_content)) ? unserialize($sub_field->post_content) : array();			
-																$sub_fieldData['id'] = $sub_field->ID;
-																$sub_fieldData['label'] = $sub_field->post_title;
-																$sub_fieldData['key'] = $sub_field->post_name;																
-																?>
-																<tr class="field sub_field field_type-<?php echo $sub_fieldData['type'];?> field_key-<?php echo $sub_fieldData['key'];?>">
-																	<td class="label">
-																		<?php echo $sub_fieldData['label'];?>
-																	</td>
-																	<td>
-																		<div class="inner input">																			
-																			<?php echo pmai_render_field($sub_fieldData, $post, $field_name . "[" . $field['key'] . "][rows][" . $key . "]"); ?>
-																		</div>
-																	</td>
-																</tr>													
-																<?php 
+																if ( ! empty($sub_fields) ){
+
+																	foreach ($sub_fields as $n => $sub_field){
+																		$sub_fieldData = (!empty($sub_field->post_content)) ? unserialize($sub_field->post_content) : array();			
+																		$sub_fieldData['id'] = $sub_field->ID;
+																		$sub_fieldData['label'] = $sub_field->post_title;
+																		$sub_fieldData['key'] = $sub_field->post_name;																
+																		?>
+																		<tr class="field sub_field field_type-<?php echo $sub_fieldData['type'];?> field_key-<?php echo $sub_fieldData['key'];?>">
+																			<td class="label">
+																				<?php echo $sub_fieldData['label'];?>
+																			</td>
+																			<td>
+																				<div class="inner input">																			
+																					<?php echo pmai_render_field($sub_fieldData, $post, $field_name . "[" . $field['key'] . "][rows][" . $key . "]"); ?>
+																				</div>
+																			</td>
+																		</tr>													
+																		<?php 
+																	}
+																}
 															}
+															else
+															{
+																$fields = acf_local()->fields;
+					
+																if (!empty($fields)){
+																	foreach ($fields as $sub_field) {
+																		if ($sub_field['parent'] == $field['key']){								
+																			$sub_fieldData = $sub_field;																	
+																			$sub_fieldData['ID'] = $sub_fieldData['id']    = uniqid();																			
+																			
+																			?>
+																			<tr class="field sub_field field_type-<?php echo $sub_fieldData['type'];?> field_key-<?php echo $sub_fieldData['key'];?>">
+																				<td class="label">
+																					<?php echo $sub_fieldData['label'];?>
+																				</td>
+																				<td>
+																					<div class="inner input">																			
+																						<?php echo pmai_render_field($sub_fieldData, $post, $field_name . "[" . $field['key'] . "][rows][" . $key . "]"); ?>
+																					</div>
+																				</td>
+																			</tr>													
+																			<?php 
+																		}
+																	}
+																}
+															}															
 														}
 
 													} else{
@@ -455,27 +567,62 @@ if ( ! function_exists('pmai_render_field')){
 													<?php 
 													if ($acf and version_compare($acf->settings['version'], '5.0.0') >= 0){
 
-														$sub_fields = get_posts(array('posts_per_page' => -1, 'post_type' => 'acf-field', 'post_parent' => ((!empty($field['id'])) ? $field['id'] : $field['ID']), 'post_status' => 'publish'));
+														$parent_field_id = ( ! empty($field['id']) ) ? $field['id'] : $field['ID'];
 
-														if ( ! empty($sub_fields) ){
+														if ( ! empty($parent_field_id) )
+														{
+															if (is_numeric($parent_field_id))
+															{
 
-															foreach ($sub_fields as $key => $sub_field){
-																$sub_fieldData = (!empty($sub_field->post_content)) ? unserialize($sub_field->post_content) : array();			
-																$sub_fieldData['ID'] = $sub_field->ID;
-																$sub_fieldData['label'] = $sub_field->post_title;
-																$sub_fieldData['key'] = $sub_field->post_name;																
-																?>
-																<tr class="field sub_field field_type-<?php echo $sub_fieldData['type'];?> field_key-<?php echo $sub_fieldData['key'];?>">
-																	<td class="label">
-																		<?php echo $sub_fieldData['label'];?>
-																	</td>
-																	<td>
-																		<div class="inner">
-																			<?php echo pmai_render_field($sub_fieldData, $post, $field_name . "[" . $field['key'] . "][rows][ROWNUMBER]"); ?>
-																		</div>	
-																	</td>
-																</tr>													
-																<?php 
+																$sub_fields = get_posts(array('posts_per_page' => -1, 'post_type' => 'acf-field', 'post_parent' => $parent_field_id, 'post_status' => 'publish'));
+
+																if ( ! empty($sub_fields) ){
+
+																	foreach ($sub_fields as $key => $sub_field){
+																		$sub_fieldData = (!empty($sub_field->post_content)) ? unserialize($sub_field->post_content) : array();			
+																		$sub_fieldData['ID'] = $sub_field->ID;
+																		$sub_fieldData['label'] = $sub_field->post_title;
+																		$sub_fieldData['key'] = $sub_field->post_name;																
+																		?>
+																		<tr class="field sub_field field_type-<?php echo $sub_fieldData['type'];?> field_key-<?php echo $sub_fieldData['key'];?>">
+																			<td class="label">
+																				<?php echo $sub_fieldData['label'];?>
+																			</td>
+																			<td>
+																				<div class="inner">
+																					<?php echo pmai_render_field($sub_fieldData, $post, $field_name . "[" . $field['key'] . "][rows][ROWNUMBER]"); ?>
+																				</div>	
+																			</td>
+																		</tr>													
+																		<?php 
+																	}
+																}
+															}
+															else
+															{
+																$fields = acf_local()->fields;
+					
+																if (!empty($fields)){
+																	foreach ($fields as $sub_field) {
+																		if ($sub_field['parent'] == $field['key']){								
+																			$sub_fieldData = $sub_field;																	
+																			$sub_fieldData['ID'] = $sub_fieldData['id']    = uniqid();																			
+
+																			?>
+																			<tr class="field sub_field field_type-<?php echo $sub_fieldData['type'];?> field_key-<?php echo $sub_fieldData['key'];?>">
+																				<td class="label">
+																					<?php echo $sub_fieldData['label'];?>
+																				</td>
+																				<td>
+																					<div class="inner">
+																						<?php echo pmai_render_field($sub_fieldData, $post, $field_name . "[" . $field['key'] . "][rows][ROWNUMBER]"); ?>
+																					</div>	
+																				</td>
+																			</tr>													
+																			<?php 
+																		}
+																	}
+																}	
 															}
 														}
 													}	

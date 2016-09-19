@@ -1,4 +1,8 @@
 <?php
+/*
+ * Disable JSON LD markup used by search engines
+ */
+add_filter( 'tribe_json_ld_markup', '__return_empty_string' );
 /**
  * seniorsoutdoors functions and definitions
  *
@@ -122,7 +126,7 @@ function seniorsoutdoors_scripts() {
 
 	wp_enqueue_style( 'seniorsoutdoors-font-awesome', 'http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css' );
 
-	wp_enqueue_style( 'seniorsoutdoors-google-fonts', 'http://fonts.googleapis.com/css?family=Oswald|Open+Sans:400,600,700' );
+	wp_enqueue_style( 'seniorsoutdoors-google-fonts', 'http://fonts.googleapis.com/css?family=Oswald|Merriweather:400,400italic,700,700italic|Open+Sans:400,600,700' );
 
 	wp_enqueue_script( 'seniorsoutdoors-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120206', true );
 
@@ -171,3 +175,18 @@ function the_slug() {
 
 
 /** My Functions */
+function clean_events($event_string) {
+	$event_string = str_replace('[return]', '<br>', $event_string); // Replaces [return]s with line breaks.
+	$event_string = str_replace('Õ', "'", $event_string); //fixes apostrophe
+	$event_string = str_replace('Í', "'", $event_string); //fixes apostrophe
+	$event_string = str_replace('ê', "'", $event_string); //fixes apostrophe
+	$event_string = str_replace('Ò', '"', $event_string); //fixes opening quote
+	$event_string = str_replace('Ó', '"', $event_string); //fixes closing quote
+	$event_string = str_replace('Ð', '-', $event_string); //fixes weird hyphen 
+	$event_string = str_replace('\\', '<br>', $event_string); //replaces return code with br tag
+	$event_string = str_replace('æ', " ", $event_string); // Removes special char
+	return str_replace('Ê', ' ', $event_string); // Removes special char.
+}
+
+
+

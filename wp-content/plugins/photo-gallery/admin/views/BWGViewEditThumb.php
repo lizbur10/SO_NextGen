@@ -28,6 +28,21 @@ class BWGViewEditThumb {
     $image_width = $popup_width - 40;
     $popup_height = ((int) (isset($_GET['height']) ? esc_html($_GET['height']) : '500')) - 50;
     $image_height = $popup_height - 40;
+    
+    $instagram_post_width = ((int) (isset($_GET['instagram_post_width']) ? esc_html($_GET['instagram_post_width']) : $image_width));
+    $instagram_post_height = ((int) (isset($_GET['instagram_post_height']) ? esc_html($_GET['instagram_post_height']) : $image_height));
+
+    if ($instagram_post_width) {
+      if ($image_height / ($instagram_post_height + 96) < $image_width / $instagram_post_width) {
+        $instagram_post_width = ($image_height - 96) * $instagram_post_width / $instagram_post_height + 16;
+        $instagram_post_height = $image_height;
+      }
+      else {
+        $instagram_post_height = ($image_width - 16) * $instagram_post_height / $instagram_post_width + 16;
+        $instagram_post_width = $image_width;
+      }
+    }
+
     $image_id = (isset($_GET['image_id']) ? esc_html($_GET['image_id']) : '0');
     ?>
     <div style="display:table; width:100%; height:<?php echo $popup_height; ?>px;">
@@ -53,7 +68,7 @@ class BWGViewEditThumb {
           window.document.getElementById("bwg_container_for_media_1").innerHTML = spider_display_embed(file_type, embed_id, {class:"embed_display", width:"<?php echo $image_width; ?>", height:"<?php echo $image_height; ?>", frameborder:"0", allowfullscreen:"allowfullscreen", style:"width:<?php echo $image_width; ?>px; height:<?php echo $image_height; ?>px; vertical-align:middle; text-align: center; margin: 0 auto;" });
         }
         else{
-          window.document.getElementById("bwg_container_for_media_1").innerHTML = spider_display_embed(file_type, embed_id, {class:"embed_display", width:"<?php echo $image_height -88; ?>", height:"<?php echo $image_height; ?>", frameborder:"0", allowfullscreen:"allowfullscreen", style:"width:<?php echo $image_height -88 ; ?>px; height:<?php echo $image_height; ?>px; vertical-align:middle; text-align: center; margin: 0 auto;" });
+          window.document.getElementById("bwg_container_for_media_1").innerHTML = spider_display_embed(file_type, embed_id, {class:"embed_display", width:"<?php echo $instagram_post_width; ?>", height:"<?php echo $instagram_post_height; ?>", frameborder:"0", allowfullscreen:"allowfullscreen", style:"width:<?php echo $instagram_post_width ; ?>px; height:<?php echo $instagram_post_height; ?>px; vertical-align:middle; text-align: center; margin: 0 auto;" });
         }
       }
     </script>
@@ -708,7 +723,7 @@ class BWGViewEditThumb {
     wp_print_scripts('jquery-ui-slider');
     ?>
     <link type="text/css" rel="stylesheet" id="bwg_tables-css" href="<?php echo WD_BWG_FRONT_URL . '/css/bwg_edit_image.css'; ?>" media="all">
-    <link type="text/css" rel="stylesheet" href="<?php echo WD_BWG_FRONT_URL . '/css/font-awesome/font-awesome.css'; ?>" >
+    <link type="text/css" rel="stylesheet" href="<?php echo WD_BWG_FRONT_URL . '/css/font-awesome/font-awesome.css?ver=4.6.3'; ?>" >
     <form method="post" id="bwg_rotate_image" action="<?php echo $form_action; ?>">
       <?php wp_nonce_field('editThumb', 'bwg_nonce'); ?>
       <div class="main_cont" style="height: <?php echo $popup_height; ?>px;">

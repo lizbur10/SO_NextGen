@@ -1,6 +1,12 @@
 <?php
 function spider_featured($current_plugin = '') {
   $plugins = array(
+    "ecommerce-wd" => array(
+      'title'    => 'Ecommerce',
+      'text'     => 'Wordpress ecommerce plugin',
+      'content'  => 'Ecommerce WD is a highly-functional, user friendly WordPress Ecommerce plugin, which is perfect for developing online stores for any level of complexity.',
+      'href'     => 'https://web-dorado.com/products/wordpress-ecommerce.html'
+    ),
     "form-maker" => array(
       'title'    => 'Form Maker',
       'text'     => 'Wordpress form builder plugin',
@@ -120,6 +126,12 @@ function spider_featured($current_plugin = '') {
       'text'     => 'WordPress Post Slider plugin',
       'content'  => 'Post Slider WD is designed to show off the selected posts of your website in a slider.',
       'href'     => 'https://web-dorado.com/products/wordpress-post-slider-plugin.html'
+    ),
+    "google-maps" => array(
+      'title'    => 'Google Map',
+      'text'     => 'WordPress Google Maps Plugin',
+      'content'  => 'Google Maps WD is an intuitive tool for creating Google maps with advanced markers, custom layers and overlays for your website.',
+      'href'     => 'https://web-dorado.com/products/wordpress-google-maps-plugin.html'
     ),
   );
   ?>

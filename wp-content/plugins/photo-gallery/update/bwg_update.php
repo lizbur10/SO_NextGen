@@ -349,7 +349,25 @@ function bwg_update($version) {
 	  $wpdb->query("ALTER TABLE " . $wpdb->prefix . "bwg_option ADD `ecommerce_icon_show_hover` varchar(32) NOT NULL DEFAULT 0");
 	  $wpdb->query("ALTER TABLE " . $wpdb->prefix . "bwg_option ADD `popup_enable_ecommerce` tinyint(1) NOT NULL DEFAULT 0");
   }
+   if (version_compare($version, '1.2.104') == -1) {
+	  $wpdb->query("ALTER TABLE " . $wpdb->prefix . "bwg_option ADD `slideshow_effect_duration` int(4) NOT NULL DEFAULT 1");
+    $wpdb->query("ALTER TABLE " . $wpdb->prefix . "bwg_option ADD `popup_effect_duration` int(4) NOT NULL DEFAULT 1");
+  }
+  if (version_compare($version, '1.2.105') == -1) {
+    $theme_table = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "bwg_theme");
+    if (isset($theme_table->options)) {
+      $cols_arr = array();
+      foreach ($theme_table as $key => $value) {
+        if ($key != 'id' && $key != 'name' && $key != 'options' && $key != 'default_theme') {
+          $cols_arr[] = ' DROP `' . $key . '`';
+        }
+      }
+      if (!empty($cols_arr)) {
+        $cols = implode(',', $cols_arr);
+        $wpdb->query("ALTER TABLE " . $wpdb->prefix . "bwg_theme " . $cols);
+      }
+    }
+  }
   return;
 }
-
 ?>

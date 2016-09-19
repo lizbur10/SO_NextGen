@@ -22,7 +22,7 @@ $(document).ready(function() {
 	//Image slider
 	counter = 1;
 
-	window.setInterval(runSlider, 5000);
+	window.setInterval(runSlider, 8000);
 
 	function runSlider() {
 		firstImageId = "galleryImage" + counter;
@@ -31,7 +31,7 @@ $(document).ready(function() {
 	//Code below adapted from: http://jsfiddle.net/jtbowden/ykbgT/2/
 		$("#image-slider div").animate({
 			left: '-=' + slideAmount
-		}, 500, function() {
+		}, 1000, function() {
 			$(firstImage).parent().css('left', totalWidth-slideAmount);
 			$(firstImage).parent().appendTo('#image-slider');
 		});

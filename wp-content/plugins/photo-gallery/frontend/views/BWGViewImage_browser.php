@@ -67,18 +67,18 @@ class BWGViewImage_browser {
       $params['popup_hit_counter'] = 0;
     }
     if (!$theme_row) {
-      echo WDWLibrary::message(__('There is no theme selected or the theme was deleted.', 'bwg'), 'error');
+      echo WDWLibrary::message(__('There is no theme selected or the theme was deleted.', 'bwg'), 'wd_error');
       return;
     }
     $gallery_row = $this->model->get_gallery_row_data($params['gallery_id']);
     if (!$gallery_row) {
-      echo WDWLibrary::message(__('There is no gallery selected or the gallery was deleted.', 'bwg'), 'error');
+      echo WDWLibrary::message(__('There is no gallery selected or the gallery was deleted.', 'bwg'), 'wd_error');
       return;
     }
     $image_rows = $this->model->get_image_rows_data($params['gallery_id'], 1, $params['sort_by'], $order_by, $bwg);
     $images_count = count($image_rows); 
     if (!$image_rows) {
-      echo WDWLibrary::message(__('There are no images in this gallery.', 'bwg'), 'error');
+      echo WDWLibrary::message(__('There are no images in this gallery.', 'bwg'), 'wd_error');
     }
     $page_nav = $this->model->page_nav($params['gallery_id'], 1, $bwg);
     $rgb_page_nav_font_color = WDWLibrary::spider_hex2rgb($theme_row->page_nav_font_color);
@@ -123,7 +123,8 @@ class BWGViewImage_browser {
       'enable_image_google' => $params['popup_enable_google'],
       'enable_image_pinterest' => $params['popup_enable_pinterest'],
       'enable_image_tumblr' => $params['popup_enable_tumblr'],
-      'watermark_type' => $params['watermark_type']
+      'watermark_type' => $params['watermark_type'],
+      'slideshow_effect_duration' => isset($params['popup_effect_duration']) ? $params['popup_effect_duration'] : 1
     );
     $items_per_page = array('images_per_page' => 1, 'load_more_image_count' => 1);
     if ($params['watermark_type'] == 'none') {
@@ -448,7 +449,7 @@ class BWGViewImage_browser {
             <div id="ajax_loading_<?php echo $bwg; ?>" style="position:absolute;width: 100%; z-index: 115; text-align: center; height: 100%; vertical-align: middle; display:none;">
               <div style="display: table; vertical-align: middle; width: 100%; height: 100%; background-color: #FFFFFF; opacity: 0.7; filter: Alpha(opacity=70);">
                 <div style="display: table-cell; text-align: center; position: relative; vertical-align: middle;" >
-                  <div id="loading_div_<?php echo $bwg; ?>" class="spider_ajax_loading" style="display: inline-block; text-align:center; position:relative; vertical-align:middle; background-image:url(<?php echo WD_BWG_URL . '/images/ajax_loader.png'; ?>); float: none; width:50px;height:50px;background-size:50px 50px;">
+                  <div id="loading_div_<?php echo $bwg; ?>" class="bwg_spider_ajax_loading" style="display: inline-block; text-align:center; position:relative; vertical-align:middle; background-image:url(<?php echo WD_BWG_URL . '/images/ajax_loader.gif'; ?>); float: none; width:30px;height:30px;background-size:30px 30px;">
                   </div>
                 </div>
               </div>
@@ -506,8 +507,16 @@ class BWGViewImage_browser {
                         if($is_embed_16x9){
                           WDWLibraryEmbed::display_embed($image_row->filetype, $image_row->filename, array('id'=>"bwg_embed_frame_16x9_".$bwg,'width'=>$params['image_browser_width'], 'height'=>$params['image_browser_width']*0.5625, 'frameborder'=>"0", 'allowfullscreen'=>"allowfullscreen", 'style'=>"position: relative; margin:0;"));          
                         }
-                        elseif($is_embed_instagram_post){
-                          WDWLibraryEmbed::display_embed($image_row->filetype, $image_row->filename, array('id'=>"bwg_embed_frame_instapost_".$bwg,'width'=>$params['image_browser_width'], 'height'=>$params['image_browser_width']+88, 'frameborder'=>"0", 'allowfullscreen'=>"allowfullscreen", 'style'=>"position: relative; margin:0;"));          
+                        else if($is_embed_instagram_post) {
+                          $instagram_post_width = $params['image_browser_width'];
+                          $instagram_post_height = $params['image_browser_width'];
+                          $image_resolution = explode(' x ', $image_row->resolution);
+                          if (is_array($image_resolution)) {
+                            $instagram_post_width = $image_resolution[0];
+                            $instagram_post_height = explode(' ', $image_resolution[1]);
+                            $instagram_post_height = $instagram_post_height[0];
+                          }
+                          WDWLibraryEmbed::display_embed($image_row->filetype, $image_row->filename, array('class' => "bwg_embed_frame_instapost_" . $bwg, 'data-width' => $instagram_post_width, 'data-height' => $instagram_post_height, 'frameborder' => "0", 'allowfullscreen' => "allowfullscreen", 'style' => "position: relative; margin:0;"));          
                         }
                         else{/*for instagram image, video and flickr enable lightbox onclick*/
                           ?>
@@ -526,7 +535,9 @@ class BWGViewImage_browser {
                         jQuery('#bwg_embed_frame_16x9_<?php echo $bwg; ?>').width(jQuery('#bwg_embed_frame_16x9_<?php echo $bwg; ?>').parent().width());
                         jQuery('#bwg_embed_frame_16x9_<?php echo $bwg; ?>').height(jQuery('#bwg_embed_frame_16x9_<?php echo $bwg; ?>').width() * 0.5625);
                         jQuery('#bwg_embed_frame_instapost_<?php echo $bwg; ?>').width(jQuery('#bwg_embed_frame_16x9_<?php echo $bwg; ?>').parent().width());
-                        jQuery('#bwg_embed_frame_instapost_<?php echo $bwg; ?>').height(jQuery('#bwg_embed_frame_instapost_<?php echo $bwg; ?>').width() +88);
+                        /* 16 is 2*padding inside iframe */
+                        /* 96 is 2*padding(top) + 1*padding(bottom) + 40(footer) + 32(header) */
+                        jQuery('.bwg_embed_frame_instapost_<?php echo $bwg; ?>').height((jQuery('.bwg_embed_frame_instapost_<?php echo $bwg; ?>').width() - 16) * jQuery('.bwg_embed_frame_instapost_<?php echo $bwg; ?>').attr('data-height') / jQuery('.bwg_embed_frame_instapost_<?php echo $bwg; ?>').attr('data-width') + 96);
 
                         var bwg_image_browser_width = jQuery('.image_browser_images_<?php echo $bwg; ?>').width();
                         if (bwg_image_browser_width <= 108) {
@@ -580,7 +591,7 @@ class BWGViewImage_browser {
             </div>
           </div>
         </form>
-        <div id="spider_popup_loading_<?php echo $bwg; ?>" class="spider_popup_loading"></div>
+        <div id="bwg_spider_popup_loading_<?php echo $bwg; ?>" class="bwg_spider_popup_loading"></div>
         <div id="spider_popup_overlay_<?php echo $bwg; ?>" class="spider_popup_overlay" onclick="spider_destroypopup(1000)"></div>
       </div>
     </div>
