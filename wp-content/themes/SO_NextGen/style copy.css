@@ -375,7 +375,7 @@ q {
 }
 
 hr {
-	background-color: #EDBB66;
+	background-color: #EDBB66; /*light purple */
 	border: 0;
 	height: 1px;
 	margin-bottom: 1.5em;
@@ -498,11 +498,11 @@ textarea {
 5.1 Links
 --------------------------------------------------------------*/
 a {
-	color: #563A56;
+	color: #563A56; /*dark purple */
 }
 
 /*a:visited {
-	color: #563A56;
+	color: #563A56; /*dark purple */
 }
 */
 a:hover,
@@ -523,7 +523,7 @@ a:active {
 --------------------------------------------------------------*/
 #primary-menu {
 /*	margin-top: 11rem; 
-*/	background-color: #563A56;
+*/	background-color: #563A56; /*dark purple */
 	color: white;
 	text-align: center;
 /*}
@@ -552,7 +552,7 @@ a:active {
 }
 
 #primary-menu a:hover {
-	color: #F7E0AA;
+	color: #F7E0AA;  /* dark yellow-tan */
 	text-decoration: underline;
 	font-weight: bold;
 }
@@ -575,7 +575,7 @@ a:active {
 	min-width: 100%;
 	white-space: nowrap;
 	padding: 2px 10px;
-	background-color: #563A56;
+	background-color: #563A56; /*dark purple */
 }
 
 #primary-menu ul ul li {
@@ -612,8 +612,8 @@ a:active {
 #primary-menu .current-menu-item > a,
 #primary-menu .current_page_ancestor > a,
 #primary-menu .current-menu-ancestor > a {
-	color: #563A56;
-	background-color: #F7E0AA;
+	color: #563A56; /*dark purple */
+	background-color: #F7E0AA;  /* dark yellow-tan */
 	font-weight: bold;
 }
 
@@ -934,19 +934,19 @@ h3 {
 }
 
 a.text-link {
-	color: #9E6B9E;
+	color: #9E6B9E; /* medium purple */
 	font-weight: bold;
 	text-decoration: underline;
 }
 
 a.text-link:hover {
-	color: #EDBB66;
+	color: #EDBB66; /*light purple */
 	text-decoration: underline;
 }
 
 .new-outing {
 	display: inline-block;
-	background-color: #EDBB66;
+	background-color: #EDBB66; /*light purple */
 	color: #222;
 	padding: 1px 5px;
 	margin-right: 5px;
@@ -980,7 +980,7 @@ header {
 	width: 200px;
 	font-family: 'Oswald', sans-serif; 
 	font-size: 3rem;
-	color: #563A56;
+	color: #563A56; /*dark purple */
 	font-weight: 400;
 	line-height: 1.1;
 	margin: 1rem 0;
@@ -1040,19 +1040,23 @@ header {
 /* Color definitions */
 
 .purple-dark {
-	color: #563A56;
+	color: #563A56; /* dark purple */
 }
 
 .purple-medium {
-	color: #9E6B9E;
+	color: #9E6B9E; /* medium purple */
 }
 
-.yellow-tan {
-	color: #EDBB66;
+.purple-light {
+	color: #EDBB66; /* light purple */
 }
 
-.light-yellow-tan {
-	color: #F7E0AA;
+.yellow-tan-light {
+	color: #F4EBDC; /* light yellow-tan */
+}
+
+.yellow-tan-dark {
+	color: #F7E0AA;  /* dark yellow-tan */
 }
 
 
@@ -1098,7 +1102,7 @@ header {
 }
 
 .main-content a:hover {
-	color: #EDBB66;
+	color: #EDBB66; /*light purple */
 	text-decoration: underline;
 }
 
@@ -1132,7 +1136,7 @@ h3.event-title {
 
 div.events-list {
 	padding: 1rem 0;
-	border-bottom: 1px solid #EDBB66;
+	border-bottom: 1px solid #EDBB66; /*light purple */
 }
 
 div.events-list:last-of-type {
@@ -1149,13 +1153,13 @@ div.events-list p:nth-of-type(2) {
 .announcement {
 	margin: 17rem auto 2rem;
 	width: 40rem;
-	border: 3px solid #9E6B9E;
-	background-color: #f4ebdc;
+	border: 3px solid #9E6B9E; /* medium purple */
+	background-color: #F4EBDC; /*light yellow-tan */;
 	padding: 1rem;
 }
 
 .announcement h3 {
-	color: #563A56;
+	color: #563A56; /*dark purple */
 	padding-top: 0;
 	margin-top: 0;
 	text-align: center;
@@ -1188,7 +1192,7 @@ div.events-list p:nth-of-type(2) {
 }
 
 .featured h2 {
-	border-bottom: 1px solid #EDBB66;
+	border-bottom: 1px solid #EDBB66; /*light purple */
 	margin-top: 2rem;
 	margin-bottom: 0;
 	padding-bottom: 0.5rem;
@@ -1283,11 +1287,11 @@ div.events-list p:nth-of-type(2) {
 	right: 2rem;
 	top: 3rem;
 	padding: .5rem;
-	background-color: #F7E0AA;
+	background-color: #F7E0AA;  /* dark yellow-tan */
 	border: 1px solid #999;
 	border-radius: 5px;
 	font-size: 1.2rem;
-	color: #563A56;
+	color: #563A56; /*dark purple */
 	text-decoration: none;
 	-webkit-box-shadow: 3px 3px 3px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
 	-moz-box-shadow:    3px 3px 3px #ccc;  /* Firefox 3.5 - 3.6 */
@@ -1295,8 +1299,8 @@ div.events-list p:nth-of-type(2) {
 }
 
 #tribe-events-content .register-button:hover {
-	background-color: #EDBB66;
-	color: #563A56;
+	background-color: #EDBB66; /*light purple */
+	color: #563A56; /*dark purple */
 	text-decoration: none;
 }
 
@@ -1317,7 +1321,7 @@ div.events-list p:nth-of-type(2) {
 }
 
 .single-tribe_events a:hover {
-	color: #563A56;
+	color: #563A56; /*dark purple */
 }
 
 .entry-content {
@@ -1350,8 +1354,8 @@ div.events-list p:nth-of-type(2) {
 }
 
 .tribe-events-calendar thead th {
-	background-color: #F7E0AA;
-	border: 1px solid #EDBB66;
+	background-color: #F7E0AA;  /* dark yellow-tan */
+	border: 1px solid #EDBB66; /*light purple */
 	line-height: 1;
 	color: #333;
 }
@@ -1374,7 +1378,7 @@ a.printable-list {
 }
 
 .tribe-events-calendar td.tribe-events-present div[id*=tribe-events-daynum-] {
-	background-color: #563A56;
+	background-color: #563A56; /*dark purple */
 }
 
 #tribe-events-content a {
@@ -1389,20 +1393,20 @@ a.printable-list {
 
 
 #tribe-events-content a:hover {
-	color: #EDBB66;
+	color: #EDBB66; /*light purple */
 	text-decoration: underline;
 }
 
 #tribe-events-content .register-button a:hover {
-	color: #9E6B9E;
+	color: #9E6B9E; /* medium purple */
 }
 
 #tribe-events-content .tribe-events-tooltip h4 { 
-	color: #563A56;
+	color: #563A56; /*dark purple */
 }
 
 #tribe-events-content .tribe-events-nav-next a, #tribe-events-content .tribe-events-nav-previous a {
-	color: #563A56;
+	color: #563A56; /*dark purple */
 }
 
 #tribe-events-content .tribe-events-nav-next a:hover, #tribe-events-content .tribe-events-nav-previous a:hover {
@@ -1419,15 +1423,15 @@ a.printable-list {
 
 
 .so-table tr {
-	border-top: 1px solid #563A56;
+	border-top: 1px solid #563A56; /*dark purple */
 }
 
 .so-table tr:last-of-type {
-	border-bottom: 1px solid #563A56;
+	border-bottom: 1px solid #563A56; /*dark purple */
 }
 
 .so-table tr:first-of-type {
-	background-color: #F7E0AA;
+	background-color: #F7E0AA;  /* dark yellow-tan */
 }
 
 .so-table td {
@@ -1486,7 +1490,7 @@ a.printable-list {
 }
 
 #printable-table tr.featured-event td {
-	background-color: #f4ebdc;
+	background-color: #F4EBDC; /*light yellow-tan */;
 }
 
 #printable-table th {

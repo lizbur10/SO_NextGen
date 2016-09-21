@@ -68,11 +68,11 @@ function seniorsoutdoors_setup() {
 	/*
 	 * Enable support for Post Formats.
 	 * See http://codex.wordpress.org/Post_Formats
-	 */
+	 
 	add_theme_support( 'post-formats', array(
 		'aside', 'image', 'video', 'quote', 'link',
 	) );
-
+*/
 	// Set up the WordPress core custom background feature.
 	add_theme_support( 'custom-background', apply_filters( 'seniorsoutdoors_custom_background_args', array(
 		'default-color' => 'ffffff',
@@ -126,7 +126,7 @@ function seniorsoutdoors_scripts() {
 
 	wp_enqueue_style( 'seniorsoutdoors-font-awesome', 'http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css' );
 
-	wp_enqueue_style( 'seniorsoutdoors-google-fonts', 'http://fonts.googleapis.com/css?family=Oswald|Merriweather:400,400italic,700,700italic|Open+Sans:400,600,700' );
+	wp_enqueue_style( 'seniorsoutdoors-google-fonts', 'http://fonts.googleapis.com/css?family=Oswald|Merriweather:400,700|Open+Sans:400,400i,700' );
 
 	wp_enqueue_script( 'seniorsoutdoors-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120206', true );
 
