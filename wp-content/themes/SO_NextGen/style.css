@@ -59,7 +59,7 @@ Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
 /* Light yellow-tan:  #F4EBDC; /* Light yellow-tan */
 /* Dark purple:       #563A56; /* Dark purple */
 /* Medium purple:     #9E6B9E; /* Medium purple */
-/* Light purple:      #EDBB66; /* Light purple */
+/* Light purple:      #EDBB66; /* Light purple         ??????????????????????? */
 
 /*--------------------------------------------------------------
 1.0 Normalize
@@ -71,8 +71,7 @@ html {
 }
 
 body {
-	max-width: 1276px;
-	margin: 2px auto 2rem;
+	margin: 0 auto;
 }
 
 article,
@@ -531,11 +530,11 @@ textarea {
 5.1 Links
 --------------------------------------------------------------*/
 /*a {
-	color: #563A56;
+	color: #563A56;  /* Dark purple */
 }
 */
 /*a:visited {
-	color: #563A56;
+	color: #563A56;  /* Dark purple */
 }
 */
 a:hover,
@@ -554,35 +553,37 @@ a:active {
 /*--------------------------------------------------------------
 5.2 Menus
 --------------------------------------------------------------*/
-/*
+
 #primary-menu {
-	background-color: #563A56;
-	color: white;
+	background-color: #563A56; /* Dark purple */
 	text-align: center;
 	display: block;
-	list-style: none;
-	margin: 11rem 0 0;
+/*	margin: 11rem 0 0;
+*/	margin: 2.5rem 0 0 0;
+	padding: 0;
+	float: right;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: bold;
 }
+
+
 
 #primary-menu li {
 	display: inline;
 	position: relative;
 	line-height: 2.2rem;
-	font-size: .9rem;
-	font-weight: bold;
-	color: white;
 
 }
 
 #primary-menu a {
 	color: white;
 	display: inline-block;
-	padding: 0 3rem;
+	padding: 0 1rem;
 	text-decoration: none;
 }
 
 #primary-menu a:hover {
-	color: #F7E0AA;
+	color: #F7E0AA; /* Dark yellow-tan */
 	text-decoration: underline;
 	font-weight: bold;
 }
@@ -604,8 +605,7 @@ a:active {
 	display: inline-block;
 	min-width: 100%;
 	white-space: nowrap;
-	padding: 2px 10px;
-	background-color: #563A56;
+	background-color: #563A56;  /* Dark purple */
 }
 
 #primary-menu ul ul li {
@@ -642,9 +642,9 @@ a:active {
 #primary-menu .current-menu-item > a,
 #primary-menu .current_page_ancestor > a,
 #primary-menu .current-menu-ancestor > a {
-	color: #563A56;
-	background-color: #F7E0AA;
-	font-weight: bold;
+/*	color: #563A56; /* Dark purple */
+/*	background-color: #F7E0AA; /* Dark yellow-tan */
+	color: #F7E0AA; /* Dark yellow-tan */
 }
 
 #primary-menu .current_page_item > a:hover,
@@ -653,8 +653,8 @@ a:active {
 #primary-menu .current-menu-ancestor > a:hover {
 	text-decoration: none;
 }
-*/
-/* Small menu. */
+
+/* Mobile menu */
 .menu-toggle {
 	display: none;
 }
@@ -669,6 +669,10 @@ a:active {
 		display: none;
 	}
 }
+
+
+
+/* Non-primary navigation stuff  */
 
 .site-main .comment-navigation,
 .site-main .posts-navigation,
@@ -691,6 +695,50 @@ a:active {
 	text-align: right;
 	width: 50%;
 }
+
+
+/* Menu responsiveness */
+
+@media screen and (max-width: 960px) {
+	#primary-menu {
+		background-color: #fff;
+		clear: both;
+		float: none;
+	}
+
+	#primary-menu a {
+		color: #563A56; /* Dark purple */
+		text-transform: uppercase;
+	}
+
+	#primary-menu .current_page_item > a,
+	#primary-menu .current-menu-item > a,
+	#primary-menu .current_page_ancestor > a,
+	#primary-menu .current-menu-ancestor > a {
+	color: #9E6B9E; /* Medium purple */
+	}
+
+}
+
+@media screen and (max-width: 800px) {
+
+	#primary-menu .current_page_item > a,
+	#primary-menu .current-menu-item > a,
+	#primary-menu .current_page_ancestor > a,
+	#primary-menu .current-menu-ancestor > a {
+	border: 1px solid #563A56; /* Dark purple */
+	border-radius: 5px;
+	background-color: #563A56; /* Dark purple */
+	color: #FFF;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	#primary-menu {
+		display: none;
+	}
+}
+
 
 /*--------------------------------------------------------------
 6.0 Accessibility
@@ -825,7 +873,7 @@ a {
 @media screen and (min-width: 57em) {
 	.site-main {
 		max-width: 45em;
-		margin: 1.8em auto;
+		margin: 0 auto;
 	}
 }
 
@@ -837,7 +885,7 @@ a {
 }
 
 .hentry {
-	margin: 0 0 1.5em;
+	margin: 0;
 }
 
 .byline,
@@ -993,23 +1041,27 @@ object {
 --------------------------------------------------------------*/
 
 
-header {
-	clear: both;
+
+.site-header {
+	background-color: #563A56; /* Dark purple */
+}
+
+.header-container {
+	max-width: 1120px;
+	margin: 0 auto;
 }
 
 #logo {
-	margin: 1.5em 2em;
+	margin: 1.75em 2em;
 	border: 1px solid white;
 	border-radius: 15px;
-	background-color: #F7E0AA; /* Dark yellow-tan */
+	background-color: #fff;
 }
 
 
 .site-branding {
 	font-family: 'Oswald', sans-serif;
-	background-color: #3a273a; /* Even darker purple */
-/*	background-color: #563A56; /* Dark purple */
-	color: #F7E0AA; /* Dark yellow-tan */
+	color: #fff;
 }
 
 .site-title {
@@ -1023,11 +1075,7 @@ header {
 }
 
 .site-title a {
-	color: #F7E0AA; /* Dark yellow-tan */
-}
-
-.site-title a:hover, .site-title a:focus {
-	text-decoration: underline;
+	color: #fff;
 }
 
 .tagline {
@@ -1042,13 +1090,26 @@ header {
 	font-size: 2rem;
 }
 
-@media screen and (max-width: 600px) {
-	.site-branding, #image-slider {
-		display: none;
+@media screen and (max-width: 960px) {
+	.tagline {
+		margin-top: 4.25em;
 	}
 }
 
 @media screen and (max-width: 800px) {
+	.site-header {
+		background-color: #fff;
+	}
+
+	.site-branding {
+		margin: 0 auto;
+	}
+	.site-title a {
+		color: #563A56; /* Dark purple */
+	}
+	#image-slider {
+		display: none;
+	}
 	.tagline {
 		display: none;
 	}

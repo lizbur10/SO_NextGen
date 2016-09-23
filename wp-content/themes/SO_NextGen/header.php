@@ -23,19 +23,20 @@
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'seniorsoutdoors' ); ?></a>
 
 	<header id="masthead" class="site-header" role="banner">
-		<a href="<?php echo home_url(); ?>">
-			<img id="logo" class="alignleft" src="<?php  echo get_stylesheet_directory_uri().'/images/SO_logo_small_cleaned.png' ; ?>" alt="<?php bloginfo( 'name' );?> ">
-		</a>
-		<div class="site-branding clear">
-			<p class="site-title alignleft"><a href="<?php echo home_url(); ?>">Seniors Outdoors!</a></p>
-			<p class="tagline alignright"><span>A club for active seniors</span><br/ > in Durango, Colorado</p>
-		</div><!-- site-branding -->
+		<div class="header-container">
+			<a href="<?php echo home_url(); ?>">
+				<img id="logo" class="alignleft" src="<?php  echo get_stylesheet_directory_uri().'/images/SO_logo_small_cleaned.png' ; ?>" alt="<?php bloginfo( 'name' );?> ">
+			</a>
+			<div class="site-branding clear">
+				<p class="site-title alignleft"><a href="<?php echo home_url(); ?>">Seniors Outdoors!</a></p>
+				<p class="tagline alignright"><span>A club for active seniors</span><br/ > in Durango, Colorado</p>
 
-
-		<nav id="site-navigation" class="main-navigation" role="navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php _e( 'Primary Menu', 'seniorsoutdoors' ); ?></button>
-			<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
-		</nav><!-- #site-navigation -->
+				<nav id="site-navigation" class="main-navigation" role="navigation">
+					<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php _e( 'Menu', 'seniorsoutdoors' ); ?></button>
+					<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
+				</nav><!-- #site-navigation -->
+			</div><!-- site-branding -->
+		</div>
 
 	</header><!-- #masthead -->
 
