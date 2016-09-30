@@ -128,11 +128,14 @@ function seniorsoutdoors_scripts() {
 
 	wp_enqueue_style( 'seniorsoutdoors-google-fonts', 'http://fonts.googleapis.com/css?family=Oswald|Merriweather:400,700|Open+Sans:400,400i,700' );
 
-	wp_enqueue_script( 'seniorsoutdoors-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120206', true );
+	wp_enqueue_script( 'seniorsoutdoors-navigation', get_template_directory_uri() . '/js/navigation.js', array( 'jquery' ), '20120206', true );
+	wp_localize_script( 'seniorsoutdoors-navigation', 'screenReaderText', array(
+		'expand'   => '<span class="screen-reader-text">' . __( 'expand child menu', 'seniorsoutdoors' ) . '</span>',
+		'collapse' => '<span class="screen-reader-text">' . __( 'collapse child menu', 'seniorsoutdoors' ) . '</span>',
+	) );
 
 	wp_enqueue_script( 'seniorsoutdoors-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20130115', true );
 
-	wp_enqueue_script( 'jquery', false, false, false, false );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );

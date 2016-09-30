@@ -55,11 +55,12 @@ Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
 
 /*0.5.1 Colors
 
-// Dark yellow-tan:   #F7E0AA; /* Dark yellow-tan */
-/* Light yellow-tan:  #F4EBDC; /* Light yellow-tan */
-/* Dark purple:       #563A56; /* Dark purple */
-/* Medium purple:     #9E6B9E; /* Medium purple */
-/* Light purple:      #EDBB66; /* Light purple         ??????????????????????? */
+// Dark yellow-tan:     #F7E0AA; /* Dark yellow-tan */
+/* Light yellow-tan:    #F4EBDC; /* Light yellow-tan */
+/* Even darker purple:  #3A273A; /* Even darker purple */
+/* Dark purple:         #563A56; /* Dark purple */
+/* Medium purple:       #9E6B9E; /* Medium purple */
+/* Light purple:        #EDBB66; /* Light purple         ??????????????????????? */
 
 /*--------------------------------------------------------------
 1.0 Normalize
@@ -457,26 +458,25 @@ button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-	border: 1px solid;
-	border-color: #ccc #ccc #bbb;
-	border-radius: 3px;
-	background: #e6e6e6;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 15px 17px rgba(255, 255, 255, 0.5), inset 0 -5px 12px rgba(0, 0, 0, 0.05);
-	color: rgba(0, 0, 0, .8);
-	font-size: 12px;
-	font-size: 0.75rem;
+	border: 3px solid;
+	border-color: #fff;
+	border-radius: 0;
+	background: #fff;
+	color: #000;
+	font-size: .75em;
 	line-height: 1;
 	padding: .6em 1em .4em;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
 }
+
 
 button:hover,
 input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover {
-	border-color: #ccc #bbb #aaa;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 15px 17px rgba(255, 255, 255, 0.8), inset 0 -5px 12px rgba(0, 0, 0, 0.02);
-}
+		background-color: black;
+		border-color: black;
+		color: #fff;
+	}
 
 button:focus,
 input[type="button"]:focus,
@@ -532,11 +532,11 @@ textarea {
 /*a {
 	color: #563A56;  /* Dark purple */
 }
-*/
+
 /*a:visited {
 	color: #563A56;  /* Dark purple */
 }
-*/
+
 a:hover,
 a:focus,
 a:active 
@@ -554,120 +554,186 @@ a:active {
 5.2 Menus
 --------------------------------------------------------------*/
 
-#primary-menu {
-	background-color: #563A56; /* Dark purple */
-	text-align: center;
+.main-navigation {
+	clear: both;
 	display: block;
-/*	margin: 11rem 0 0;
-*/	margin: 2.5rem 0 0 0;
-	padding: 0;
-	float: right;
-	font-family: 'Open Sans', sans-serif;
-	font-weight: bold;
-}
-
-
-
-#primary-menu li {
-	display: inline;
-	position: relative;
-	line-height: 2.2rem;
-
-}
-
-#primary-menu a {
-	color: white;
-	display: inline-block;
-	padding: 0 1rem;
-	text-decoration: none;
-}
-
-#primary-menu a:hover {
-	color: #F7E0AA; /* Dark yellow-tan */
-	text-decoration: underline;
-	font-weight: bold;
-}
-
-#primary-menu ul {
-	position: absolute;
-	top: 1.85em;
-	left: -999em;
-	z-index: 99999;
-	text-align: left;
-}
-
-#primary-menu ul ul ul {
-	left: -999em;
-	top: 0;
-}
-
-#primary-menu ul a {
-	display: inline-block;
-	min-width: 100%;
-	white-space: nowrap;
-	background-color: #563A56;  /* Dark purple */
-}
-
-#primary-menu ul ul li {
-
-}
-
-#primary-menu li:hover ul {
-	left: 0;
-	text-align: center;
 	width: 100%;
 }
 
-#primary-menu li:hover ul li {
-	width: 100%;
-}
-
-#primary-menu ul ul :hover > a {
-}
-
-#primary-menu ul ul a:hover {
-}
-
-#primary-menu li:hover > ul {
-	left: 0;
-	padding:0;
-	margin:0;
-}
-
-#primary-menu ul li:hover > ul {
-	left: 0;
-}
-
-#primary-menu .current_page_item > a,
-#primary-menu .current-menu-item > a,
-#primary-menu .current_page_ancestor > a,
-#primary-menu .current-menu-ancestor > a {
-/*	color: #563A56; /* Dark purple */
-/*	background-color: #F7E0AA; /* Dark yellow-tan */
-	color: #F7E0AA; /* Dark yellow-tan */
-}
-
-#primary-menu .current_page_item > a:hover,
-#primary-menu .current-menu-item > a:hover,
-#primary-menu .current_page_ancestor > a:hover,
-#primary-menu .current-menu-ancestor > a:hover {
-	text-decoration: none;
-}
-
-/* Mobile menu */
-.menu-toggle {
+.main-navigation ul {
 	display: none;
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
 }
 
-@media screen and (max-width: 600px) {
-	.menu-toggle,
-	#primary-menu.toggled .nav-menu {
-		display: block;
-	}
+.main-navigation ul ul {
+	display: none;
+	margin-left: 0.8em;
+}
 
-	#primary-menu ul {
+.main-navigation a {
+	display: block;
+	padding: 0.8em 0;
+	position: relative;
+	text-decoration: none;
+}
+
+.main-navigation ul .toggled-on {
+	display: block;
+}
+
+.main-navigation li {
+	border-top: 1px solid #eaeaea;
+	border-top: 1px solid rgba(51, 51, 51, 0.1);
+	position: relative;
+}
+
+.main-navigation .current-menu-item > a,
+.main-navigation .current-menu-ancestor > a {
+	font-weight: 700;
+}
+
+.main-navigation .nav-menu > ul > li:first-child,
+.main-navigation .nav-menu > li:first-child {
+	border-top: 0;
+}
+
+.main-navigation .menu-item-has-children > a {
+	padding-right: 48px;
+}
+
+.main-navigation .menu-item-description {
+	color: #707070;
+	color: rgba(51, 51, 51, 0.7);
+	font-family: "Noto Sans", sans-serif;
+	font-size: 12px;
+	font-size: 1.2rem;
+	font-weight: 400;
+	line-height: 1.5;
+	margin-top: 0.5em;
+}
+
+.no-js .main-navigation ul ul {
+	display: block;
+}
+
+.dropdown-toggle {
+	position: absolute;
+	height: 20px;
+	width: 20px;
+	top: 14px;
+	right: 26px;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	padding: 0;
+	font-family: 'FontAwesome';
+	background-color: #fff;
+	border: 1px solid #000;
+	content: "";
+	color: #000;
+	text-transform: lowercase; /* Stop screen readers to read the text as capital letters */
+}
+
+.dropdown-toggle:after {
+	content: "\f078";
+	font-size: 10px;
+	line-height: 20px;
+	position: relative;
+	top: 0;
+	left: 1px;
+	width: 20px;
+}
+
+.dropdown-toggle:hover,
+.dropdown-toggle:focus {
+	background-color: #563A56; /* Dark purple */
+}
+
+.dropdown-toggle.toggle-on:after {
+	content: "\f077";
+}
+
+
+/* Small menu */
+
+.menu-toggle,
+.main-navigation.toggled ul {
+	display: block;
+}
+
+.menu-toggle {
+	position: fixed;
+	z-index: 100;
+	top: 3em;
+	right: 1.5em;
+	text-transform: uppercase;
+	background-color: #9E6B9E; /* Medium purple */
+
+	color: #fff;
+	padding: 10px 12px;
+	border: solid 2px #563A56; /* Dark purple */
+}
+
+.menu-toggle:hover, .menu-toggle:focus {
+	background-color: #563A56; /* Dark purple */
+	border: 2px solid #563A56;
+	color: #F7E0AA; /* Dark yellow-tan */
+	font-weight: bold;
+}
+
+@media screen and (min-width: 600px) {
+	.menu-toggle {
 		display: none;
 	}
+	
+	.main-navigation ul {
+		display: block;
+	}
+}
+
+/* Hovering menu */
+
+
+.main-navigation.toggled {
+	position: fixed;
+	top: 3em;
+	padding: 1em;
+	z-index: 1;
+}
+
+.main-navigation.toggled ul {
+	max-height: calc(100vh - 8em);
+	overflow-y: auto;
+}
+
+.main-navigation.toggled a {
+	font-size: 1em;
+	padding: 0.8em 1em;
+	color: white;
+}
+
+.main-navigation a:hover, 
+.main-navigation a:focus {
+	background: #563A56; /* Dark purple */
+	color: #F7E0AA; /* Dark yellow-tan */
+}
+
+.main-navigation .nav-menu {
+	margin-top: 1em;
+	background-color: #9E6B9E; /* Medium purple */
+	border: 1px solid #563A56; /* Dark purple */
+}
+
+
+
+.main-navigation.toggled ul ul {
+	display: none;
+}
+.main-navigation.toggled ul ul.toggled-on,
+.main-navigation.toggled ul ul.toggled-on > ul {
+	display: block;
 }
 
 
@@ -699,45 +765,6 @@ a:active {
 
 /* Menu responsiveness */
 
-@media screen and (max-width: 960px) {
-	#primary-menu {
-		background-color: #fff;
-		clear: both;
-		float: none;
-	}
-
-	#primary-menu a {
-		color: #563A56; /* Dark purple */
-		text-transform: uppercase;
-	}
-
-	#primary-menu .current_page_item > a,
-	#primary-menu .current-menu-item > a,
-	#primary-menu .current_page_ancestor > a,
-	#primary-menu .current-menu-ancestor > a {
-	color: #9E6B9E; /* Medium purple */
-	}
-
-}
-
-@media screen and (max-width: 800px) {
-
-	#primary-menu .current_page_item > a,
-	#primary-menu .current-menu-item > a,
-	#primary-menu .current_page_ancestor > a,
-	#primary-menu .current-menu-ancestor > a {
-	border: 1px solid #563A56; /* Dark purple */
-	border-radius: 5px;
-	background-color: #563A56; /* Dark purple */
-	color: #FFF;
-	}
-}
-
-@media screen and (max-width: 600px) {
-	#primary-menu {
-		display: none;
-	}
-}
 
 
 /*--------------------------------------------------------------
@@ -858,21 +885,21 @@ a {
 	line-height: 1.6em;
 }
 
-@media screen and (min-width: 30em) {
+@media screen and (min-width: 480px) {
 	.site-main {
 		margin: 1.8em;
 	}
 }
 
-@media screen and (min-width: 40em) {
+@media screen and (min-width: 640px) {
 	.site-main {
 		font-size: 1em;
 	}
 }
 
-@media screen and (min-width: 57em) {
+@media screen and (min-width: 960px) {
 	.site-main {
-		max-width: 45em;
+		max-width: 720px;
 		margin: 0 auto;
 	}
 }
@@ -1042,9 +1069,7 @@ object {
 
 
 
-.site-header {
-	background-color: #563A56; /* Dark purple */
-}
+
 
 .header-container {
 	max-width: 1120px;
@@ -1074,49 +1099,56 @@ object {
 
 }
 
-.site-title a {
-	color: #fff;
-}
-
 .tagline {
 	text-align: right;
 	padding: 1rem 1rem 0 0;
 	line-height: 1.2;
 	margin-top: 0em;
 	margin-bottom: 0;
+	display: none;
 }
 
 .tagline span {
 	font-size: 2rem;
 }
 
-@media screen and (max-width: 960px) {
+.site-header {
+	background-color: #fff;
+}
+
+.site-branding {
+	margin: 0 auto;
+}
+.site-title a {
+	color: #563A56; /* Dark purple */
+}
+#image-slider {
+	display: none;
+}
+
+
+@media screen and (min-width: 800px) {
+	.site-header {
+/*		background-color: #563A56; /* Dark purple */
+		background-color: #3a273a; /* Even darker purple */
+	}
 	.tagline {
+		display: block;
 		margin-top: 4.25em;
 	}
-}
-
-@media screen and (max-width: 800px) {
-	.site-header {
-		background-color: #fff;
-	}
-
-	.site-branding {
-		margin: 0 auto;
+	#image-slider {
+		display: block;
 	}
 	.site-title a {
-		color: #563A56; /* Dark purple */
-	}
-	#image-slider {
-		display: none;
-	}
-	.tagline {
-		display: none;
+		color: #fff;
 	}
 }
 
-
-
+@media screen and (min-width: 960px) {
+	.tagline {
+		margin-top: 0;
+	}
+}
 
 /*--------------------------------------------------------------
 13.# Style Overrides
@@ -1131,11 +1163,19 @@ object {
 --------------------------------------------------------------*/
 
 .site-footer {
-	background-color: #3a273a; /* Even darker purple */
-/*	background-color: #563A56; /* Dark purple */
+/*	background-color: #3a273a; /* Even darker purple */
+	background-color: #563A56; /* Dark purple */
 	color: #fff;
 	text-align: center;
 	font-size: .8em;
 	padding-top: 8px;
+}
+
+@media screen and (min-width: 800px) {
+	.site-footer {
+		background-color: #3a273a; /* Even darker purple */
+	}
+}
+
 }
 

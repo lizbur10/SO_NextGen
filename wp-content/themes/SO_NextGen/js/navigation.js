@@ -3,8 +3,8 @@
  *
  * Handles toggling the navigation menu for small screens.
  */
-( function() {
-	var container, button, menu;
+( function( $ ) {
+	var container, button, menu, links, subMenus, i, len;
 
 	container = document.getElementById( 'site-navigation' );
 	if ( ! container ) {
@@ -41,4 +41,74 @@
 			menu.setAttribute( 'aria-expanded', 'true' );
 		}
 	};
-} )();
+
+	// Get all the link elements within the menu.
+	links    = menu.getElementsByTagName( 'a' );
+	subMenus = menu.getElementsByTagName( 'ul' );
+
+	// Set menu items with submenus to aria-haspopup="true".
+	for ( i = 0, len = subMenus.length; i < len; i++ ) {
+		subMenus[i].parentNode.setAttribute( 'aria-haspopup', 'true' );
+	}
+
+	// Each time a menu link is focused or blurred, toggle focus.
+	for ( i = 0, len = links.length; i < len; i++ ) {
+		links[i].addEventListener( 'focus', toggleFocus, true );
+		links[i].addEventListener( 'blur', toggleFocus, true );
+	}
+
+	/**
+	 * Sets or removes .focus class on an element.
+	 */
+	function toggleFocus() {
+		var self = this;
+
+		// Move up through the ancestors of the current link until we hit .nav-menu.
+		while ( -1 === self.className.indexOf( 'nav-menu' ) ) {
+
+			// On li elements toggle the class .focus.
+			if ( 'li' === self.tagName.toLowerCase() ) {
+				if ( -1 !== self.className.indexOf( 'focus' ) ) {
+					self.className = self.className.replace( ' focus', '' );
+				} else {
+					self.className += ' focus';
+				}
+			}
+
+			self = self.parentElement;
+		}
+	}
+
+		function initMainNavigation( container ) {
+		// Add dropdown toggle that display child menu items.
+		container.find( '.menu-item-has-children > a, .page_item_has_children > a' ).after( '<button class="dropdown-toggle" aria-expanded="false">' + screenReaderText.expand + '</button>' );
+
+		// Toggle buttons and submenu items with active children menu items.
+		container.find( '.current-menu-ancestor > button' ).addClass( 'toggle-on' );
+		container.find( '.current-menu-ancestor > .sub-menu' ).addClass( 'toggled-on' );
+
+		container.find( '.dropdown-toggle' ).click( function( e ) {
+			var _this = $( this );
+			e.preventDefault();
+			_this.toggleClass( 'toggle-on' );
+			_this.next( '.children, .sub-menu' ).toggleClass( 'toggled-on' );
+			_this.attr( 'aria-expanded', _this.attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' );
+			_this.html( _this.html() === screenReaderText.expand ? screenReaderText.collapse : screenReaderText.expand );
+		} );
+	}
+	initMainNavigation( $( '.main-navigation' ) );
+
+	// Re-initialize the main navigation when it is updated, persisting any existing submenu expanded states.
+	$( document ).on( 'customize-preview-menu-refreshed', function( e, params ) {
+		if ( 'primary' === params.wpNavMenuArgs.theme_location ) {
+			initMainNavigation( params.newContainer );
+
+			// Re-sync expanded states from oldContainer.
+			params.oldContainer.find( '.dropdown-toggle.toggle-on' ).each(function() {
+				var containerId = $( this ).parent().prop( 'id' );
+				$( params.newContainer ).find( '#' + containerId + ' > .dropdown-toggle' ).triggerHandler( 'click' );
+			});
+		}
+	});
+
+} )( jQuery );
