@@ -98,21 +98,8 @@
 	text-decoration: none;
 }
 
-/* Mobile menu */
-.menu-toggle {
-	display: none;
-}
 
-@media screen and (max-width: 600px) {
-	.menu-toggle,
-	#primary-menu.toggled .nav-menu {
-		display: block;
-	}
 
-	#primary-menu ul {
-		display: none;
-	}	
-}
 
 
 @media screen and (max-width: 960px) {
@@ -149,8 +136,4 @@
 	}
 }
 
-@media screen and (max-width: 600px) {
-	#primary-menu {
-		display: none;
-	}
-}
+
