@@ -8,14 +8,14 @@ Template Name: Custom Homepage Template
 
     $date = tribe_get_month_view_date();
     $counter = -1;
-    $feedbackEmail = "mailto:djwright001@gmail.com";
 ?>
 
 <h1 class="page-title visually-hidden">Welcome to Seniors Outdoors!</h1>
 
 <div class="page-content">
     <main id="main" class="site-main" role="main">
-        <section id='image-slider'>
+
+        <section class="clearfix" id='image-slider'>
             <?php $images = get_field('image_gallery'); ?>
             <?php if( $images ): 
                 $imageCounter = 1;
@@ -37,12 +37,8 @@ Template Name: Custom Homepage Template
 
 
         </section>
-        <section class="main-content">
-            <div class="announcement">
-                <h3>Welcome to the Preview Version of the new SO! website!</h3>
-                <p>Let us know what you think: <a class="text-link" href="<?php echo eae_encode_emails($feedbackEmail); ?>">Send Feedback via Email</a></p>
 
-            </div>
+        <section class="clearfix main-content">
 
             <section class="featured">
 
@@ -95,11 +91,31 @@ Template Name: Custom Homepage Template
                     if ($counter != -1) : ?>
                                 </div>
                     <?php endif;
+                endif; 
+                $counter = -1;
+
+                $wp_query = new WP_Query( array( 'post_type' => 'tribe_events', 'nopaging' => true ) );
+
+                if ( $wp_query->have_posts() ): 
+                    while ( $wp_query->have_posts() ) : $wp_query->the_post();
+                        if (has_term('new','tribe_events_cat')) : 
+                            $counter++;
+                            if ($counter == 0) : ?>
+                                <div class="event-changes">
+                                    <h2>New Outings</h2>
+                            <?php endif; ?>
+                                    <h3><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?>: </h3>
+                                    <h4><?php the_title(); ?></h4>
+                        <?php endif; ?>
+                    <?php endwhile;
+                    if ($counter != -1) : ?>
+                                </div>
+                    <?php endif;
                 endif; ?>
 
             </section>
 
-            <section class="list-view">
+            <section class=" list-view">
                <?php $eventsPosted = 0;
                 $wp_query = new WP_Query( array( 'post_type' => 'tribe_events', 'nopaging' => true ) ); ?>
                 <h2>Upcoming Events:</h2>
@@ -134,8 +150,10 @@ Template Name: Custom Homepage Template
                         $eventsPosted++; 
                         endwhile; ?>
                     <p><a class="text-link" href="/seniorsoutdoors/events">Go to full calendar&rsaquo;&rsaquo;</a></p>
+                    <p><a class="small-screen-suppress text-link" href="/seniorsoutdoors/printable-schedule">Go to printable schedule&rsaquo;&rsaquo;</a></p>
+<!--                     <p><a class="text-link" href="/seniorsoutdoors/events">Go to full calendar&rsaquo;&rsaquo;</a></p>
                     <p><a class="text-link" href="/seniorsoutdoors/printable-schedule">Go to printable schedule&rsaquo;&rsaquo;</a></p>
-
+ -->
                <?php else : ?>
                     <p>Sorry - no events found</p>
                <?php endif; ?>
@@ -143,8 +161,10 @@ Template Name: Custom Homepage Template
 
         </section>
     </main>
-<!--    
 <script src="<?php echo get_stylesheet_directory_uri(); ?>/js/image-slider.js"></script>
--->
+    <script>
+        $(".splash-container").show();
+
+    </script>
 
 <?php get_footer(); ?>

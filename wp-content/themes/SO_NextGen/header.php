@@ -6,6 +6,9 @@
  *
  * @package seniorsoutdoors
  */
+
+ $feedbackEmail = "mailto:djwright001@gmail.com";
+
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
 <head>
@@ -41,4 +44,26 @@
 
 	</header><!-- #masthead -->
 
+    <div class="splash-container">
+        <div class="splashscreen">
+            <button class="so-button" id="splash-close">Close</button>
+            <h3>Welcome!</h3>
+            <p>This is a Preview Version of the new Seniors Outdoors! website.</p>
+            <br>
+            <p>Please let us know what you think: what you like or don't like, what's missing, etc. </p>
+            <br>
+             <p><a class="centered text-link" href="<?php echo eae_encode_emails($feedbackEmail); ?>">Send Feedback via Email</a></p>
+             <p>(You can also use the button at the bottom of the screen at any time.)</p>
+         </div>
+    </div>
+
 	<div id="content" class="site-content">
+        <div class="email-link">
+            <a class="so-button" href="<?php echo eae_encode_emails($feedbackEmail); ?>">Submit Feedback</a>
+        </div>
+
+	<script>
+		$("#splash-close").click(function () {
+		    $(".splash-container").hide();
+		});
+	</script>
