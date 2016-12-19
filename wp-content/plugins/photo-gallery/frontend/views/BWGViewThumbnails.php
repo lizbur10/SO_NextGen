@@ -134,6 +134,7 @@ class BWGViewThumbnails {
       $params['watermark_height'] = $options_row->watermark_height;
       $params['thumb_click_action'] = $options_row->thumb_click_action;
       $params['thumb_link_target'] = $options_row->thumb_link_target;
+      $params['popup_effect_duration'] = isset($options_row->popup_effect_duration) ? $options_row->popup_effect_duration : 1;
     }
     if (isset($_POST['sortImagesByValue_' . $bwg])) {
 			$sort_by = esc_html($_POST['sortImagesByValue_' . $bwg]);
@@ -149,7 +150,7 @@ class BWGViewThumbnails {
 		}
     $theme_row = $this->model->get_theme_row_data($params['theme_id']);
     if (!$theme_row) {
-      echo WDWLibrary::message(__('There is no theme selected or the theme was deleted.', 'bwg'), 'error');
+      echo WDWLibrary::message(__('There is no theme selected or the theme was deleted.', 'bwg'), 'wd_error');
       return;
     }
     if (isset($params['type'])) {
@@ -160,7 +161,7 @@ class BWGViewThumbnails {
     }
     $gallery_row = $this->model->get_gallery_row_data($params['gallery_id']);
     if (!$gallery_row && ($type == '')) {
-      echo WDWLibrary::message(__('There is no gallery selected or the gallery was deleted.', 'bwg'), 'error');
+      echo WDWLibrary::message(__('There is no gallery selected or the gallery was deleted.', 'bwg'), 'wd_error');
       return;
     }
     $params['load_more_image_count'] = (isset($params['load_more_image_count']) && ($params['image_enable_page'] == 2)) ? $params['load_more_image_count'] : $params['images_per_page'];
@@ -168,7 +169,7 @@ class BWGViewThumbnails {
     $image_rows = $this->model->get_image_rows_data($params, $bwg, $type, $sort_direction);
     $images_count = count($image_rows); 
     if (!$image_rows) {
-      echo WDWLibrary::message(__('There are no images in this gallery.', 'bwg'), 'error');
+      echo WDWLibrary::message(__('There are no images in this gallery.', 'bwg'), 'wd_error');
     }
     if ($params['image_enable_page'] && $params['images_per_page']) {
       $page_nav = $this->model->page_nav($params['gallery_id'], $bwg, $type);
@@ -176,6 +177,7 @@ class BWGViewThumbnails {
     $rgb_page_nav_font_color = WDWLibrary::spider_hex2rgb($theme_row->page_nav_font_color);
     $rgb_thumbs_bg_color = WDWLibrary::spider_hex2rgb($theme_row->thumbs_bg_color);
     $tags_rows = $this->model->get_tags_rows_data($params['gallery_id']);
+    $image_right_click = $options_row->image_right_click;
     ?>
     <style>
       #bwg_container1_<?php echo $bwg; ?> #bwg_container2_<?php echo $bwg; ?> .bwg_standart_thumbnails_<?php echo $bwg; ?> * {
@@ -386,7 +388,7 @@ class BWGViewThumbnails {
             <div id="ajax_loading_<?php echo $bwg; ?>" style="position:absolute;width: 100%; z-index: 115; text-align: center; height: 100%; vertical-align: middle; display:none;">
               <div style="display: table; vertical-align: middle; width: 100%; height: 100%; background-color: #FFFFFF; opacity: 0.7; filter: Alpha(opacity=70);">
                 <div style="display: table-cell; text-align: center; position: relative; vertical-align: middle;" >
-                  <div id="loading_div_<?php echo $bwg; ?>" class="spider_ajax_loading" style="display: inline-block; text-align:center; position:relative; vertical-align:middle; background-image:url(<?php echo WD_BWG_URL . '/images/ajax_loader.png'; ?>); float: none; width:50px;height:50px;background-size:50px 50px;">
+                  <div id="loading_div_<?php echo $bwg; ?>" class="bwg_spider_ajax_loading" style="display: inline-block; text-align:center; position:relative; vertical-align:middle; background-image:url(<?php echo WD_BWG_URL . '/images/ajax_loader.gif'; ?>); float: none; width:30px;height:30px;background-size:30px 30px;">
                   </div>
                 </div>
               </div>
@@ -401,23 +403,31 @@ class BWGViewThumbnails {
               foreach ($image_rows as $image_row) {
                 $is_embed = preg_match('/EMBED/',$image_row->filetype)==1 ? true :false;
                 $is_embed_video = preg_match('/VIDEO/',$image_row->filetype)==1 ? true :false;
+                $is_embed_instagram = preg_match('/EMBED_OEMBED_INSTAGRAM/',$image_row->filetype)==1 ? true : false;
                 if (!$is_embed) {
                   list($image_thumb_width, $image_thumb_height) = getimagesize(htmlspecialchars_decode(ABSPATH . $WD_BWG_UPLOAD_DIR . $image_row->thumb_url, ENT_COMPAT | ENT_QUOTES));
                 }
                 else {
                   $image_thumb_width = $params['thumb_width'];
                   if($image_row->resolution != ''){
-                    $resolution_arr = explode(" ",$image_row->resolution);
-                    $resolution_w = intval($resolution_arr[0]);
-                    $resolution_h = intval($resolution_arr[2]);
-                    if($resolution_w != 0 && $resolution_h != 0){
-                      $scale = $scale = max($params['thumb_width'] / $resolution_w, $params['thumb_height'] / $resolution_h);
-                      $image_thumb_width = $resolution_w * $scale;
-                      $image_thumb_height = $resolution_h * $scale;
+                    if (!$is_embed_instagram) {
+                      $resolution_arr = explode(" ", $image_row->resolution);
+                      $resolution_w = intval($resolution_arr[0]);
+                      $resolution_h = intval($resolution_arr[2]);
+                      if($resolution_w != 0 && $resolution_h != 0){
+                        $scale = $scale = max($params['thumb_width'] / $resolution_w, $params['thumb_height'] / $resolution_h);
+                        $image_thumb_width = $resolution_w * $scale;
+                        $image_thumb_height = $resolution_h * $scale;
+                      }
+                      else{
+                        $image_thumb_width = $params['thumb_width'];
+                        $image_thumb_height = $params['thumb_height'];
+                      }
                     }
-                    else{
-                    $image_thumb_width = $params['thumb_width'];
-                    $image_thumb_height = $params['thumb_height'];
+                    else {
+                      // this will be ok while instagram thumbnails width and height are the same
+                      $image_thumb_width = min($params['thumb_width'], $params['thumb_height']);
+                      $image_thumb_height = $image_thumb_width;
                     }
                   }
                   else{
@@ -491,7 +501,7 @@ class BWGViewThumbnails {
             ?>
           </div>
         </form>
-        <div id="spider_popup_loading_<?php echo $bwg; ?>" class="spider_popup_loading"></div>
+        <div id="bwg_spider_popup_loading_<?php echo $bwg; ?>" class="bwg_spider_popup_loading"></div>
         <div id="spider_popup_overlay_<?php echo $bwg; ?>" class="spider_popup_overlay" onclick="spider_destroypopup(1000)"></div>
       </div>
     </div>
@@ -528,7 +538,8 @@ class BWGViewThumbnails {
           'enable_image_google' => $params['popup_enable_google'],
           'enable_image_pinterest' => $params['popup_enable_pinterest'],
           'enable_image_tumblr' => $params['popup_enable_tumblr'],
-          'watermark_type' => $params['watermark_type']
+          'watermark_type' => $params['watermark_type'],
+          'slideshow_effect_duration' => isset($params['popup_effect_duration']) ? $params['popup_effect_duration'] : 1
         );
         if ($params['watermark_type'] != 'none') {
           $params_array['watermark_link'] = urlencode($params['watermark_link']);
@@ -562,6 +573,17 @@ class BWGViewThumbnails {
             return false;
           }
         });
+         <?php 
+        if ($image_right_click) {
+          ?>
+          /* Disable right click.*/
+          jQuery('div[id^="bwg_container"]').bind("contextmenu", function () {
+            return false;
+          });
+          jQuery('div[id^="bwg_container"]').css('webkitTouchCallout','none');
+          <?php
+        }
+        ?>
       }
       jQuery(document).ready(function () {
         bwg_document_ready_<?php echo $bwg; ?>();

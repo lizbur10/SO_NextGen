@@ -1,0 +1,139 @@
+#primary-menu {
+	background-color: #563A56; /* Dark purple */
+	text-align: center;
+	display: block;
+/*	margin: 11rem 0 0;
+*/	margin: 2.5rem 0 0 0;
+	padding: 0;
+	float: right;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: bold;
+}
+
+
+
+#primary-menu li {
+	display: inline;
+	position: relative;
+	line-height: 2.2rem;
+
+}
+
+#primary-menu a {
+	color: white;
+	display: inline-block;
+	padding: 0 1rem;
+	text-decoration: none;
+}
+
+#primary-menu a:hover {
+	color: #F7E0AA; /* Dark yellow-tan */
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+#primary-menu ul {
+	position: absolute;
+	top: 1.85em;
+	left: -999em;
+	z-index: 99999;
+	text-align: left;
+}
+
+#primary-menu ul ul ul {
+	left: -999em;
+	top: 0;
+}
+
+#primary-menu ul a {
+	display: inline-block;
+	min-width: 100%;
+	white-space: nowrap;
+	background-color: #563A56;  /* Dark purple */
+}
+
+#primary-menu ul ul li {
+
+}
+
+#primary-menu li:hover ul {
+	left: 0;
+	text-align: center;
+	width: 100%;
+}
+
+#primary-menu li:hover ul li {
+	width: 100%;
+}
+
+#primary-menu ul ul :hover > a {
+}
+
+#primary-menu ul ul a:hover {
+}
+
+#primary-menu li:hover > ul {
+	left: 0;
+	padding:0;
+	margin:0;
+}
+
+#primary-menu ul li:hover > ul {
+	left: 0;
+}
+
+#primary-menu .current_page_item > a,
+#primary-menu .current-menu-item > a,
+#primary-menu .current_page_ancestor > a,
+#primary-menu .current-menu-ancestor > a {
+/*	color: #563A56; /* Dark purple */
+/*	background-color: #F7E0AA; /* Dark yellow-tan */
+	color: #F7E0AA; /* Dark yellow-tan */
+}
+
+#primary-menu .current_page_item > a:hover,
+#primary-menu .current-menu-item > a:hover,
+#primary-menu .current_page_ancestor > a:hover,
+#primary-menu .current-menu-ancestor > a:hover {
+	text-decoration: none;
+}
+
+
+
+
+
+@media screen and (max-width: 960px) {
+	#primary-menu {
+		background-color: #fff;
+		clear: both;
+		float: none;
+	}
+
+	#primary-menu a {
+		color: #563A56; /* Dark purple */
+		text-transform: uppercase;
+	}
+
+	#primary-menu .current_page_item > a,
+	#primary-menu .current-menu-item > a,
+	#primary-menu .current_page_ancestor > a,
+	#primary-menu .current-menu-ancestor > a {
+	color: #9E6B9E; /* Medium purple */
+	}
+
+}
+
+@media screen and (max-width: 800px) {
+
+	#primary-menu .current_page_item > a,
+	#primary-menu .current-menu-item > a,
+	#primary-menu .current_page_ancestor > a,
+	#primary-menu .current-menu-ancestor > a {
+	border: 1px solid #563A56; /* Dark purple */
+	border-radius: 5px;
+	background-color: #563A56; /* Dark purple */
+	color: #FFF;
+	}
+}
+
+

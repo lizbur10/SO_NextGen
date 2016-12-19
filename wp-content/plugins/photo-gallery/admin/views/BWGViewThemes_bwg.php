@@ -56,16 +56,19 @@ class  BWGViewThemes_bwg {
     <?php
     if (get_option("wd_bwg_theme_version")) {
       ?>
-      <div style="clear: both; float: left; width: 97%;">
+      <div style="clear: both; float: left; width: 99%;">
         <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_thumbnails.png'; ?>" />
         <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_masonry.png'; ?>" />
+        <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_mosaic.png'; ?>" />
         <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_slideshow.png'; ?>" />
         <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_image_browser.png'; ?>" />
         <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_compact_album.png'; ?>" />
+        <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_masonry_album.png'; ?>" />
         <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_extended_album.png'; ?>" />
         <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_blog_style.png'; ?>" />
         <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_lightbox.png'; ?>" />
         <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_page_navigation.png'; ?>" />
+        <img style="max-width: 100%;" src="<?php echo WD_BWG_URL . '/images/theme_carousel.png'; ?>" />
       </div>
       <?php
       die();
@@ -262,6 +265,10 @@ class  BWGViewThemes_bwg {
       <h2><?php echo $page_title; ?></h2>
       <div style="float: right; margin: 0 5px 0 0;">
         <input class="button-secondary" type="submit" onclick="if (spider_check_required('name', 'Name')) {return false;}; spider_set_input_value('task', 'save')" value="<?php _e("Save", 'bwg_back'); ?>"/>
+        <?php if ($id) { ?>
+        <input class="button-secondary" type="submit" onclick="if (spider_check_required('name', 'Name')) {return false;}; spider_set_input_value('task', 'save');
+                                                                  spider_set_input_value('save_as_copy', 1)" value="<?php echo __('Save as Copy', 'bwg_back'); ?>" />
+        <?php } ?>
         <input class="button-secondary" type="submit" onclick="if (spider_check_required('name', 'Name')) {return false;}; spider_set_input_value('task', 'apply')" value="<?php _e("Apply", 'bwg_back'); ?>"/>
         <input class="button-secondary" type="submit" onclick="spider_set_input_value('task', 'cancel')" value="<?php _e("Cancel", 'bwg_back'); ?>"/>
         <input title="Reset to default theme" class="button-primary" type="submit" onclick="if (confirm('<?php echo addslashes(__("Do you want to reset to default?", 'bwg_back')); ?>')) {

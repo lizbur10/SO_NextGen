@@ -1,0 +1,1602 @@
+/*
+Theme Name: seniorsoutdoors
+Theme URI: http://underscores.me/
+Author: Underscores.me
+Author URI: http://underscores.me/
+Description: Description
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: seniorsoutdoors
+Tags:
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+
+seniorsoutdoors is based on Underscores http://underscores.me/, (C) 2012-2015 Automattic, Inc.
+
+Normalizing styles have been helped along thanks to the fine work of
+Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+1.0 Normalize
+2.0 Typography
+3.0 Elements
+4.0 Forms
+5.0 Navigation
+	5.1 Links
+	5.2 Menus
+6.0 Accessibility
+7.0 Alignments
+8.0 Clearings
+9.0 Widgets
+10.0 Content
+	10.1 Posts and pages
+	10.2 Asides
+	10.3 Comments
+11.0 Infinite scroll
+12.0 Media
+	12.1 Captions
+	12.2 Galleries
+13.0 SeniorsOutdoors
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+1.0 Normalize
+--------------------------------------------------------------*/
+html {
+	font-family: 'Open Sans', sans-serif;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust:     100%;
+}
+
+body {
+	max-width: 1276px;
+	margin: 2px auto 2rem;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
+	display: block;
+}
+
+audio,
+canvas,
+progress,
+video {
+	display: inline-block;
+	vertical-align: baseline;
+}
+
+audio:not([controls]) {
+	display: none;
+	height: 0;
+}
+
+[hidden],
+template {
+	display: none;
+}
+
+a {
+	background-color: transparent;
+}
+
+a:active,
+a:hover {
+	outline: 0;
+}
+
+abbr[title] {
+	border-bottom: 1px dotted;
+}
+
+b,
+strong {
+	font-weight: bold;
+}
+
+dfn {
+	font-style: italic;
+}
+
+h1 {
+	font-size: 2em;
+	margin: 0.67em 0;
+}
+
+mark {
+	background: #ff0;
+	color: #000;
+}
+
+small {
+	font-size: 80%;
+}
+
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	top: -0.5em;
+}
+
+sub {
+	bottom: -0.25em;
+}
+
+img {
+	border: 0;
+}
+
+svg:not(:root) {
+	overflow: hidden;
+}
+
+figure {
+	margin: 1em 40px;
+}
+
+hr {
+	box-sizing: content-box;
+	height: 0;
+}
+
+pre {
+	overflow: auto;
+}
+
+code,
+kbd,
+pre,
+samp {
+	font-family: monospace, monospace;
+	font-size: 1em;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+	color: inherit;
+	font: inherit;
+	margin: 0;
+}
+
+button {
+	overflow: visible;
+}
+
+button,
+select {
+	text-transform: none;
+}
+
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+	-webkit-appearance: button;
+	cursor: pointer;
+}
+
+button[disabled],
+html input[disabled] {
+	cursor: default;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+input {
+	line-height: normal;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+	box-sizing: border-box;
+	padding: 0;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	height: auto;
+}
+
+input[type="search"] {
+	-webkit-appearance: textfield;
+	box-sizing: content-box;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+	-webkit-appearance: none;
+}
+
+fieldset {
+	border: 1px solid #c0c0c0;
+	margin: 0 2px;
+	padding: 0.35em 0.625em 0.75em;
+}
+
+legend {
+	border: 0;
+	padding: 0;
+}
+
+textarea {
+	overflow: auto;
+}
+
+optgroup {
+	font-weight: bold;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+td,
+th {
+	padding: 0;
+}
+
+/*--------------------------------------------------------------
+2.0 Typography
+--------------------------------------------------------------*/
+body,
+button,
+input,
+select,
+textarea {
+	font-family: 'Open Sans', sans-serif;
+	color: #404040;
+	font-size: 16px;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Merriweather', serif;
+	clear: both;
+}
+
+p {
+	margin-bottom: 1.5em;
+}
+
+dfn,
+cite,
+em,
+i {
+	font-style: italic;
+}
+
+blockquote {
+	margin: 0 1.5em;
+}
+
+address {
+	margin: 0 0 1.5em;
+}
+
+pre {
+	background: #eee;
+	font-family: "Courier 10 Pitch", Courier, monospace;
+	font-size: 15px;
+	font-size: 0.9375rem;
+	line-height: 1.6;
+	margin-bottom: 1.6em;
+	max-width: 100%;
+	overflow: auto;
+	padding: 1.6em;
+}
+
+code,
+kbd,
+tt,
+var {
+	font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+	font-size: 15px;
+	font-size: 0.9375rem;
+}
+
+abbr,
+acronym {
+	border-bottom: 1px dotted #666;
+	cursor: help;
+}
+
+mark,
+ins {
+	background: #fff9c0;
+	text-decoration: none;
+}
+
+big {
+	font-size: 125%;
+}
+
+/*--------------------------------------------------------------
+3.0 Elements
+--------------------------------------------------------------*/
+html {
+	box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after { /* Inherit box-sizing to make it easier to change the property for components that leverage other behavior; see http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
+	box-sizing: inherit;
+}
+
+body {
+	background: #fff; /* Fallback for when there is no custom background color defined. */
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: "";
+}
+
+blockquote,
+q {
+	quotes: "" "";
+}
+
+hr {
+	background-color: #EDBB66; /*light purple */
+	border: 0;
+	height: 1px;
+	margin-bottom: 1.5em;
+}
+
+ul,
+ol {
+	margin: 0 0 1.5em 3em;
+}
+
+ul {
+	list-style: disc;
+}
+
+ol {
+	list-style: decimal;
+}
+
+li > ul,
+li > ol {
+	margin-bottom: 0;
+	margin-left: 1.5em;
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin: 0 1.5em 1.5em;
+}
+
+img {
+	height: auto; /* Make sure images are scaled correctly. */
+	max-width: 100%; /* Adhere to container width. */
+}
+
+table {
+	margin: 0 0 1.5em;
+	width: 100%;
+}
+
+/*--------------------------------------------------------------
+4.0 Forms
+--------------------------------------------------------------*/
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+	border: 1px solid;
+	border-color: #ccc #ccc #bbb;
+	border-radius: 3px;
+	background: #e6e6e6;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 15px 17px rgba(255, 255, 255, 0.5), inset 0 -5px 12px rgba(0, 0, 0, 0.05);
+	color: rgba(0, 0, 0, .8);
+	font-size: 12px;
+	font-size: 0.75rem;
+	line-height: 1;
+	padding: .6em 1em .4em;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+button:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover,
+input[type="submit"]:hover {
+	border-color: #ccc #bbb #aaa;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 15px 17px rgba(255, 255, 255, 0.8), inset 0 -5px 12px rgba(0, 0, 0, 0.02);
+}
+
+button:focus,
+input[type="button"]:focus,
+input[type="reset"]:focus,
+input[type="submit"]:focus,
+button:active,
+input[type="button"]:active,
+input[type="reset"]:active,
+input[type="submit"]:active {
+	border-color: #aaa #bbb #bbb;
+	box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.5), inset 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+textarea {
+	color: #666;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+textarea:focus {
+	color: #111;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"] {
+	padding: 3px;
+}
+
+textarea {
+	padding-left: 3px;
+	width: 100%;
+}
+
+/*--------------------------------------------------------------
+5.0 Navigation
+--------------------------------------------------------------*/
+/*--------------------------------------------------------------
+5.1 Links
+--------------------------------------------------------------*/
+a {
+	color: #563A56; /*dark purple */
+}
+
+/*a:visited {
+	color: #563A56; /*dark purple */
+}
+*/
+a:hover,
+a:focus,
+a:active 
+
+a:focus {
+	outline: thin dotted;
+}
+
+a:hover,
+a:active {
+	outline: 0;
+}
+
+/*--------------------------------------------------------------
+5.2 Menus
+--------------------------------------------------------------*/
+#primary-menu {
+/*	margin-top: 11rem; 
+*/	background-color: #563A56; /*dark purple */
+	color: white;
+	text-align: center;
+/*}
+
+#primary-menu ul {
+*/	display: block;
+	list-style: none;
+	margin: 11rem 0 0;
+}
+
+#primary-menu li {
+	display: inline;
+	position: relative;
+	line-height: 2.2rem;
+	font-size: .9rem;
+	font-weight: bold;
+	color: white;
+
+}
+
+#primary-menu a {
+	color: white;
+	display: inline-block;
+	padding: 0 3rem;
+	text-decoration: none;
+}
+
+#primary-menu a:hover {
+	color: #F7E0AA;  /* dark yellow-tan */
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+#primary-menu ul {
+	position: absolute;
+	top: 1.85em;
+	left: -999em;
+	z-index: 99999;
+	text-align: left;
+}
+
+#primary-menu ul ul ul {
+	left: -999em;
+	top: 0;
+}
+
+#primary-menu ul a {
+	display: inline-block;
+	min-width: 100%;
+	white-space: nowrap;
+	padding: 2px 10px;
+	background-color: #563A56; /*dark purple */
+}
+
+#primary-menu ul ul li {
+
+}
+
+#primary-menu li:hover ul {
+	left: 0;
+	text-align: center;
+	width: 100%;
+}
+
+#primary-menu li:hover ul li {
+	width: 100%;
+}
+
+#primary-menu ul ul :hover > a {
+}
+
+#primary-menu ul ul a:hover {
+}
+
+#primary-menu li:hover > ul {
+	left: 0;
+	padding:0;
+	margin:0;
+}
+
+#primary-menu ul li:hover > ul {
+	left: 0;
+}
+
+#primary-menu .current_page_item > a,
+#primary-menu .current-menu-item > a,
+#primary-menu .current_page_ancestor > a,
+#primary-menu .current-menu-ancestor > a {
+	color: #563A56; /*dark purple */
+	background-color: #F7E0AA;  /* dark yellow-tan */
+	font-weight: bold;
+}
+
+#primary-menu .current_page_item > a:hover,
+#primary-menu .current-menu-item > a:hover,
+#primary-menu .current_page_ancestor > a:hover,
+#primary-menu .current-menu-ancestor > a:hover {
+	text-decoration: none;
+}
+
+/* Small menu. */
+.menu-toggle {
+	display: none;
+}
+
+@media screen and (max-width: 600px) {
+	.menu-toggle,
+	#primary-menu.toggled .nav-menu {
+		display: block;
+	}
+
+	#primary-menu ul {
+		display: none;
+	}
+}
+
+.site-main .comment-navigation,
+.site-main .posts-navigation,
+.site-main .post-navigation {
+	margin: 0 0 1.5em;
+	overflow: hidden;
+}
+
+.comment-navigation .nav-previous,
+.posts-navigation .nav-previous,
+.post-navigation .nav-previous {
+	float: left;
+	width: 50%;
+}
+
+.comment-navigation .nav-next,
+.posts-navigation .nav-next,
+.post-navigation .nav-next {
+	float: right;
+	text-align: right;
+	width: 50%;
+}
+
+/*--------------------------------------------------------------
+6.0 Accessibility
+--------------------------------------------------------------*/
+/* Text meant only for screen readers. */
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+}
+
+.screen-reader-text:hover,
+.screen-reader-text:active,
+.screen-reader-text:focus {
+	background-color: #f1f1f1;
+	border-radius: 3px;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+	clip: auto !important;
+	color: #21759b;
+	display: block;
+	font-size: 14px;
+	font-size: 0.875rem;
+	font-weight: bold;
+	height: auto;
+	left: 5px;
+	line-height: normal;
+	padding: 15px 23px 14px;
+	text-decoration: none;
+	top: 5px;
+	width: auto;
+	z-index: 100000; /* Above WP toolbar. */
+}
+
+/*--------------------------------------------------------------
+7.0 Alignments
+--------------------------------------------------------------*/
+.alignleft {
+	display: inline;
+	float: left;
+	margin-right: 1.5em;
+}
+
+.alignright {
+	display: inline;
+	float: right;
+	margin-left: 1.5em;
+}
+
+.aligncenter {
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*--------------------------------------------------------------
+8.0 Clearings
+--------------------------------------------------------------*/
+.clear:before,
+.clear:after,
+.entry-content:before,
+.entry-content:after,
+.comment-content:before,
+.comment-content:after,
+.site-header:before,
+.site-header:after,
+.site-content:before,
+.site-content:after,
+.site-footer:before,
+.site-footer:after {
+	content: "";
+	display: table;
+}
+
+.clear:after,
+.entry-content:after,
+.comment-content:after,
+.site-header:after,
+.site-content:after,
+.site-footer:after {
+	clear: both;
+}
+
+/*--------------------------------------------------------------
+9.0 Widgets
+--------------------------------------------------------------*/
+.widget {
+	margin: 0 0 1.5em;
+}
+
+/* Make sure select elements fit in widgets. */
+.widget select {
+	max-width: 100%;
+}
+
+/* Search widget. */
+.widget_search .search-submit {
+	display: none;
+}
+
+/*--------------------------------------------------------------
+10.0 Content
+--------------------------------------------------------------*/
+/*--------------------------------------------------------------
+10.1 Posts and pages
+--------------------------------------------------------------*/
+.sticky {
+	display: block;
+}
+
+.hentry {
+	margin: 0 0 1.5em;
+}
+
+.byline,
+.updated:not(.published) {
+	display: none;
+}
+
+.single .byline,
+.group-blog .byline {
+	display: inline;
+}
+
+.page-content,
+.entry-content,
+.entry-summary {
+	margin: 1.5em 0 0;
+}
+
+.page-links {
+	clear: both;
+	margin: 0 0 1.5em;
+}
+
+/*--------------------------------------------------------------
+10.2 Asides
+--------------------------------------------------------------*/
+.blog .format-aside .entry-title,
+.archive .format-aside .entry-title {
+	display: none;
+}
+
+/*--------------------------------------------------------------
+10.3 Comments
+--------------------------------------------------------------*/
+.comment-content a {
+	word-wrap: break-word;
+}
+
+.bypostauthor {
+	display: block;
+}
+
+/*--------------------------------------------------------------
+11.0 Infinite scroll
+--------------------------------------------------------------*/
+/* Globally hidden elements when Infinite Scroll is supported and in use. */
+.infinite-scroll .posts-navigation, /* Older / Newer Posts Navigation (always hidden) */
+.infinite-scroll.neverending .site-footer { /* Theme Footer (when set to scrolling) */
+	display: none;
+}
+
+/* When Infinite Scroll has reached its end we need to re-display elements that were hidden (via .neverending) before. */
+.infinity-end.neverending .site-footer {
+	display: block;
+}
+
+/*--------------------------------------------------------------
+12.0 Media
+--------------------------------------------------------------*/
+.page-content .wp-smiley,
+.entry-content .wp-smiley,
+.comment-content .wp-smiley {
+	border: none;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding: 0;
+}
+
+/* Make sure embeds and iframes fit their containers. */
+embed,
+iframe,
+object {
+	max-width: 100%;
+}
+
+/*--------------------------------------------------------------
+12.1 Captions
+--------------------------------------------------------------*/
+.wp-caption {
+	margin-bottom: 1.5em;
+	max-width: 100%;
+}
+
+.wp-caption img[class*="wp-image-"] {
+	display: block;
+	margin: 0 auto;
+}
+
+.wp-caption-text {
+	text-align: center;
+}
+
+.wp-caption .wp-caption-text {
+	margin: 0.8075em 0;
+}
+
+/*--------------------------------------------------------------
+12.2 Galleries
+--------------------------------------------------------------*/
+.gallery {
+	margin-bottom: 1.5em;
+}
+
+.gallery-item {
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+	width: 100%;
+}
+
+.gallery-columns-2 .gallery-item {
+	max-width: 50%;
+}
+
+.gallery-columns-3 .gallery-item {
+	max-width: 33.33%;
+}
+
+.gallery-columns-4 .gallery-item {
+	max-width: 25%;
+}
+
+.gallery-columns-5 .gallery-item {
+	max-width: 20%;
+}
+
+.gallery-columns-6 .gallery-item {
+	max-width: 16.66%;
+}
+
+.gallery-columns-7 .gallery-item {
+	max-width: 14.28%;
+}
+
+.gallery-columns-8 .gallery-item {
+	max-width: 12.5%;
+}
+
+.gallery-columns-9 .gallery-item {
+	max-width: 11.11%;
+}
+
+.gallery-caption {
+	display: block;
+}
+
+/*--------------------------------------------------------------
+13.0 Seniors Outdoors
+--------------------------------------------------------------*/
+
+h1, h2, h4 {
+	color: #563A56; /* dark purple */
+}
+
+h3 {
+	color: #9E6B9E; /* medium purple */
+}
+
+a.text-link {
+	color: #9E6B9E; /* medium purple */
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+a.text-link:hover {
+	color: #EDBB66; /*light purple */
+	text-decoration: underline;
+}
+
+.new-outing {
+	display: inline-block;
+	background-color: #EDBB66; /*light purple */
+	color: #222;
+	padding: 1px 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	border-radius: 5px;
+	font-size: .9em;
+}
+
+.page-content {
+	margin: 0;
+}
+
+header {
+	margin:0;
+}
+
+.site-branding {
+	position: relative;
+	width: 100%;
+	margin-top: 0.5rem;
+	padding-left: 2rem;
+}
+
+.site-branding img {
+	padding-right: 1rem;
+	margin-top: 1.5rem;
+}
+
+.site-branding p {
+	display: inline-block;
+	width: 200px;
+	font-family: 'Oswald', sans-serif; 
+	font-size: 3rem;
+	color: #563A56; /*dark purple */
+	font-weight: 400;
+	line-height: 1.1;
+	margin: 1rem 0;
+	-webkit-transition: color 5s ease-out;
+	-moz-transition: color 5s ease-out;
+	-o-transition: color 5s ease-out;
+	-ms-transition: color 5s ease-out;
+	transition: color 5s ease-out;
+}
+
+.site-branding p.tagline {
+	position: absolute;
+	display: inline-block;
+	font-size: 1rem;
+	width: 20rem;
+	text-align: right;
+	right: 3rem;
+	top: 4rem;
+}
+
+.site-branding p.tagline span {
+	font-size: 2rem;
+}
+
+.site-branding:hover p {
+	color: #B26C6F;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.site-branding {
+	float: left;
+}
+
+.site-branding a, .site-branding a:visited {
+	text-decoration: none;
+}
+
+/* Footer */
+.copyright {
+	display: block;
+	width: 25%;
+	text-align: center;
+	margin: 0 auto;
+	padding-top: 2rem;
+	font-size: .8rem;
+	clear: both;
+}
+/* End Footer section */
+
+
+
+/* Color definitions */
+
+.purple-dark {
+	color: #563A56; /* dark purple */
+}
+
+.purple-medium {
+	color: #9E6B9E; /* medium purple */
+}
+
+.purple-light {
+	color: #EDBB66; /* light purple */
+}
+
+.yellow-tan-light {
+	color: #F4EBDC; /* light yellow-tan */
+}
+
+.yellow-tan-dark {
+	color: #F7E0AA;  /* dark yellow-tan */
+}
+
+
+/*** Styling of home page ***/
+
+/* Home Page - Image Slider */
+
+#image-slider {
+	position: absolute;
+	top: 213px;
+	height: 266px;
+	margin: 1px 0;
+	width: 100%;
+	overflow: hidden;
+}
+
+#image-slider div {
+	position: absolute;
+	left: 150%;
+}
+
+.slides {
+	position: relative;
+	height: 240px;
+	margin-top: -2rem;
+	padding: 3px;
+	list-style: none;
+	margin: 0;
+	object-fit: cover;
+	object-position: 0 0;
+	overflow: hidden;
+}
+
+.main-content {
+	max-width: 1080px;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.main-content h3 a {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.main-content a:hover {
+	color: #EDBB66; /*light purple */
+	text-decoration: underline;
+}
+
+.slider-caption {
+	float: right;
+	margin-top: 15rem;
+	margin-right: 2rem;
+	font-size: 0.9rem;
+	font-style: italic;
+}
+
+
+/* Home Page - Events List View Section */
+.list-view {
+	width: 50%;
+	float: left;
+}
+
+.list-view h2 {
+	margin-bottom: 0;
+}
+
+h3.event-title {
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.list-view p {
+	margin-top: 0;
+}
+
+div.events-list {
+	padding: 1rem 0;
+	border-bottom: 1px solid #EDBB66; /*light purple */
+}
+
+div.events-list:last-of-type {
+	border-bottom: none;
+}
+
+div.events-list p:nth-of-type(2) {
+	margin-bottom: 0;
+}
+
+
+/* Home Page - Announcement Section */
+
+.announcement {
+	margin: 17rem auto 2rem;
+	width: 40rem;
+	border: 3px solid #9E6B9E; /* medium purple */
+	background-color: #F4EBDC; /*light yellow-tan */;
+	padding: 1rem;
+}
+
+.announcement h3 {
+	color: #563A56; /*dark purple */
+	padding-top: 0;
+	margin-top: 0;
+	text-align: center;
+}
+
+.announcement p {
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+
+.announcement a {
+	margin-top: 1em;
+}
+
+
+/*End Announcement Section */
+
+/* Home Page - Featured Section */
+
+.featured {
+	width: 50%;
+	float: right;
+	padding: 0 1rem 0 7rem;
+	color: #222;
+}
+
+.featured-event-details, .event-changes {
+	padding-left: 1.5rem;
+}
+
+.featured h2 {
+	border-bottom: 1px solid #EDBB66; /*light purple */
+	margin-top: 2rem;
+	margin-bottom: 0;
+	padding-bottom: 0.5rem;
+	font-size: 1.5em;
+}
+
+.featured h3 {
+	padding-top: 0.5rem;
+}
+
+.featured p {
+	margin-top: 0;
+}
+
+.event-changes h3 {
+	margin-top: 0;
+	margin-bottom: 0.5em;
+}
+
+.event-changes h4 {
+	margin: 0 0 0 1em;
+}
+
+.event-changes p {
+	margin-top: 0;
+	margin-left: 1em;
+	font-size: 0.9em;
+}
+
+.single-space {
+	margin-bottom: 0;
+}
+
+/* End Featured Section */
+
+/* End Home Page Section*/
+
+
+
+/* Single Events Page Styling */
+
+.single-tribe_events .entry-title  {
+	font-size: 1.5rem;
+	width: 60%;
+}
+
+.single-tribe_events .field-label {
+	display: block;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+.single-tribe_events dt.field-label {
+	margin-right: 8px;
+}
+
+.entry-header {
+	display: none;
+}
+
+.main-content {
+	padding-bottom: .5rem;
+}
+
+.event-details {
+	margin-bottom: 2rem;
+}
+
+#tribe-events-footer {
+	padding: 0;
+}
+
+#tribe-events-footer .tribe-events-sub-nav li {
+	display: block;
+	width: inherit;
+}
+
+#tribe-events-footer .tribe-events-sub-nav li.tribe-events-nav-previous, #tribe-events-header .tribe-events-sub-nav li.tribe-events-nav-previous {
+	float: left;
+}
+
+#tribe-events-footer .tribe-events-sub-nav li.tribe-events-nav-next, #tribe-events-header .tribe-events-sub-nav li.tribe-events-nav-next {
+	float: right;
+}
+
+#tribe-events-header .tribe-events-sub-nav .tribe-events-nav-next a, #tribe-events-header .tribe-events-sub-nav li {
+    display: inline-block; 
+}
+
+#tribe-events-content .register-button {
+	position: absolute;
+	right: 2rem;
+	top: 3rem;
+	padding: .5rem;
+	background-color: #F7E0AA;  /* dark yellow-tan */
+	border: 1px solid #999;
+	border-radius: 5px;
+	font-size: 1.2rem;
+	color: #563A56; /*dark purple */
+	text-decoration: none;
+	-webkit-box-shadow: 3px 3px 3px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+	-moz-box-shadow:    3px 3px 3px #ccc;  /* Firefox 3.5 - 3.6 */
+	box-shadow:         3px 3px 3px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+
+#tribe-events-content .register-button:hover {
+	background-color: #EDBB66; /*light purple */
+	color: #563A56; /*dark purple */
+	text-decoration: none;
+}
+
+#tribe-events-content .register-button:active {
+	-webkit-box-shadow: inset 3px 3px 3px #999;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+	-moz-box-shadow:    inset 3px 3px 3px #999;  /* Firefox 3.5 - 3.6 */
+	box-shadow:         inset 3px 3px 3px #999;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+
+
+.non-members-only {
+	color: #222;
+	font-size: 1rem;
+}
+
+.single-tribe_events a:visited {
+    color: white;
+}
+
+.single-tribe_events a:hover {
+	color: #563A56; /*dark purple */
+}
+
+.entry-content {
+	max-width: 1080px;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.entry-content .main-content {
+	width: 100%;
+}
+
+.updated.published.time-details {
+	font-size: 1.25rem;
+}
+
+.tribe-events-single-event-description.tribe-events-content.entry-content.description p {
+	width: 60%;
+}
+
+/*End Single Events page section */
+
+
+
+/* Calendar page section */
+
+#tribe-events-content table.tribe-events-calendar {
+	width: 90%;
+	margin: 12px auto .6em;
+}
+
+.tribe-events-calendar thead th {
+	background-color: #F7E0AA;  /* dark yellow-tan */
+	border: 1px solid #EDBB66; /*light purple */
+	line-height: 1;
+	color: #333;
+}
+
+#tribe-events-header {
+	width: 90%;
+	margin: 0 auto;
+}
+
+a.printable-list {
+	display: block;
+	padding-top: 10px;
+	text-align: right;
+}
+
+#tribe-events-footer {
+	width: 90%;
+	margin: 0 auto;
+
+}
+
+.tribe-events-calendar td.tribe-events-present div[id*=tribe-events-daynum-] {
+	background-color: #563A56; /*dark purple */
+}
+
+#tribe-events-content a {
+	text-decoration: underline;
+}
+
+#tribe-events-content .tribe-events-sub-nav a,
+#tribe-events-content .register-button a {
+	text-decoration: none;
+}
+
+
+
+#tribe-events-content a:hover {
+	color: #EDBB66; /*light purple */
+	text-decoration: underline;
+}
+
+#tribe-events-content .register-button a:hover {
+	color: #9E6B9E; /* medium purple */
+}
+
+#tribe-events-content .tribe-events-tooltip h4 { 
+	color: #563A56; /*dark purple */
+}
+
+#tribe-events-content .tribe-events-nav-next a, #tribe-events-content .tribe-events-nav-previous a {
+	color: #563A56; /*dark purple */
+}
+
+#tribe-events-content .tribe-events-nav-next a:hover, #tribe-events-content .tribe-events-nav-previous a:hover {
+	color: #EDBB66;
+}
+
+/* End of Calendar page section */
+
+/* Membership Page */
+
+.so-table {
+	width: 36em;
+}
+
+
+.so-table tr {
+	border-top: 1px solid #563A56; /*dark purple */
+}
+
+.so-table tr:last-of-type {
+	border-bottom: 1px solid #563A56; /*dark purple */
+}
+
+.so-table tr:first-of-type {
+	background-color: #F7E0AA;  /* dark yellow-tan */
+}
+
+.so-table td {
+	padding: 0 0.5em;
+}
+
+.so-table.board {
+	width: 60em;
+}
+
+.so-table.other {
+	width: 60em;
+}
+
+.so-table.subgroups {
+	width: 60em;
+}
+
+.so-table.board tr:nth-of-type(3) {
+	border-top: none;
+}
+
+
+.so-table.other tr:nth-of-type(5) {
+	border-top: none;
+}
+
+.so-table.subgroups tr:nth-of-type(4) {
+	border-top: none;
+}
+
+/* End of Membership page */
+
+
+/* Printable List page */
+
+.events-list {
+	margin-right: 1em;
+}
+
+.events-list h1 {
+	text-align: center;
+}
+
+#printable-table {
+	table-layout: fixed;
+	width: 80%;
+	margin: 0 auto;
+	font-size: .9em;
+}
+
+#printable-table td, #printable-table th {
+	border: 1px solid #333;
+	padding: 0.5em;
+	vertical-align: top;
+}
+
+#printable-table tr.featured-event td {
+	background-color: #F4EBDC; /*light yellow-tan */;
+}
+
+#printable-table th {
+	text-align: left;
+}
+
+#printable-table td {
+  overflow: hidden;
+}
+
+#printable-table h4, #printable-table p {
+	margin: 0;
+}
+
+#printable-table h4 {
+	font-size: 1.1em;
+}
+
+.printable-table-wrapper p {
+	margin-left: 10%;
+}
+
+.date-loc {
+	width: 15%;
+}
+
+.outing-desc {
+	width: 70%;
+}
+
+.difficulty {
+	width: 15%;
+}
+
+p.changed {
+	text-transform: uppercase;
+	color: red;
+	font-weight: bold;
+}
+
+/* End of Printable List page */
+
+
+
+
+/* Global stuff */
+
+/* Generated by Font Squirrel (http://www.fontsquirrel.com) on May 6, 2015 */
+
+
+.visually-hidden, .tribe-events-visuallyhidden, .tribe-events-ical {
+	border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+
+/* Media queries & responsive code */
+
+@media screen and (max-width: 768px) {
+	.tribe-events-sub-nav li a {
+ 		background-color: white;
+
+	}
+
+	#image-slider {
+		top: 15rem;
+	}
+	
+	.main-content {
+		margin-left: 0;
+	}
+
+	.site-branding {
+		float: none;
+		margin: 0 auto;
+	}
+
+	.site-branding p.tagline {
+		display: none;
+	}
+
+	.featured, .list-view {
+		float: none;
+	}
+
+	.featured {
+		width: 100%;
+		padding-left: 0;
+		margin-top: 19rem;
+	}
+
+	.list-view {
+		width: 100%;
+		padding-right: 0;
+		padding-left: 1.5rem;
+		margin-top: 2rem;
+	}
+}
+
+/*Ultimate Members customizations */
+	.um-profile-nav {
+		display: none;
+	}

@@ -111,15 +111,15 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 	 */
 	public function index() {
 
-		PMXI_Plugin::$session->clean_session();
+		$action = $this->input->get('action');
 		
 		$this->data['reimported_import'] = $import = new PMXI_Import_Record();
 		$this->data['id'] = $id = $this->input->get('id');
 		$this->data['parent_import'] = $parent_import = $this->input->get('parent_import', 0);		
 		$parent_import_record = new PMXI_Import_Record();
 
-		$default = array(
-			'type' => 'upload',			
+		$DefaultOptions = array(
+			'type' => '',			
 			'wizard_type' => 'new',
 			'custom_type' => 'post',
 			'show_hidden_cpt' => 0,
@@ -135,11 +135,11 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			'root_element' => '',
 			'downloaded' => '',
 			'auto_generate' => 0,
-			'template' => false
+			'template' => false			
 		);
 
 		if ($parent_import and ! $parent_import_record->getById($parent_import)->isEmpty()){
-			$default['custom_type'] = $parent_import_record->options['custom_type'];
+			$DefaultOptions['custom_type'] = $parent_import_record->options['custom_type'];
 		}
 
 		if ($id) { // update requested but corresponding import is not found
@@ -157,11 +157,20 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 
 			}
 			else{
-				$default['custom_type'] = $import->options['custom_type'];	
+				$DefaultOptions['custom_type'] = $import->options['custom_type'];	
 			}
 		}			
+
+		if ( ! in_array($action, array('index')))
+		{
+			PMXI_Plugin::$session->clean_session();				
+		}		 
+		else
+		{			
+			$DefaultOptions = (PMXI_Plugin::$session->has_session() ? PMXI_Plugin::$session->first_step : array()) + $DefaultOptions;											
+		}
 		
-		$this->data['post'] = $post = $this->input->post( $default );			
+		$this->data['post'] = $post = $this->input->post( $DefaultOptions );					
 		
 		if ( ! class_exists('DOMDocument') or ! class_exists('XMLReader') ) {
 			$this->errors->add('form-validation', __('Required PHP components are missing.<br/><br/>WP All Import requires DOMDocument, XMLReader, and XMLWriter PHP modules to be installed.<br/>These are standard features of PHP, and are necessary for WP All Import to read the files you are trying to import.<br/>Please contact your web hosting provider and ask them to install and activate the DOMDocument, XMLReader, and XMLWriter PHP modules.', 'wp_all_import_plugin'));						
@@ -219,7 +228,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 							$post['root_element'] = $upload_result['root_element'];
 						$post['feed_type'] = $upload_result['feed_type'];
 					}	
-				}			
+				}							
 			} 
 			elseif ('file' == $this->input->post('type')) {
 						
@@ -302,16 +311,28 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 					break;
 			}
 
-			$local_paths = !empty($local_paths) ? $local_paths : array($filePath);
-			
+			$local_paths = !empty($local_paths) ? $local_paths : array($filePath);					
+
+			// if ( 'file' == $this->input->post('type') ){
+
+			// 	$root_element = wp_all_import_get_reader_engine( $local_paths, $post );	
+
+			// 	if ( empty($post['root_element']) and ! empty($root_element)) 
+			// 	{
+			// 		$post['root_element'] = $root_element;
+			// 	}				
+			// }
+						
 			foreach ($local_paths as $key => $path) {						
 													
 				if ( @file_exists($path) ){
 					
-					$file = new PMXI_Chunk($path, array('element' => $post['root_element'], 'get_cloud' => true));								
+					$file = new PMXI_Chunk($path, array('element' => $post['root_element'], 'get_cloud' => true));
 
 					if ( ! empty($file->options['element']) ) {						
+						
 						$xpath = "/" . $file->options['element'];
+
 						$elements_cloud = $file->cloud;								
 
 						if ( ! empty($elements_cloud) and class_exists('PMXE_Plugin') and ! $importRecord->isEmpty() ){
@@ -390,7 +411,8 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 					'action' => 'import',
 					'elements_cloud' => (!empty($elements_cloud)) ? $elements_cloud : array(),
 					'pointer' => 1,
-					'deligate' => $deligate					
+					'deligate' => $deligate,
+					'first_step' => $post					
 				);		
 				
 				// apply options from WP All Export bundle
@@ -912,7 +934,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			    while ($xml = $file->read()) {					      	
 
 			    	if ( ! empty($xml) )
-			      	{			
+			      	{						      		
 			      		//PMXI_Import_Record::preprocessXml($xml);	      						      							      					      						      	
 			      		$xml = "<?xml version=\"1.0\" encoding=\"". $post['import_encoding'] ."\"?>" . "\n" . $xml;			
 			      		
@@ -952,7 +974,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			$functions = $wp_uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_IMPORT_UPLOADS_BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'functions.php';
 			if ( @file_exists($functions) )
 				require_once $functions;
-			
+
 			// validate
 			try {
 				if (empty($xml)){
@@ -1430,22 +1452,27 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 		
 		if ($this->isWizard) {			
 			$this->data['source_type'] = PMXI_Plugin::$session->source['type'];
-			$DefaultOptions = (isset(PMXI_Plugin::$session->options) ? PMXI_Plugin::$session->options : array()) + $default;
+			
 			foreach (PMXI_Admin_Addons::get_active_addons() as $class) {
-				if (class_exists($class)) $DefaultOptions += call_user_func(array($class, "get_default_import_options"));			
+				if (class_exists($class)) $default += call_user_func(array($class, "get_default_import_options"));			
 			}
-			$DefaultOptions['wizard_type'] = PMXI_Plugin::$session->wizard_type;
-			$DefaultOptions['custom_type'] = PMXI_Plugin::$session->custom_type;
-			$DefaultOptions['delimiter'] = PMXI_Plugin::$session->is_csv;
+			$default['wizard_type'] = PMXI_Plugin::$session->wizard_type;
+			if (empty($default['custom_type'])) $default['custom_type'] = PMXI_Plugin::$session->custom_type;			
+			if (empty($default['delimiter']))   $default['delimiter']   = PMXI_Plugin::$session->is_csv;						
+
+			$DefaultOptions = (isset(PMXI_Plugin::$session->options)) ? array_replace_recursive($default, PMXI_Plugin::$session->options) : $default;												
+
 			$post = $this->input->post( apply_filters('pmxi_options_options', $DefaultOptions, $this->isWizard) );
 			
 		} else {	
 			$this->data['source_type'] = $this->data['import']->type;	
-			$DefaultOptions = (is_array($this->data['import']->options)) ? $this->data['import']->options + $default : $default;
-			foreach (PMXI_Admin_Addons::get_active_addons() as $class) {							
-				if (class_exists($class)) $DefaultOptions += call_user_func(array($class, "get_default_import_options"));			
-			}			
 
+			foreach (PMXI_Admin_Addons::get_active_addons() as $class) {
+				if (class_exists($class)) $default += call_user_func(array($class, "get_default_import_options"));			
+			}
+
+			$DefaultOptions = (is_array($this->data['import']->options)) ? array_replace_recursive($default, $this->data['import']->options) : $default;									
+			
 			$source = array(
 				'name' => $this->data['import']->name,
 				'type' => $this->data['import']->type,						
@@ -1454,10 +1481,17 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			);
 
 			PMXI_Plugin::$session->set('source', $source);						
+			
+			$post = $this->input->post( apply_filters('pmxi_options_options', $DefaultOptions, $this->isWizard) );
 
-			$post = $this->input->post( apply_filters( 'pmxi_options_options', $DefaultOptions, $this->isWizard) );	
+		}				
 
-		}						
+		$max_input_vars = @ini_get('max_input_vars');			
+
+		if(ctype_digit($max_input_vars) && count($_POST, COUNT_RECURSIVE) >= $max_input_vars)	
+		{
+			$this->errors->add('form-validation', sprintf(__('You\'ve reached your max_input_vars limit of %d. Please increase this.', 'wp_all_export_plugin'), $max_input_vars));				
+		}		
 
 		$this->data['post'] =& $post;					
 		
@@ -1494,14 +1528,14 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			if (!empty($post['title'])) {			
 				$this->_validate_template($post['title'], 'Post title');
 			}
-			else{
+			elseif ($post['custom_type'] != 'shop_order'){
 				$this->warnings->add('1', __('<strong>Warning:</strong> your title is blank.', 'wp_all_import_plugin'));
 			}
 
 			if (!empty($post['content'])) {				
 				$this->_validate_template($post['content'], 'Post content');
 			}
-			else{
+			elseif ($post['custom_type'] != 'shop_order'){
 				$this->warnings->add('2', __('<strong>Warning:</strong> your content is blank.', 'wp_all_import_plugin'));
 			}
 			
@@ -1710,12 +1744,14 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 		
 		if ($this->isWizard) {			
 			$this->data['source_type'] = PMXI_Plugin::$session->source['type'];	
-			
-			$DefaultOptions = (isset(PMXI_Plugin::$session->options) ? PMXI_Plugin::$session->options : array()) + $default;
+						
 			foreach (PMXI_Admin_Addons::get_active_addons() as $class) {
-				if (class_exists($class)) $DefaultOptions += call_user_func(array($class, "get_default_import_options"));			
-			}
-			if (PMXI_Plugin::$session->options['custom_type'] != 'import_users'){
+				if (class_exists($class)) $default += call_user_func(array($class, "get_default_import_options"));			
+			}	
+
+			$DefaultOptions = array_replace_recursive($default, (isset(PMXI_Plugin::$session->options) ? PMXI_Plugin::$session->options : array()));
+
+			if ( ! in_array(PMXI_Plugin::$session->options['custom_type'], array('import_users', 'shop_order')) ){
 				if (empty(PMXI_Plugin::$session->options['title']))
 					$this->warnings->add('form-validation', __('<strong>Warning:</strong> your title is blank.'));
 				if (empty(PMXI_Plugin::$session->options['content']))
@@ -1763,13 +1799,20 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 				$DefaultOptions['custom_duplicate_name'] = '_sku';
 			}
 
-			$post = $this->input->post( $DefaultOptions );			
-		} else {
-			$this->data['source_type'] = $this->data['import']->type;	
-			$DefaultOptions = (is_array($this->data['import']->options)) ? $this->data['import']->options + $default : $default;
+			$DefaultOptions['wizard_type'] = PMXI_Plugin::$session->wizard_type;
+			if (empty($DefaultOptions['custom_type'])) $DefaultOptions['custom_type'] = PMXI_Plugin::$session->custom_type;			
+			if (empty($DefaultOptions['delimiter']))   $DefaultOptions['delimiter']   = PMXI_Plugin::$session->is_csv;			
+			
+			$post = $this->input->post( $DefaultOptions );
+			
+		} else {		
+
+			$this->data['source_type'] = $this->data['import']->type;				
 			foreach (PMXI_Admin_Addons::get_active_addons() as $class) {
-				if (class_exists($class)) $DefaultOptions += call_user_func(array($class, "get_default_import_options"));			
+				if (class_exists($class)) $default += call_user_func(array($class, "get_default_import_options"));			
 			}
+
+			$DefaultOptions = (is_array($this->data['import']->options)) ? array_replace_recursive($default, $this->data['import']->options) : $default;
 
 			$source = array(
 				'name' => $this->data['import']->name,
@@ -1779,8 +1822,8 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			);
 
 			PMXI_Plugin::$session->set('source', $source);
-
-			$post = $this->input->post( $DefaultOptions );	
+			
+			$post = $this->input->post( $DefaultOptions );
 
 		}				
 
@@ -2220,7 +2263,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			if (class_exists($class)) $DefaultOptions += call_user_func(array($class, "get_default_import_options"));			
 		}		
 
-		if ($this->isWizard and PMXI_Plugin::$session->options['custom_type'] != 'import_users'){
+		if ($this->isWizard and ! in_array(PMXI_Plugin::$session->options['custom_type'], array('import_users', 'shop_order'))){
 			if (empty(PMXI_Plugin::$session->options['title']))
 				$this->warnings->add('form-validation', __('<strong>Warning:</strong> your title is blank.'));
 			if (empty(PMXI_Plugin::$session->options['content']))
@@ -2267,8 +2310,8 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 
 		$log_storage = (int) PMXI_Plugin::getInstance()->getOption('log_storage');				
 
-		if ( ! PMXI_Plugin::is_ajax() ) {			
-			
+		if ( ! PMXI_Plugin::is_ajax() ) {						
+
 			$import->set(
 				(empty(PMXI_Plugin::$session->source) ? array() : PMXI_Plugin::$session->source)
 				+ array(
@@ -2423,7 +2466,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 						}						
 					}
 					PMXI_Plugin::$session->set('local_paths', $chunk_files);
-				}								
+				}
 			}
 
 			PMXI_Plugin::$session->save_data();
@@ -2476,6 +2519,9 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 		PMXI_Plugin::$session->set('start_time', (empty(PMXI_Plugin::$session->start_time)) ? time() : PMXI_Plugin::$session->start_time);
 
 		wp_cache_flush();
+
+		wp_defer_term_counting(true);
+		wp_defer_comment_counting(true);
 
 		if ( PMXI_Plugin::is_ajax() or ! $ajax_processing ) {	
 			
@@ -2580,7 +2626,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 									PMXI_Plugin::$session->set('chunk_number', PMXI_Plugin::$session->chunk_number + $elements->length);
 									PMXI_Plugin::$session->save_data();
 									continue;
-								}									
+								}																
 
 								if ( ! $loop and $ajax_processing ) ob_start();								
 
@@ -2624,7 +2670,8 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 										wp_send_json(array(
 											'imported' => $import->imported,
 											'created' => $import->created,
-											'updated' => $import->updated,										
+											'updated' => $import->updated,			
+											'skipped' => $import->skipped,							
 											'percentage' => ceil(($processed_records/$import->count) * 100),
 											'warnings' => PMXI_Plugin::$session->warnings,
 											'errors' => PMXI_Plugin::$session->errors,
@@ -2679,6 +2726,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 					'imported' => $import->imported,
 					'created' => $import->created,
 					'updated' => $import->updated,		
+					'skipped' => $import->skipped,
 					'deleted' => $import->deleted,								
 					'percentage' => 99,
 					'warnings' => PMXI_Plugin::$session->warnings,
@@ -2692,8 +2740,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 		}		
 		
 		if ( ( PMXI_Plugin::is_ajax() and empty(PMXI_Plugin::$session->local_paths) ) or ! $ajax_processing or ! empty($import->canceled) ) {
-			
-			$import->delete_source( $logger );
+						
 			$import->set(array(
 				'processing' => 0, // unlock cron requests	
 				'triggered' => 0,
@@ -2723,7 +2770,10 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			$import->set(array(
 				'registered_on' => date('Y-m-d H:i:s'),
 				'executing' => 0
-			))->update();					
+			))->update();		
+
+			wp_defer_term_counting(false);
+			wp_defer_comment_counting(false);			
 
 			// add history log			
 			$custom_type = get_post_type_object( $import->options['custom_type'] );			
@@ -2742,6 +2792,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 
 			do_action( 'pmxi_after_xml_import', $import->id );
 
+			$import->delete_source( $logger );
 			$import->options['is_import_specified'] and $logger and call_user_func($logger, 'Done');	
 
 echo <<<COMPLETE
@@ -2761,7 +2812,8 @@ COMPLETE;
 				wp_send_json(array(
 					'imported' => $import->imported,
 					'created' => $import->created,
-					'updated' => $import->updated,				
+					'updated' => $import->updated,	
+					'skipped' => $import->skipped,			
 					'percentage' => 100,
 					'warnings' => PMXI_Plugin::$session->warnings,
 					'errors' => PMXI_Plugin::$session->errors,
@@ -2841,5 +2893,5 @@ COMPLETE;
 			}			
 		}					
 		return $xml;
-	}
+	}	
 }

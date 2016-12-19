@@ -143,18 +143,19 @@ class BWGViewAlbum_compact_preview {
       $params['watermark_url'] = urlencode($options_row->watermark_url);
       $params['watermark_width'] = $options_row->watermark_width;
       $params['watermark_height'] = $options_row->watermark_height;
+      $params['popup_effect_duration'] = isset($options_row->popup_effect_duration) ? $options_row->popup_effect_duration : 1;
     }
 
     $theme_row = $this->model->get_theme_row_data($params['theme_id']);
     if (!$theme_row) {
-      echo WDWLibrary::message(__('There is no theme selected or the theme was deleted.', 'bwg'), 'error');
+      echo WDWLibrary::message(__('There is no theme selected or the theme was deleted.', 'bwg'), 'wd_error');
       return;
     }
     $album_gallery_id = (isset($_REQUEST['album_gallery_id_' . $bwg]) ? esc_html($_REQUEST['album_gallery_id_' . $bwg]) : $params['album_id']);
     $album_row_data = $this->model->get_album_row_data($album_gallery_id);
 
     if (!$album_gallery_id || ($type == 'album' && !$album_row_data)) {
-      echo WDWLibrary::message(__('There is no album selected or the album was deleted.', 'bwg'), 'error');
+      echo WDWLibrary::message(__('There is no album selected or the album was deleted.', 'bwg'), 'wd_error');
       return;
     }
     if ($type == 'gallery') {
@@ -176,7 +177,7 @@ class BWGViewAlbum_compact_preview {
       $image_rows = $this->model->get_image_rows_data($album_gallery_id, $items_per_page, $params['sort_by'], $bwg, $sort_direction);
       $images_count = count($image_rows);
       if (!$image_rows) {
-        echo WDWLibrary::message(__('There are no images in this gallery.', 'bwg'), 'error');
+        echo WDWLibrary::message(__('There are no images in this gallery.', 'bwg'), 'wd_error');
       }
       $page_nav = $this->model->gallery_page_nav($album_gallery_id, $bwg);
       $album_gallery_div_id = 'bwg_album_compact_' . $bwg;
@@ -186,9 +187,10 @@ class BWGViewAlbum_compact_preview {
       $items_per_page = $params['compuct_albums_per_page'];
       $items_per_page_arr = array('images_per_page' => $params['compuct_albums_per_page'], 'load_more_image_count' => $params['compuct_albums_per_page']);
       $items_col_num = $params['compuct_album_column_number'];
-      $album_galleries_row = $this->model->get_alb_gals_row($album_gallery_id, $items_per_page, 'order', $bwg, ' ASC ');
+      $sort_by = $from === "widget" && $params['show'] == 'random' ? 'RAND()' : 'order';
+      $album_galleries_row = $this->model->get_alb_gals_row($album_gallery_id, $items_per_page, $sort_by, $bwg, ' ASC ');
       if (!$album_galleries_row) {
-        echo WDWLibrary::message(__('There is no album selected or the album was deleted.', 'bwg'), 'error');
+        echo WDWLibrary::message(__('There is no album selected or the album was deleted.', 'bwg'), 'wd_error');
         return;
       }
       $page_nav = $this->model->album_page_nav($album_gallery_id, $bwg);
@@ -249,7 +251,8 @@ class BWGViewAlbum_compact_preview {
       'enable_image_google' => $params['popup_enable_google'],
       'enable_image_pinterest' => $params['popup_enable_pinterest'],
       'enable_image_tumblr' => $params['popup_enable_tumblr'],
-      'watermark_type' => $params['watermark_type']
+      'watermark_type' => $params['watermark_type'],
+      'slideshow_effect_duration' => isset($params['popup_effect_duration']) ? $params['popup_effect_duration'] : 1
     );
     if ($params['watermark_type'] != 'none') {
       $params_array['watermark_link'] = urlencode($params['watermark_link']);
@@ -269,6 +272,7 @@ class BWGViewAlbum_compact_preview {
     }
     $params_array_hash = $params_array;
     $tags_rows = $this->model->get_tags_rows_data($album_gallery_id);
+    $image_right_click = $options_row->image_right_click;
     ?>	
     <style>
       #bwg_container1_<?php echo $bwg; ?> #bwg_container2_<?php echo $bwg; ?> .bwg_album_thumb_<?php echo $bwg; ?> {
@@ -586,7 +590,7 @@ class BWGViewAlbum_compact_preview {
             <div id="ajax_loading_<?php echo $bwg; ?>" style="position:absolute;width: 100%; z-index: 115; text-align: center; height: 100%; vertical-align: middle; display: none;">
               <div style="display: table; vertical-align: middle; width: 100%; height: 100%; background-color: #FFFFFF; opacity: 0.7; filter: Alpha(opacity=70);">
                 <div style="display: table-cell; text-align: center; position: relative; vertical-align: middle;" >
-                  <div id="loading_div_<?php echo $bwg; ?>" class="spider_ajax_loading" style="display: inline-block; text-align:center; position:relative; vertical-align:middle; background-image:url(<?php echo WD_BWG_URL . '/images/ajax_loader.png'; ?>); float: none; width:50px;height:50px;background-size:50px 50px;">
+                  <div id="loading_div_<?php echo $bwg; ?>" class="bwg_spider_ajax_loading" style="display: inline-block; text-align:center; position:relative; vertical-align:middle; background-image:url(<?php echo WD_BWG_URL . '/images/ajax_loader.gif'; ?>); float: none; width:30px;height:30px;background-size:30px 30px;">
                   </div>
                 </div>
               </div>
@@ -688,7 +692,7 @@ class BWGViewAlbum_compact_preview {
                   }
                   if ($type != 'gallery') {
                     ?>
-                    <a class="bwg_album_<?php echo $bwg; ?>" <?php echo ($from !== "widget" ? ($options_row->enable_seo ? "href='" . add_query_arg(array("type_" . $bwg => $def_type, "album_gallery_id_" . $bwg => $album_galallery_row->alb_gal_id, "bwg_previous_album_id_" . $bwg => $album_gallery_id . ',' . $bwg_previous_album_id , "bwg_previous_album_page_number_" . $bwg => (isset($_REQUEST['page_number_' . $bwg]) ? esc_html($_REQUEST['page_number_' . $bwg]) : 0) . ',' . $bwg_previous_album_page_number), $_SERVER['REQUEST_URI']) . "'" : "") . " data-alb_gal_id=\"" . $album_galallery_row->alb_gal_id . "\" data-def_type=\"" . $def_type . "\" data-title=\"" . htmlspecialchars(addslashes($title)) . "\"" : "href='" . $permalink . "'") ?>>
+                    <a class="bwg_album_<?php echo $bwg; ?>" <?php echo ($from !== "widget" ? ($options_row->enable_seo ? "href='" . esc_url(add_query_arg(array("type_" . $bwg => $def_type, "album_gallery_id_" . $bwg => $album_galallery_row->alb_gal_id, "bwg_previous_album_id_" . $bwg => $album_gallery_id . ',' . $bwg_previous_album_id , "bwg_previous_album_page_number_" . $bwg => (isset($_REQUEST['page_number_' . $bwg]) ? esc_html($_REQUEST['page_number_' . $bwg]) : 0) . ',' . $bwg_previous_album_page_number), $_SERVER['REQUEST_URI'])) . "'" : "") . " data-alb_gal_id=\"" . $album_galallery_row->alb_gal_id . "\" data-def_type=\"" . $def_type . "\" data-title=\"" . htmlspecialchars(addslashes($title)) . "\"" : "href='" . $permalink . "'") ?>>
                       <span class="bwg_album_thumb_<?php echo $bwg; ?>">
                         <?php
                         if ($params['compuct_album_title'] == 'show' && $theme_row->album_compact_thumb_title_pos == 'top') {
@@ -748,24 +752,32 @@ class BWGViewAlbum_compact_preview {
                   }
                 }
                 foreach ($image_rows as $image_row) {
-                  $is_embed = preg_match('/EMBED/',$image_row->filetype)==1 ? true :false;
-                  $is_embed_video = preg_match('/VIDEO/',$image_row->filetype)==1 ? true :false;
+                  $is_embed = preg_match('/EMBED/', $image_row->filetype) == 1 ? true : false;
+                  $is_embed_video = preg_match('/VIDEO/', $image_row->filetype) == 1 ? true : false;
+                  $is_embed_instagram = preg_match('/EMBED_OEMBED_INSTAGRAM/', $image_row->filetype) == 1 ? true : false;
                   if (!$is_embed) {
                     list($image_thumb_width, $image_thumb_height) = getimagesize(htmlspecialchars_decode(ABSPATH . $WD_BWG_UPLOAD_DIR . $image_row->thumb_url, ENT_COMPAT | ENT_QUOTES));
                   }
                   else {
                     if ($image_row->resolution != '') {
-                      $resolution_arr = explode(" ",$image_row->resolution);
-                      $resolution_w = intval($resolution_arr[0]);
-                      $resolution_h = intval($resolution_arr[2]);
-                      if($resolution_w != 0 && $resolution_h != 0){
-                        $scale = $scale = max($params['compuct_album_image_thumb_width'] / $resolution_w, $params['compuct_album_image_thumb_height'] / $resolution_h);
-                        $image_thumb_width = $resolution_w * $scale;
-                        $image_thumb_height = $resolution_h * $scale;
+                      if (!$is_embed_instagram) {
+                        $resolution_arr = explode(" ", $image_row->resolution);
+                        $resolution_w = intval($resolution_arr[0]);
+                        $resolution_h = intval($resolution_arr[2]);
+                        if($resolution_w != 0 && $resolution_h != 0){
+                          $scale = $scale = max($params['compuct_album_image_thumb_width'] / $resolution_w, $params['compuct_album_image_thumb_height'] / $resolution_h);
+                          $image_thumb_width = $resolution_w * $scale;
+                          $image_thumb_height = $resolution_h * $scale;
+                        }
+                        else{
+                          $image_thumb_width = $params['compuct_album_image_thumb_width'];
+                          $image_thumb_height = $params['compuct_album_image_thumb_height'];
+                        }
                       }
-                      else{
-                      $image_thumb_width = $params['compuct_album_image_thumb_width'];
-                      $image_thumb_height = $params['compuct_album_image_thumb_height'];
+                      else {
+                        // this will be ok while instagram thumbnails width and height are the same
+                        $image_thumb_width = min($params['compuct_album_image_thumb_width'], $params['compuct_album_image_thumb_height']);
+                        $image_thumb_height = $image_thumb_width;
                       }
                     }
                     else{
@@ -841,7 +853,7 @@ class BWGViewAlbum_compact_preview {
             ?>
           </div>
         </form>
-        <div id="spider_popup_loading_<?php echo $bwg; ?>" class="spider_popup_loading"></div>
+        <div id="bwg_spider_popup_loading_<?php echo $bwg; ?>" class="bwg_spider_popup_loading"></div>
         <div id="spider_popup_overlay_<?php echo $bwg; ?>" class="spider_popup_overlay" onclick="spider_destroypopup(1000)"></div>
       </div>
     </div>
@@ -870,7 +882,17 @@ class BWGViewAlbum_compact_preview {
             return false;
           }
         });
-        <?php } ?>
+         <?php }
+        if ($image_right_click) {
+          ?>
+          /* Disable right click.*/
+          jQuery('div[id^="bwg_container"]').bind("contextmenu", function () {
+            return false;
+          });
+          jQuery('div[id^="bwg_container"]').css('webkitTouchCallout','none');
+          <?php
+        }
+        ?>
       }
       jQuery(document).ready(function () {
         bwg_document_ready_<?php echo $bwg; ?>();

@@ -29,7 +29,12 @@ var isUploading;
 // Public Methods                                                                     //
 ////////////////////////////////////////////////////////////////////////////////////////
 jQuery(document).ready(function () {
-  var all_images_count = jQuery(".item_thumb img").length;
+  if (jQuery("#importer").css("display") != 'none') {
+    var all_images_count = jQuery("#importer .item_thumb img").length;
+  }
+  else {
+    var all_images_count = jQuery("#file_manager .item_thumb img").length;
+  }
   if(!all_images_count) {
     setTimeout(function(){jQuery(document).trigger("onUpload")});
   }
@@ -37,9 +42,9 @@ jQuery(document).ready(function () {
     setTimeout(function(){jQuery(document).trigger("onSelectAllImage")});
   }
   if (all_images_count == 0 || all_images_count <= 24) {
-    jQuery("#opacity_div").hide();
-    jQuery("#loading_div").hide();
+    loaded();
   }
+  setTimeout(function(){loaded()}, 10000);
   filesSelected = [];
   filesSelectedML = [];
   dragFiles = [];
@@ -59,6 +64,21 @@ jQuery(document).ready(function () {
   jQuery(".scrollbar_filler").css("width", getScrollBarWidth() + "px");
   jQuery(document).keydown(function(e) {
     onKeyDown(e);
+  });
+  jQuery("#search_by_name .search_by_name").on("input keyup", function() {
+    var search_by_name = jQuery(this).val().toLowerCase();
+    if (search_by_name) {
+      jQuery("#explorer_body .explorer_item").hide();
+      jQuery("#explorer_body .explorer_item").each(function () {
+        var filename = jQuery(this).attr("filename").toLowerCase();
+        if (filename.indexOf(search_by_name) != -1) {
+          jQuery(this).show();
+        }
+      });
+    }
+    else {
+      jQuery("#explorer_body .explorer_item").show();
+    }
   });
 });
 
@@ -324,7 +344,14 @@ function onBtnBackClick(event, obj) {
 }
 
 
-function onPathComponentClick(event, obj, path) {
+function onPathComponentClick(event, obj, key) {
+  if (typeof key != "undefined" && key == 0) {
+    path = "";
+  }
+  else {
+    path = jQuery(obj).html();
+    path = path.trim();
+  }
   submit("", null, null, null, path, null, null, null, null, null, null);
 }
 
@@ -547,9 +574,10 @@ function onBtnCancelClick(event, obj) {
 }
 
 function onBtnSelectAllClick() {
-  jQuery(".explorer_item").addClass("explorer_item_select");
+  jQuery(".explorer_item").removeClass("explorer_item_select");
+  jQuery(".explorer_item:visible").addClass("explorer_item_select");
   filesSelected = [];
-  jQuery(".explorer_item").each(function() {
+  jQuery(".explorer_item:visible").each(function() {
     var objName = jQuery(this).attr("name");
     if (filesSelected.indexOf(objName) == -1) {
       filesSelected.push(objName);

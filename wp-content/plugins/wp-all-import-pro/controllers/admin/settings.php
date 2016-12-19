@@ -262,7 +262,7 @@ class PMXI_Admin_Settings extends PMXI_Controller_Admin {
 
 	}
 	
-	public function cleanup(){
+	public function cleanup( $is_cron = false ){
 
 		$removedFiles = 0;
 
@@ -357,7 +357,14 @@ class PMXI_Admin_Settings extends PMXI_Controller_Admin {
 			}
 		}
 
-		wp_redirect(add_query_arg('pmxi_nt', urlencode($msg), $this->baseUrl)); die();
+		if ( $is_cron )
+		{
+			return true;
+		}
+		else
+		{
+			wp_redirect(add_query_arg('pmxi_nt', urlencode($msg), $this->baseUrl)); die();
+		}		
 	}
 
 	public function dismiss(){
@@ -555,6 +562,8 @@ class PMXI_Admin_Settings extends PMXI_Controller_Admin {
 		
 		$post_type = false;		
 
+		$notice = false;
+
 		// Check if file has been uploaded
 		if (!$chunks || $chunk == $chunks - 1) {
 			// Strip the temp .part suffix off 
@@ -584,15 +593,62 @@ class PMXI_Admin_Settings extends PMXI_Controller_Admin {
 			else 
 			{
 				
-				if ( ! empty($upload_result['post_type'])) $post_type = $upload_result['post_type'];
+				if ( ! empty($upload_result['post_type'])) 
+				{
+					$post_type = $upload_result['post_type'];
+
+					switch ( $post_type ) {
+
+						case 'product':
+						case 'shop_order':
+							
+							if ( ! class_exists('WooCommerce') ) {
+								$notice = __('<p class="wpallimport-bundle-notice">The import bundle you are using requires WooCommerce.</p><a class="upgrade_link" href="https://wordpress.org/plugins/woocommerce/" target="_blank">Get WooCommerce</a>.', 'wp_all_import_plugin');							
+							}
+							else {
+
+								if ( ! defined('PMWI_EDITION') ) {
+
+									$notice = __('<p class="wpallimport-bundle-notice">The import bundle you are using requires the Pro version of the WooCommerce Add-On.</p><a href="http://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=1529&edd_options%5Bprice_id%5D=1" class="upgrade_link" target="_blank">Purchase the WooCommerce Add-On</a>.', 'wp_all_import_plugin');
+
+								}
+								elseif ( PMWI_EDITION != 'paid' ) {
+
+									$notice = __('<p class="wpallimport-bundle-notice">The import bundle you are using requires the Pro version of the WooCommerce Add-On, but you have the free version installed.</p><a href="http://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=1529&edd_options%5Bprice_id%5D=1" target="_blank" class="upgrade_link">Purchase the WooCommerce Add-On</a>.', 'wp_all_import_plugin');
+
+								}							
+							}
+
+							break;
+
+						case 'import_users':
+
+							if ( ! class_exists('PMUI_Plugin') ) {
+								$notice = __('<p class="wpallimport-bundle-notice">The import bundle you are using requires the User Import Add-On.</p><a href="http://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=1921&edd_options%5Bprice_id%5D=1" target="_blank" class="upgrade_link">Purchase the User Import Add-On</a>.', 'wp_all_import_plugin');
+							}
+
+							break;
+						
+						default:
+							# code...
+							break;
+					}					
+				}
 
 				if ( ! empty($upload_result['is_empty_bundle_file']))
 				{
 					// Return JSON-RPC response
-					exit(json_encode(array("jsonrpc" => "2.0", "error" => null, "result" => null, "id" => "id", "name" => $upload_result['filePath'], "post_type" => $post_type, "template" => $upload_result['template'], "url_bundle" => true)));
+					exit(json_encode(array("jsonrpc" => "2.0", "error" => null, "result" => null, "id" => "id", "name" => $upload_result['filePath'], "post_type" => $post_type, "notice" => $notice, "template" => $upload_result['template'], "url_bundle" => true)));
 				}
 				else
-				{
+				{					
+					// $root_element = wp_all_import_get_reader_engine( array($upload_result['filePath']), array('root_element' => $upload_result['root_element']) );	
+
+					// if ( ! empty($root_element) and empty($upload_result['root_element']))
+					// {
+					// 	$upload_result['root_element'] = $root_element;
+					// }
+
 					// validate XML
 					$file = new PMXI_Chunk($upload_result['filePath'], array('element' => $upload_result['root_element']));										    					    					   												
 
@@ -601,7 +657,7 @@ class PMXI_Admin_Settings extends PMXI_Controller_Admin {
 					if ( ! empty($file->options['element']) ) 						
 						$defaultXpath = "/". $file->options['element'];																			    		  
 					else
-						$is_valid = false;
+						$is_valid = false;					
 
 					if ( $is_valid ){
 
@@ -668,7 +724,7 @@ class PMXI_Admin_Settings extends PMXI_Controller_Admin {
 		}			
 
 		// Return JSON-RPC response
-		exit(json_encode(array("jsonrpc" => "2.0", "error" => null, "result" => null, "id" => "id", "name" => $filePath, "post_type" => $post_type)));
+		exit(json_encode(array("jsonrpc" => "2.0", "error" => null, "result" => null, "id" => "id", "name" => $filePath, "post_type" => $post_type, "notice" => $notice)));
 
 	}		
 

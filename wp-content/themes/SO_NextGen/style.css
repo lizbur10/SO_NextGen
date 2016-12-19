@@ -1,9 +1,9 @@
 /*
-Theme Name: seniorsoutdoors
+Theme Name: Seniors Outdoors!
 Theme URI: http://underscores.me/
-Author: Underscores.me
-Author URI: http://underscores.me/
-Description: Description
+Author: Liz Burton, built on Underscores
+Author URI: http://burtonux.com/
+Description: A club for active seniors in Durango, CO
 Version: 1.0.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -22,6 +22,8 @@ Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
 /*--------------------------------------------------------------
 >>> TABLE OF CONTENTS:
 ----------------------------------------------------------------
+0.5 Definitions - customized sections
+	0.5.1 Colors
 1.0 Normalize
 2.0 Typography
 3.0 Elements
@@ -34,15 +36,37 @@ Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
 8.0 Clearings
 9.0 Widgets
 10.0 Content
-	10.1 Posts and pages
-	10.2 Asides
-	10.3 Comments
+	10.1 Global - customized section
+	10.2 Posts and pages
+	10.3 Asides
+	10.4 Comments
 11.0 Infinite scroll
 12.0 Media
 	12.1 Captions
 	12.2 Galleries
-13.0 SeniorsOutdoors
+13.0 SeniorsOutdoors - customized sections
+	13.1 Global
+	13.# Header
+	13.# Home Page
+	13.#.# Image Slider
+	13.#.# Splashscreen
+	13.#.# Upcoming Events
+	13.#.# Featured Section
+	13.# Style Overrides
 --------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+0.5 Definitions
+--------------------------------------------------------------*/
+
+/*0.5.1 Colors
+
+// Dark yellow-tan:     #F7E0AA; /* Dark yellow-tan */
+/* Light yellow-tan:    #F4EBDC; /* Light yellow-tan */
+/* Even darker purple:  #3A273A; /* Even darker purple */
+/* Dark purple:         #563A56; /* Dark purple */
+/* Medium purple:       #9E6B9E; /* Medium purple */
+/* Light purple:        #EDBB66; /* Light purple         ??????????????????????? */
 
 /*--------------------------------------------------------------
 1.0 Normalize
@@ -54,8 +78,7 @@ html {
 }
 
 body {
-	max-width: 1276px;
-	margin: 2px auto 2rem;
+	margin: 0 auto;
 }
 
 article,
@@ -279,6 +302,11 @@ textarea {
 	line-height: 1.5;
 }
 
+.site-content {
+	font-size: 1.125em;
+	line-height:1.6em;
+}
+
 h1,
 h2,
 h3,
@@ -287,7 +315,18 @@ h5,
 h6 {
 	font-family: 'Merriweather', serif;
 	clear: both;
+	line-height: 1.3em;
+	margin-top: 2.5rem;
+	margin-bottom: 1rem;
 }
+
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.6em; }
+h3 { font-size: 1.4em; }
+h4 { font-size: 1.2em; }
+h5 { font-size: 1.2em; }
+h6 { font-size: 1.2em; }
+
 
 p {
 	margin-bottom: 1.5em;
@@ -425,26 +464,25 @@ button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-	border: 1px solid;
-	border-color: #ccc #ccc #bbb;
-	border-radius: 3px;
-	background: #e6e6e6;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 15px 17px rgba(255, 255, 255, 0.5), inset 0 -5px 12px rgba(0, 0, 0, 0.05);
-	color: rgba(0, 0, 0, .8);
-	font-size: 12px;
-	font-size: 0.75rem;
+	border: 3px solid;
+	border-color: #fff;
+	border-radius: 0;
+	background: #fff;
+	color: #000;
+	font-size: .75em;
 	line-height: 1;
 	padding: .6em 1em .4em;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
 }
+
 
 button:hover,
 input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover {
-	border-color: #ccc #bbb #aaa;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 15px 17px rgba(255, 255, 255, 0.8), inset 0 -5px 12px rgba(0, 0, 0, 0.02);
-}
+		background-color: black;
+		border-color: black;
+		color: #fff;
+	}
 
 button:focus,
 input[type="button"]:focus,
@@ -497,14 +535,14 @@ textarea {
 /*--------------------------------------------------------------
 5.1 Links
 --------------------------------------------------------------*/
-a {
-	color: #563A56;
+/*a {
+	color: #563A56;  /* Dark purple */
 }
 
 /*a:visited {
-	color: #563A56;
+	color: #563A56;  /* Dark purple */
 }
-*/
+
 a:hover,
 a:focus,
 a:active 
@@ -521,124 +559,413 @@ a:active {
 /*--------------------------------------------------------------
 5.2 Menus
 --------------------------------------------------------------*/
-#primary-menu {
-/*	margin-top: 11rem; 
-*/	background-color: #563A56;
-	color: white;
-	text-align: center;
-/*}
 
-#primary-menu ul {
-*/	display: block;
+.main-navigation {
+	clear: both;
+	display: block;
+	width: 100%;
+}
+
+.main-navigation ul {
+	display: none;
 	list-style: none;
-	margin: 11rem 0 0;
+	padding-left: 0;
 }
 
-#primary-menu li {
-	display: inline;
+.main-navigation li:nth-of-type(3) li:nth-of-type(2) {
+	display:none;
+}
+
+.touchevents .main-navigation ul ul, .no-touchevents .main-navigation ul ul {
+/*	display: none;
+*/	margin-left: 0.8em;
+}
+
+.main-navigation a {
+	display: block;
+	padding: 0.8em 0;
 	position: relative;
-	line-height: 2.2rem;
-	font-size: .9rem;
-	font-weight: bold;
-	color: white;
-
-}
-
-#primary-menu a {
-	color: white;
-	display: inline-block;
-	padding: 0 3rem;
 	text-decoration: none;
 }
 
-#primary-menu a:hover {
-	color: #F7E0AA;
-	text-decoration: underline;
-	font-weight: bold;
+.touchevents .main-navigation ul .toggled-on {
+	display: block;
 }
 
-#primary-menu ul {
+.main-navigation li {
+	border-top: 1px solid #eaeaea;
+	border-top: 1px solid rgba(51, 51, 51, 0.1);
+	position: relative;
+}
+
+.main-navigation .current-menu-item > a,
+.main-navigation .current-menu-ancestor > a {
+	font-weight: 700;
+}
+
+.main-navigation .nav-menu > ul > li:first-child,
+.main-navigation .nav-menu > li:first-child {
+	border-top: 0;
+}
+
+.touchevents .main-navigation .menu-item-has-children > a {
+	padding-right: 3em;
+}
+
+.main-navigation .menu-item-description {
+	color: #707070;
+	color: rgba(51, 51, 51, 0.7);
+	font-family: "Noto Sans", sans-serif;
+	font-size: 12px;
+	font-size: 1.2rem;
+	font-weight: 400;
+	line-height: 1.5;
+	margin-top: 0.5em;
+}
+
+.no-js .main-navigation ul ul {
+	display: block;
+}
+
+.touchevents .dropdown-toggle {
 	position: absolute;
-	top: 1.85em;
-	left: -999em;
-	z-index: 99999;
-	text-align: left;
+	height: 20px;
+	width: 20px;
+	top: 14px;
+	right: 26px;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	padding: 0;
+	font-family: 'FontAwesome';
+	background-color: #fff;
+	border: 1px solid #000;
+	content: "";
+	color: #000;
+	text-transform: lowercase; /* Stop screen readers to read the text as capital letters */
 }
 
-#primary-menu ul ul ul {
-	left: -999em;
+.touchevents .dropdown-toggle:after {
+	content: "\f078";
+	font-size: 10px;
+	line-height: 20px;
+	position: relative;
 	top: 0;
+	left: 1px;
+	width: 20px;
 }
 
-#primary-menu ul a {
-	display: inline-block;
-	min-width: 100%;
-	white-space: nowrap;
-	padding: 2px 10px;
-	background-color: #563A56;
+.touchevents .dropdown-toggle:focus {
+	background-color: #563A56; /* Dark purple */
 }
 
-#primary-menu ul ul li {
-
+.touchevents .dropdown-toggle.toggle-on:after {
+	content: "\f077";
 }
 
-#primary-menu li:hover ul {
-	left: 0;
-	text-align: center;
-	width: 100%;
+
+/* Small menu */
+
+.touchevents .menu-toggle,
+.touchevents .main-navigation.toggled ul {
+	display: block;
 }
 
-#primary-menu li:hover ul li {
-	width: 100%;
-}
-
-#primary-menu ul ul :hover > a {
-}
-
-#primary-menu ul ul a:hover {
-}
-
-#primary-menu li:hover > ul {
-	left: 0;
-	padding:0;
-	margin:0;
-}
-
-#primary-menu ul li:hover > ul {
-	left: 0;
-}
-
-#primary-menu .current_page_item > a,
-#primary-menu .current-menu-item > a,
-#primary-menu .current_page_ancestor > a,
-#primary-menu .current-menu-ancestor > a {
-	color: #563A56;
-	background-color: #F7E0AA;
-	font-weight: bold;
-}
-
-#primary-menu .current_page_item > a:hover,
-#primary-menu .current-menu-item > a:hover,
-#primary-menu .current_page_ancestor > a:hover,
-#primary-menu .current-menu-ancestor > a:hover {
-	text-decoration: none;
-}
-
-/* Small menu. */
-.menu-toggle {
+.no-touchevents .menu-toggle {
 	display: none;
 }
 
-@media screen and (max-width: 600px) {
-	.menu-toggle,
-	#primary-menu.toggled .nav-menu {
+.touchevents .menu-toggle {
+	position: fixed;
+	z-index: 10;
+	top: 1em;
+	right: 1.5em;
+	text-transform: uppercase;
+	background-color: #9E6B9E; /* Medium purple */
+	color: #fff;
+	padding: 10px 12px;
+	border: solid 2px #563A56; /* Dark purple */
+}
+
+.touchevents .menu-toggle:focus {
+	background-color: #563A56; /* Dark purple */
+	border: 2px solid #563A56;
+	color: #F7E0AA; /* Dark yellow-tan */
+	font-weight: bold;
+}
+
+@media screen and (min-width: 720px) {
+	.touchevents .menu-toggle {
+		top: 3em;
+	}
+}
+
+
+/* Hovering menu */
+
+
+.touchevents .main-navigation.toggled {
+	position: fixed;
+	top: 3em;
+	padding: 1em;
+	z-index: 1;
+}
+
+.touchevents .main-navigation.toggled ul {
+	max-height: calc(100vh - 8em);
+	overflow-y: auto;
+}
+
+.touchevents .main-navigation.toggled a {
+	font-size: 1em;
+	padding: 0.8em 1em;
+	color: white;
+}
+
+.touchevents .main-navigation a:focus {
+	background: #563A56; /* Dark purple */
+	color: #F7E0AA; /* Dark yellow-tan */
+}
+
+.main-navigation .nav-menu { /*!!!!!!!!!!!!This one shouldn't be associated with touchevents - where does it go????!!! */
+	margin-top: 1em;
+	background-color: #9E6B9E; /* Medium purple */
+	border: 1px solid #563A56; /* Dark purple */
+}
+
+
+
+.touchevents .main-navigation.toggled ul ul {
+	display: none;
+}
+
+.touchevents .main-navigation.toggled ul ul.toggled-on,
+.touchevents .main-navigation.toggled ul ul.toggled-on > ul {
+	display: block;
+}
+
+@media screen and (min-width: 600px) {
+
+
+	.main-navigation, .touchevents .main-navigation.toggled {
+		position: relative;
+		max-width: 960px;
+		margin: 0 auto;
+		float: left;
+	}
+
+	.main-navigation .nav-menu {
+		background-color: transparent;
+	}
+
+	.main-navigation ul, .touchevents .main-navigation.toggled ul {
+		display: block;
+		max-height: none;
+		text-align: center;
+		padding: 0;
+		background-color: #fff;
+		clear: both;
+	}
+
+	.touchevents .main-navigation.toggled ul {
+		overflow-y: visible;
+	}
+
+	.main-navigation li {
+		border-top: none;
+		display: inline-block;
+		position: relative;
+		line-height: .75;
+		color: #F7E0AA; /* Dark yellow-tan */
+	}
+
+	.touchevents .main-navigation .menu-item-has-children {
+		padding: 0 5px;
+	}
+
+	.main-navigation li li {
+		display: block;
+		text-align: left;
+		color: #F7E0AA; /* Dark yellow-tan */
+	}
+
+	.main-navigation ul ul {
+		position: absolute;
+		left: -12px;
+		top: 27px;
+		display: none;
+		width: 10em;
+		color: #F7E0AA; /* Dark yellow-tan */
+		z-index: 10;
+		background: #563A56; /* Dark purple */
+	}
+
+	.main-navigation ul ul li {
+		line-height: 200%;
+	}
+
+	.main-navigation li:nth-of-type(2) ul {
+		left: -13px;
+	}
+
+/*	.no-touchevents .main-navigation .menu-item-has-children .submenu {
+		display: none;
+	}
+*/
+	.no-touchevents .main-navigation a:hover {
+		color: white;
+		background-color: #9E6B9E; /* Medium purple */
+		text-decoration: underline;
+		font-weight: bold;
+	}
+
+
+	.no-touchevents .main-navigation li:hover ul {
 		display: block;
 	}
 
-	#primary-menu ul {
+	.main-navigation a {
+		padding: 0.5em 1em;
+		color: #563A56; /* Dark purple */
+		text-transform: uppercase;
+	}
+
+	.main-navigation ul ul a {
+		color: #F7E0AA; /* Dark yellow-tan */
+
+	}
+
+	.main-navigation .nav-menu {
+		border: none;
+	}
+
+	.touchevents .menu-toggle {
 		display: none;
 	}
+	
+
+	.main-navigation .current_page_item > a,
+	.main-navigation .current-menu-item > a,
+	.main-navigation .current_page_ancestor > a,
+	.main-navigation.current-menu-ancestor > a {
+		border: 1px solid #563A56; /* Dark purple */
+		border-radius: 5px;
+		background-color: #563A56; /* Dark purple */
+		color: #F7E0AA;
+	}
+
+
+	.no-touchevents .dropdown-toggle {
+		display: none;
+	}
+
+
+
+	.touchevents .dropdown-toggle {
+		top: 3px;
+		right: 8px;
+		background-color: #F4EBDC; /* light yellow-tan */
+	}
+
+	.touchevents .dropdown-toggle:focus {
+		background-color: #F7E0AA;  /* dark yellow-tan */ 
+	}
+
+
+	.touchevents .main-navigation .menu-item-has-children > a {
+		padding-right: 1.75em;
+		padding-left: .25em;
+	}
+
+
 }
+
+@media screen and (min-width: 800px) {
+
+	#logo {
+		margin-bottom: 2em;
+	}
+
+	.main-navigation {
+		min-height: 2.5em;
+	}
+
+	.main-navigation ul {
+		margin-bottom: 0;
+		margin-left: 0;
+	}
+
+	.main-navigation li {
+		padding: 0 1em .5em;
+	}
+
+	.main-navigation a {
+		color: #F7E0AA;
+	}
+
+	.no-touchevents .main-navigation a:hover {
+		border-radius: 5px;
+		color: #9E6B9E; /* Medium purple */
+		background-color: #fff;
+		text-decoration: underline;
+		font-weight: bold;
+	}
+
+
+	.main-navigation ul ul {
+		top: 36px;
+		left: -14px;
+		display: none;
+		width: 11em;
+		z-index: 10;
+		background: #3A273A; /* Even darker purple */
+	}
+
+	.main-navigation ul ul li {
+		line-height: 100%;
+	}
+
+	.touchevents .dropdown-toggle {
+		right: 10px;
+	}
+
+	.touchevents .main-navigation .menu-item-has-children > a {
+		padding-right: 2em;
+	}
+
+
+
+}
+
+@media screen and (min-width: 960px) {
+	.main-navigation li:nth-of-type(3) li:nth-of-type(2) {
+		display:block;
+	}
+
+	.main-navigation li {
+		padding: 0 .25em .5em;
+	}
+
+	.main-navigation {
+		position: absolute;
+		top: 95px;
+		right: 0;
+		width: auto;
+	}
+
+	.main-navigation ul ul {
+		width: 10em;
+	}
+
+}
+
+@media screen and (min-width: 1080px) {
+	.main-navigation li {
+		padding: 0 .5em .5em;
+	}
+}
+
+/* Non-primary navigation stuff  */
 
 .site-main .comment-navigation,
 .site-main .posts-navigation,
@@ -661,6 +988,11 @@ a:active {
 	text-align: right;
 	width: 50%;
 }
+
+
+/* Menu responsiveness */
+
+
 
 /*--------------------------------------------------------------
 6.0 Accessibility
@@ -767,14 +1099,47 @@ a:active {
 10.0 Content
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
-10.1 Posts and pages
+10.1 Global
+--------------------------------------------------------------*/
+
+a {
+	text-decoration: none;
+}
+
+.site-main {
+	margin: 1.4em;
+	font-size: .8em;
+	line-height: 1.6em;
+}
+
+@media screen and (min-width: 480px) {
+	.site-main {
+		margin: 1.8em;
+	}
+}
+
+@media screen and (min-width: 600px) {
+	.site-main {
+		font-size: 1rem;
+	}
+}
+
+@media screen and (min-width: 960px) {
+	.site-main {
+		max-width: 1080px;
+		margin: 0 auto;
+	}
+}
+
+/*--------------------------------------------------------------
+10.2 Posts and pages
 --------------------------------------------------------------*/
 .sticky {
 	display: block;
 }
 
 .hentry {
-	margin: 0 0 1.5em;
+	margin: 0;
 }
 
 .byline,
@@ -799,7 +1164,7 @@ a:active {
 }
 
 /*--------------------------------------------------------------
-10.2 Asides
+10.3 Asides
 --------------------------------------------------------------*/
 .blog .format-aside .entry-title,
 .archive .format-aside .entry-title {
@@ -807,7 +1172,7 @@ a:active {
 }
 
 /*--------------------------------------------------------------
-10.3 Comments
+10.4 Comments
 --------------------------------------------------------------*/
 .comment-content a {
 	word-wrap: break-word;
@@ -925,6 +1290,66 @@ object {
 13.0 Seniors Outdoors
 --------------------------------------------------------------*/
 
+
+/*--------------------------------------------------------------
+13.1 Global
+--------------------------------------------------------------*/
+
+/* Color definitions */
+
+.purple-extra-dark {
+	color: #3a273a; /* even darker purple */
+}
+
+.purple-dark {
+	color: #563A56; /* dark purple */
+}
+
+.purple-medium {
+	color: #9E6B9E; /* medium purple */
+}
+
+.purple-light {
+	color: #EDBB66; /* light purple */
+}
+
+.yellow-tan-light {
+	color: #F4EBDC; /* light yellow-tan */
+}
+
+.yellow-tan-dark {
+	color: #F7E0AA;  /* dark yellow-tan */
+}
+
+
+.visually-hidden, .tribe-events-visuallyhidden, .tribe-events-ical {
+	border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.custom-nav-link {
+	display: block;
+	padding-top: 10px;
+	text-align: right;
+}
+
+.small-screen-suppress {
+	display: none;
+}
+
+
 h1, h2, h4 {
 	color: #563A56; /* dark purple */
 }
@@ -934,19 +1359,19 @@ h3 {
 }
 
 a.text-link {
-	color: #9E6B9E;
+	color: #9E6B9E; /* medium purple */
 	font-weight: bold;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 a.text-link:hover {
-	color: #EDBB66;
+	color: #EDBB66; /*light purple */
 	text-decoration: underline;
 }
 
 .new-outing {
 	display: inline-block;
-	background-color: #EDBB66;
+	background-color: #EDBB66; /*light purple */
 	color: #222;
 	padding: 1px 5px;
 	margin-right: 5px;
@@ -955,113 +1380,205 @@ a.text-link:hover {
 	font-size: .9em;
 }
 
+
 .page-content {
+	position: relative;
 	margin: 0;
 }
 
-header {
-	margin:0;
-}
-
-.site-branding {
-	position: relative;
-	width: 100%;
-	margin-top: 0.5rem;
-	padding-left: 2rem;
-}
-
-.site-branding img {
-	padding-right: 1rem;
-	margin-top: 1.5rem;
-}
-
-.site-branding p {
-	display: inline-block;
-	width: 200px;
-	font-family: 'Oswald', sans-serif; 
-	font-size: 3rem;
-	color: #563A56;
-	font-weight: 400;
-	line-height: 1.1;
-	margin: 1rem 0;
-	-webkit-transition: color 5s ease-out;
-	-moz-transition: color 5s ease-out;
-	-o-transition: color 5s ease-out;
-	-ms-transition: color 5s ease-out;
-	transition: color 5s ease-out;
-}
-
-.site-branding p.tagline {
-	position: absolute;
-	display: inline-block;
-	font-size: 1rem;
-	width: 20rem;
-	text-align: right;
-	right: 3rem;
-	top: 4rem;
-}
-
-.site-branding p.tagline span {
-	font-size: 2rem;
-}
-
-.site-branding:hover p {
-	color: #B26C6F;
-}
-
-.clearfix:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.site-branding {
-	float: left;
-}
-
-.site-branding a, .site-branding a:visited {
+.so-button {
+	padding: .5em;
+/*	z-index: 9999;
+*/	background-color: #F7E0AA;  /* dark yellow-tan */
+	border: 1px solid #999;
+	border-radius: 5px;
+	font-size: 1.0rem;
+	font-weight: bold;
+	color: #563A56; /*dark purple */
 	text-decoration: none;
+	-webkit-box-shadow: 3px 3px 3px #999;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+	-moz-box-shadow:    3px 3px 3px #999;  /* Firefox 3.5 - 3.6 */
+	box-shadow:         3px 3px 3px #999;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */	
 }
 
-/* Footer */
-.copyright {
-	display: block;
-	width: 25%;
-	text-align: center;
-	margin: 0 auto;
-	padding-top: 2rem;
-	font-size: .8rem;
-	clear: both;
-}
-/* End Footer section */
-
-
-
-/* Color definitions */
-
-.purple-dark {
-	color: #563A56;
+.so-button:hover {
+	background-color: #EDBB66;
 }
 
-.purple-medium {
-	color: #9E6B9E;
+.so-button a:hover, .so-button a:visited, .single-tribe_events .so-button a, .single-tribe_events .so-button a:hover, .single-tribe_events .so-button a:visited {
+	color: #563A56;  /* dark purple */
 }
 
-.yellow-tan {
-	color: #EDBB66;
+@media screen and (min-width: 720px) {
+	.so-button {
+		font-size: 1.2rem;
+	}
 }
 
-.light-yellow-tan {
+@media screen and (min-width: 960px) {
+	.small-screen-suppress {
+		display: block;
+	}
+}
+
+/*--------------------------------------------------------------
+13.# Header
+--------------------------------------------------------------*/
+
+.header-container {
+	max-width: 1120px;
+	margin: 2em auto 0;
+	position: relative;
+}
+
+#logo {
+	margin: 1em 1em 1em 2em;
+	border: 1px solid #F7E0AA; /* Dark yellow-tan */
+	border-radius: 15px;
+	background-color: #F7E0AA;
+	height: 90px;
+}
+
+
+.site-branding {
+	font-family: 'Oswald', sans-serif;
 	color: #F7E0AA;
 }
 
+.site-title {
+	font-size: 2.5rem;
+	display: inline-block;
+	width: 100px;
+	line-height: 1.1;
+	margin-top: 0.5em;
+	margin-bottom: 0;
 
-/*** Styling of home page ***/
+}
 
-/* Home Page - Image Slider */
+.tagline {
+	text-align: right;
+	padding: 1rem 1rem 0 0;
+	line-height: 1.2;
+	margin-top: 0em;
+	margin-bottom: 0;
+	display: none;
+}
+
+.tagline span {
+	font-size: 2rem;
+}
+
+.site-header {
+	background-color: #fff;
+}
+
+.site-branding {
+	margin: 0 auto;
+}
+.site-title a {
+	color: #563A56; /* Dark purple */
+}
+#image-slider {
+	display: none;
+}
+
+@media screen and (min-width: 420px) {
+
+	.header-container {
+		margin: 0 auto;
+	}
+
+	.site-title {
+		font-size: 3rem;
+		margin-top: .75em;
+		width: 100px;
+	}
+
+	#logo {
+		margin: 1.75em 2em;
+		height: auto;
+	}
+}
+
+@media screen and (min-width: 720px) {
+
+	.header-container {
+		margin: 0 auto;
+	}
+
+	.site-title {
+		font-size: 3rem;
+		margin-top: .75em;
+		width: 200px;
+	}
+
+}
+
+@media screen and (min-width: 800px) {
+	.site-header {
+/*		background-color: #563A56; /* Dark purple */
+		background-color: #3a273a; /* Even darker purple */
+	}
+	.tagline {
+		display: block;
+		margin-top: 4.25em;
+	}
+
+	#image-slider {
+		display: block;
+	}
+
+	.site-title a {
+		color: #F7E0AA;
+	}
+}
+
+@media screen and (min-width: 960px) {
+	.tagline {
+		margin-top: 0;
+	}
+
+}
+
+/*--------------------------------------------------------------
+13.# Home Page
+--------------------------------------------------------------*/
+
+.main-content {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.main-content h3 a {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.main-content a:hover {
+	color: #EDBB66; /*light purple */
+	text-decoration: underline;
+}
+
+.centered {
+	text-align: center;
+}
+
+@media screen and (min-width: 800px) {
+	.main-content {
+		padding-top: 15em;
+	}
+}
+
+
+/*--------------------------------------------------------------
+13.#.# Home Page - Image Slider
+--------------------------------------------------------------*/
+
 
 #image-slider {
 	position: absolute;
+	top: 0px;
+	left: 0px;
 	height: 266px;
 	margin: 1px 0;
 	width: 100%;
@@ -1071,10 +1588,6 @@ header {
 #image-slider div {
 	position: absolute;
 	left: 150%;
-}
-
-#image-slider img {
-	cursor: pointer;
 }
 
 .slides {
@@ -1089,22 +1602,6 @@ header {
 	overflow: hidden;
 }
 
-.main-content {
-	max-width: 1080px;
-	width: 90%;
-	margin: 0 auto;
-}
-
-.main-content h3 a {
-	color: inherit;
-	text-decoration: none;
-}
-
-.main-content a:hover {
-	color: #EDBB66;
-	text-decoration: underline;
-}
-
 .slider-caption {
 	float: right;
 	margin-top: 15rem;
@@ -1114,15 +1611,75 @@ header {
 }
 
 
-/* Home Page - Events List View Section */
-.list-view {
-	margin-top: 17rem;
-	width: 50%;
-	float: left;
+/*--------------------------------------------------------------
+13.#.# Home Page - Splashscreen
+--------------------------------------------------------------*/
+
+.splash-container {
+	display: none;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 99;
+	background-color: rgba(0,0,0,0.6);
+	height: 100%;
 }
+
+.splashscreen {
+	margin: 1rem auto;
+	max-width: 20rem;
+	width: 90%;
+	border: 3px solid #9E6B9E; /* medium purple */
+	background-color: white; /*light yellow-tan */
+	padding: 1rem;
+	opacity: 1.0;
+	z-index: 9999;
+}
+
+.splashscreen h3 {
+	color: #563A56; /*dark purple */
+	padding-top: 0;
+	margin-top: 0;
+	text-align: center;
+}
+
+.splashscreen p {
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+
+.splashscreen a {
+	margin-top: 1em;
+}
+
+button#splash-close {
+	float: right;
+	font-size: 1em;
+	padding: 5px;
+	border-radius: 0;
+	z-index: 99999;
+}
+
+.email-link {
+	position: fixed;
+	bottom: 30px;
+	right: 20px;
+	z-index: 9999;
+}
+
+.email-link .so-button {
+	padding: .25em .5em;
+
+}
+
+/*--------------------------------------------------------------
+13.#.# Home Page - Upcoming Events
+--------------------------------------------------------------*/
 
 .list-view h2 {
 	margin-bottom: 0;
+	margin-top: 2rem;
 }
 
 h3.event-title {
@@ -1136,7 +1693,7 @@ h3.event-title {
 
 div.events-list {
 	padding: 1rem 0;
-	border-bottom: 1px solid #EDBB66;
+	border-bottom: 1px solid #EDBB66; /*light purple */
 }
 
 div.events-list:last-of-type {
@@ -1147,23 +1704,22 @@ div.events-list p:nth-of-type(2) {
 	margin-bottom: 0;
 }
 
+@media screen and (min-width: 960px) {
 
-/* Home Page - Featured Section */
-
-.featured {
-	width: 50%;
-	float: right;
-	padding: 0 1rem 0 7rem;
-	margin-top: 17rem;
-	color: #222;
+	.list-view {
+		width: 50%;
+		float: left;
+	}
 }
 
-.featured-event-details, .event-changes {
-	padding-left: 1.5rem;
-}
+
+/*--------------------------------------------------------------
+13.#.# Home Page - Featured Section
+--------------------------------------------------------------*/
+
 
 .featured h2 {
-	border-bottom: 1px solid #EDBB66;
+	border-bottom: 1px solid #EDBB66; /*light purple */
 	margin-top: 2rem;
 	margin-bottom: 0;
 	padding-bottom: 0.5rem;
@@ -1197,20 +1753,244 @@ div.events-list p:nth-of-type(2) {
 	margin-bottom: 0;
 }
 
-/* End Featured Section */
+@media screen and (min-width: 960px) {
 
-/* End Home Page Section*/
+	.featured {
+		width: 50%;
+		float: right;
+		padding: 0 1rem 0 7rem;
+		color: #222;
+	}
+
+	.featured-event-details, .event-changes {
+		padding-left: 1.5rem;
+	}
+}
+
+
+/*--------------------------------------------------------------
+13.# Calendar Page
+--------------------------------------------------------------*/
+
+#tribe-events-content table.tribe-events-calendar {
+	width: 90%;
+	margin: 12px auto .6em;
+}
+
+h2.tribe-events-page-title {
+	font-size: 1.25rem;
+}
+
+.tribe-events-calendar thead th {
+	background-color: #F7E0AA;  /* dark yellow-tan */
+	border: 1px solid #EDBB66; /*light purple */
+	line-height: 1;
+	color: #333;
+	text-align: center;
+	padding: 7px 0;
+}
+
+.tribe-events-calendar th {
+	letter-spacing: initial;
+}
+
+#tribe-events-header {
+	width: 90%;
+	margin: 0 auto;
+}
+
+
+#tribe-events-footer {
+	width: 90%;
+	margin: 0 auto;
+
+}
+
+.tribe-events-sub-nav li a {
+	background-color: transparent;
+}
+
+.tribe-events-calendar td.tribe-events-present div[id*=tribe-events-daynum-] {
+	background-color: #563A56; /*dark purple */
+}
+
+#tribe-events-content a {
+	text-decoration: underline;
+}
+
+#tribe-events-content .tribe-events-sub-nav a,
+#tribe-events-content .register-button a {
+	text-decoration: none;
+}
 
 
 
-/* Single Events Page Styling */
+#tribe-events-content a:hover {
+	color: #EDBB66; /*light purple */
+	text-decoration: underline;
+}
 
+#tribe-events-content .register-button a:hover {
+	color: #9E6B9E; /* medium purple */
+}
+
+#tribe-events-content .tribe-events-tooltip h4 { 
+	color: #563A56; /*dark purple */
+}
+
+#tribe-events-content .tribe-events-nav-next a, #tribe-events-content .tribe-events-nav-previous a {
+	color: #563A56; /*dark purple */
+}
+
+#tribe-events-content .tribe-events-nav-next a:hover, #tribe-events-content .tribe-events-nav-previous a:hover {
+	color: #EDBB66;
+}
+
+@media screen and (min-width: 600px) {
+	h2.tribe-events-page-title {
+		font-size: 1.5rem;
+	}
+}
+
+@media screen and (min-width: 960px) {
+	#tribe-events .printable-list {
+		display: block;
+	}
+}
+
+/*--------------------------------------------------------------
+13.# How to Join Page
+--------------------------------------------------------------*/
+
+.so-table {
+	width: 36em;
+}
+
+
+.so-table tr {
+	border-top: 1px solid #563A56; /*dark purple */
+}
+
+.so-table tr:last-of-type {
+	border-bottom: 1px solid #563A56; /*dark purple */
+}
+
+.so-table tr:first-of-type {
+	background-color: #F7E0AA;  /* dark yellow-tan */
+}
+
+.so-table td {
+	padding: 0 0.5em;
+}
+
+.so-table.board {
+	width: 60em;
+}
+
+.so-table.other {
+	width: 60em;
+}
+
+.so-table.subgroups {
+	width: 60em;
+}
+
+.so-table.board tr:nth-of-type(3) {
+	border-top: none;
+}
+
+
+.so-table.other tr:nth-of-type(5) {
+	border-top: none;
+}
+
+.so-table.subgroups tr:nth-of-type(4) {
+	border-top: none;
+}
+
+@media screen and (max-width: 959px) {
+	.so-table {
+		display: none;
+	}
+}
+
+/*--------------------------------------------------------------
+13.# Printable List Page
+--------------------------------------------------------------*/
+
+.events-list {
+	margin-right: 1em;
+}
+
+.events-list h1 {
+	text-align: center;
+}
+
+#printable-table {
+	table-layout: fixed;
+	width: 80%;
+	margin: 0 auto;
+	font-size: .9em;
+}
+
+#printable-table td, #printable-table th {
+	border: 1px solid #333;
+	padding: 0.5em;
+	vertical-align: top;
+}
+
+#printable-table tr.featured-event td {
+	background-color: #F4EBDC; /*light yellow-tan */;
+}
+
+#printable-table th {
+	text-align: left;
+}
+
+#printable-table td {
+  overflow: hidden;
+}
+
+#printable-table h4, #printable-table p {
+	margin: 0;
+}
+
+#printable-table h4 {
+	font-size: 1.1em;
+}
+
+.printable-table-wrapper p {
+	margin-left: 10%;
+}
+
+.date-loc {
+	width: 15%;
+}
+
+.outing-desc {
+	width: 70%;
+}
+
+.difficulty {
+	width: 15%;
+}
+
+p.changed {
+	text-transform: uppercase;
+	color: red;
+	font-weight: bold;
+}
+
+/*--------------------------------------------------------------
+13.# Single Event Pages
+--------------------------------------------------------------*/
 .single-tribe_events .entry-title  {
 	font-size: 1.5rem;
 	width: 60%;
 }
 
 .single-tribe_events .field-label {
+	display: block;
 	font-weight: bold;
 	margin-right: 5px;
 }
@@ -1252,31 +2032,43 @@ div.events-list p:nth-of-type(2) {
     display: inline-block; 
 }
 
-.register-button {
+#tribe-events-content .register-button {
 	position: absolute;
 	right: 2rem;
 	top: 3rem;
-	background-color: #EDBB66;
+	padding: .5rem;
+	background-color: #F7E0AA;  /* dark yellow-tan */
+	border: 1px solid #999;
+	border-radius: 5px;
 	font-size: 1.2rem;
-	color: #563A56;
+	color: #563A56; /*dark purple */
+	text-decoration: none;
+	-webkit-box-shadow: 3px 3px 3px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+	-moz-box-shadow:    3px 3px 3px #ccc;  /* Firefox 3.5 - 3.6 */
+	box-shadow:         3px 3px 3px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 
-#tribe-events-content .register-button a:hover {
-	color: #563A56;
+#tribe-events-content .register-button:hover {
+	background-color: #EDBB66; /*light purple */
+	color: #563A56; /*dark purple */
 	text-decoration: none;
 }
+
+#tribe-events-content .register-button:active {
+	-webkit-box-shadow: inset 3px 3px 3px #999;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+	-moz-box-shadow:    inset 3px 3px 3px #999;  /* Firefox 3.5 - 3.6 */
+	box-shadow:         inset 3px 3px 3px #999;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+
 
 .non-members-only {
 	color: #222;
 	font-size: 1rem;
 }
 
-.single-tribe_events a:visited {
-    color: white;
-}
 
 .single-tribe_events a:hover {
-	color: #563A56;
+	color: #563A56; /*dark purple */
 }
 
 .entry-content {
@@ -1297,238 +2089,106 @@ div.events-list p:nth-of-type(2) {
 	width: 60%;
 }
 
-/*End Single Events page section */
+/*--------------------------------------------------------------
+13.# Overrides of pages created through WP
+--------------------------------------------------------------*/
 
-
-
-/* Calendar page section */
-
-#tribe-events-content table.tribe-events-calendar {
-	width: 90%;
-	margin: 12px auto .6em;
+.page-template-default .entry-content {
+	max-width: 800px;	
 }
 
-.tribe-events-calendar thead th {
-	background-color: #F7E0AA;
-	border: 1px solid #EDBB66;
-	line-height: 1;
-	color: #333;
+.page-template-default .entry-content ul {
+	margin-left: 0;
 }
 
-#tribe-events-header {
-	width: 90%;
-	margin: 0 auto;
+.membership-dues p {
+	margin-bottom: .6em;
 }
 
-a.printable-list {
-	display: block;
-	padding-top: 10px;
-	text-align: right;
+.member-entry {
+	margin-bottom: 1em;
 }
 
-#tribe-events-footer {
-	width: 90%;
-	margin: 0 auto;
-
-}
-
-.tribe-events-calendar td.tribe-events-present div[id*=tribe-events-daynum-] {
-	background-color: #563A56;
-}
-
-
-#tribe-events-content a:hover {
-	color: #EDBB66;
-	text-decoration: underline;
-}
-
-#tribe-events-content .tribe-events-tooltip h4 { 
-	color: #563A56;
-}
-
-#tribe-events-content .tribe-events-nav-next a, #tribe-events-content .tribe-events-nav-previous a {
-	color: #563A56;
-}
-
-#tribe-events-content .tribe-events-nav-next a:hover, #tribe-events-content .tribe-events-nav-previous a:hover {
-	color: #EDBB66;
-}
-
-/* End of Calendar page section */
-
-/* Membership Page */
-
-.so-table {
-	width: 36em;
-}
-
-
-.so-table tr {
-	border-top: 1px solid #563A56;
-}
-
-.so-table tr:last-of-type {
-	border-bottom: 1px solid #563A56;
-}
-
-.so-table tr:first-of-type {
-	background-color: #F7E0AA;
-}
-
-.so-table td {
-	padding: 0 0.5em;
-}
-
-.so-table.board {
-	width: 60em;
-}
-
-.so-table.other {
-	width: 60em;
-}
-
-.so-table.subgroups {
-	width: 60em;
-}
-
-.so-table.board tr:nth-of-type(3) {
-	border-top: none;
-}
-
-
-.so-table.other tr:nth-of-type(5) {
-	border-top: none;
-}
-
-.so-table.subgroups tr:nth-of-type(4) {
-	border-top: none;
-}
-
-/* End of Membership page */
-
-
-/* Printable List page */
-
-.events-list {
-	margin-right: 1em;
-}
-
-.events-list h1 {
-	text-align: center;
-}
-
-#printable-table {
-	table-layout: fixed;
-	width: 80%;
-	margin: 0 auto;
-	font-size: .9em;
-}
-
-#printable-table td, #printable-table th {
-	border: 1px solid #333;
-	padding: 0.5em;
-	vertical-align: top;
-}
-
-#printable-table th {
-	text-align: left;
-}
-
-#printable-table td {
-  overflow: hidden;
-}
-
-#printable-table h4, #printable-table p {
+.member-entry p {
 	margin: 0;
 }
 
-#printable-table h4 {
-	font-size: 1.1em;
+
+
+/*--------------------------------------------------------------
+13.# Style Overrides
+--------------------------------------------------------------*/
+
+.single-tribe_events .entry-title { 
+	font-size: 1.6em;
 }
 
-.printable-table-wrapper p {
-	margin-left: 10%;
+.single-tribe_events a:visited {
+	color: #563A56;  /* Dark purple */
 }
 
-.date-loc {
-	width: 15%;
+.single-tribe_events .site-title a, .single-tribe_events .main-navigation a:visited {
+	color: #F7E0AA;  /* Dark yellow-tan */
 }
 
-.outing-desc {
-	width: 70%;
+.single-tribe_events footer p {
+	color: white;
+} 
+
+.single-tribe_events footer a:visited {
+	color: #F7E0AA;  /* Dark yellow-tan */
 }
 
-.difficulty {
-	width: 15%;
+.single-tribe_events .main-content {
+	padding-top: 0;
 }
 
-p.changed {
-	text-transform: uppercase;
-	color: red;
-	font-weight: bold;
-}
-
-/* End of Printable List page */
-
-
-
-
-/* Global stuff */
-
-/* Generated by Font Squirrel (http://www.fontsquirrel.com) on May 6, 2015 */
-
-
-.visually-hidden, .tribe-events-visuallyhidden, .tribe-events-ical {
-	border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
+.tribe-events-calendar div[id*=tribe-events-event-] h3.tribe-events-month-event-title a {
+	font-size: 125%;
 }
 
 
-/* Media queries & responsive code */
+/*--------------------------------------------------------------
+13.# Footer
+--------------------------------------------------------------*/
 
-@media screen and (max-width: 768px) {
-	.tribe-events-sub-nav li a {
- 		background-color: white;
+.site-footer {
+/*	background-color: #3a273a; /* Even darker purple */
+	background-color: #563A56; /* Dark purple */
+	color: #fff;
+	text-align: center;
+	font-size: .8em;
+	padding-top: 8px;
+}
 
-	}
+.site-footer a {
+	color: #F7E0AA;  /* Dark yellow-tan */
+}
 
-	#image-slider {
-		top: 15rem;
-	}
-	
-	.main-content {
-		margin-left: 0;
-	}
+.site-footer p {
+	line-height: 100%;
+}
 
-	.site-branding {
-		float: none;
-		margin: 0 auto;
-	}
+.site-footer span.lizb, .site-footer i {
+	font-size: .8em;
+}
 
-	.site-branding p.tagline {
-		display: none;
-	}
+.site-footer span.wordp {
+	display: none;
+}
 
-	.featured, .list-view {
-		float: none;
-	}
-
-	.featured {
-		width: 100%;
-		padding-left: 0;
-		margin-top: 19rem;
-	}
-
-	.list-view {
-		width: 100%;
-		padding-right: 0;
-		padding-left: 1.5rem;
-		margin-top: 2rem;
+@media screen and (min-width: 800px) {
+	.site-footer span.wordp {
+		display: inline;
 	}
 }
+
+
+@media screen and (min-width: 800px) {
+	.site-footer {
+		background-color: #3a273a; /* Even darker purple */
+	}
+}
+
+
+

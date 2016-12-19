@@ -20,8 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<h1 class="page-title">Upcoming Outings</h1>
 
-<a class="printable-list text-link" href="/so_nextgen/printable-schedule">Printable version&rsaquo;&rsaquo;</a>
-
+<a class="small-screen-suppress custom-nav-link text-link" href="/seniorsoutdoors/printable-schedule">Printable version&rsaquo;&rsaquo;</a>
+<a class="custom-nav-link text-link" href="/seniorsoutdoors/wp-content/uploads/2016/12/SOS_Schedule.pdf">SOS Schedule&rsaquo;&rsaquo;</a>
 
 <?php do_action( 'tribe_events_before_template' ) ?>
 

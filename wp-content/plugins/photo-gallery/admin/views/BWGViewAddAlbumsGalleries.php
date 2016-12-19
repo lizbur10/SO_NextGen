@@ -31,12 +31,16 @@ class BWGViewAddAlbumsGalleries {
     $order_by = (isset($_POST['order_by']) ? esc_html(stripslashes($_POST['order_by'])) : 'name');
     $order_class = 'manage-column column-title sorted ' . $asc_or_desc;
     $per_page = $this->model->per_page();
-	$pager = 0;
+    $pager = 0;
     wp_print_scripts('jquery');
     wp_print_scripts('wp-pointer');
-    ?>
-    <link media="all" type="text/css" href="<?php echo get_admin_url(); ?>load-styles.php?c=1&amp;dir=ltr&amp;load=admin-bar,dashicons,wp-admin,buttons,wp-auth-check,wp-pointer" rel="stylesheet">
-    <?php if (get_bloginfo('version') < '3.9') { ?>
+    wp_print_styles('admin-bar');
+    wp_print_styles('dashicons');
+    wp_print_styles('wp-admin');
+    wp_print_styles('buttons');
+    wp_print_styles('wp-auth-check');
+    wp_print_styles('wp-pointer');
+    if (get_bloginfo('version') < '3.9') { ?>
     <link media="all" type="text/css" href="<?php echo get_admin_url(); ?>css/colors<?php echo ((get_bloginfo('version') < '3.8') ? '-fresh' : ''); ?>.min.css" id="colors-css" rel="stylesheet">
     <?php } ?>
     <link media="all" type="text/css" href="<?php echo WD_BWG_URL . '/css/bwg_tables.css?ver='.wd_bwg_version(); ?>" id="spider_audio_player_tables-css" rel="stylesheet">
@@ -45,25 +49,25 @@ class BWGViewAddAlbumsGalleries {
       <?php wp_nonce_field( 'addAlbumsGalleries', 'bwg_nonce' ); ?>
       <h2 style="width:200px;float:left"><?php _e("Albums/Galleries", 'bwg_back'); ?></h2>
       <a href="" class="thickbox thickbox-preview" id="content-add_media" title="Add Album/Gallery" onclick="spider_get_items(event);" style="float:right; padding: 9px 0px 4px 0">
-        <img id='add_albums' src="<?php echo WD_BWG_URL . '/images/add_but.png'; ?>" style="border:none;" />
+      <div id="add_albums" class='wd-btn wd-btn-primary wd-btn-icon wd-btn-add' style="border:none;padding-top:8px !important;" ><?php echo __('ADD','bwg_back');?> </div>
       </a>
       <div class="tablenav top">
         <?php
-        WDWLibrary::search(__("Name", 'bwg_back'), $search_value, 'albums_galleries_form');
+        WDWLibrary::search(__("Name", 'bwg_back'), $search_value, 'albums_galleries_form','position_search');
         WDWLibrary::html_page_nav($page_nav['total'],$pager++, $page_nav['limit'], 'albums_galleries_form', $per_page);
         ?>
       </div>
       <table class="wp-list-table widefat fixed pages">
         <thead>
-          <th class="manage-column column-cb check-column table_small_col"><input id="check_all" type="checkbox" style="margin:0;" /></th>
-          <th class="table_small_col <?php if ($order_by == 'id') {echo $order_class;} ?>">
+          <th class="sortable manage-column column-cb check-column table_small_col"><input id="check_all" type="checkbox" style="margin:0;" /></th>
+          <th class="sortable table_small_col <?php if ($order_by == 'id') {echo $order_class;} ?>" style="padding-left:20px;">
             <a onclick="spider_set_input_value('order_by', 'id');
                         spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html(stripslashes($_POST['order_by'])) == 'id') && esc_html(stripslashes($_POST['asc_or_desc'])) == 'asc') ? 'desc' : 'asc'); ?>');
                         spider_form_submit(event, 'albums_galleries_form')" href="">
               <span>ID</span><span class="sorting-indicator"></span>
             </a>
           </th>
-          <th class="table_medium_col_uncenter <?php if ($order_by == 'is_album') {echo $order_class;} ?>">
+          <th class="sortable table_medium_col_uncenter <?php if ($order_by == 'is_album') {echo $order_class;} ?>">
             <a onclick="spider_set_input_value('task', '');
                         spider_set_input_value('order_by', 'is_album');
                         spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html(stripslashes($_POST['order_by'])) == 'is_album') && esc_html(stripslashes($_POST['asc_or_desc'])) == 'asc') ? 'desc' : 'asc'); ?>');
@@ -71,7 +75,7 @@ class BWGViewAddAlbumsGalleries {
               <span><?php _e("Type", 'bwg_back'); ?></span><span class="sorting-indicator"></span>
             </a>
           </th>
-          <th class="<?php if ($order_by == 'name') {echo $order_class;} ?>">
+          <th class="sortable <?php if ($order_by == 'name') {echo $order_class;} ?>">
             <a onclick="spider_set_input_value('order_by', 'name');
                         spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html(stripslashes($_POST['order_by'])) == 'name') && esc_html(stripslashes($_POST['asc_or_desc'])) == 'asc') ? 'desc' : 'asc'); ?>');
                         spider_form_submit(event, 'albums_galleries_form')" href="">

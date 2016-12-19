@@ -1,0 +1,1277 @@
+/*
+Theme Name: Seniors Outdoors!
+Theme URI: http://underscores.me/
+Author: Liz Burton, built on Underscores
+Author URI: http://burtonux.com/
+Description: A club for active seniors in Durango, CO
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: seniorsoutdoors
+Tags:
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+
+seniorsoutdoors is based on Underscores http://underscores.me/, (C) 2012-2015 Automattic, Inc.
+
+Normalizing styles have been helped along thanks to the fine work of
+Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+0.5 Definitions - customized sections
+	0.5.1 Colors
+1.0 Normalize
+2.0 Typography
+3.0 Elements
+4.0 Forms
+5.0 Navigation
+	5.1 Links
+	5.2 Menus
+6.0 Accessibility
+7.0 Alignments
+8.0 Clearings
+9.0 Widgets
+10.0 Content
+	10.1 Global - customized section
+	10.2 Posts and pages
+	10.3 Asides
+	10.4 Comments
+11.0 Infinite scroll
+12.0 Media
+	12.1 Captions
+	12.2 Galleries
+13.0 SeniorsOutdoors - customized sections
+	13.1 Header
+	13.# Style Overrides
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+0.5 Definitions
+--------------------------------------------------------------*/
+
+/*0.5.1 Colors
+
+// Dark yellow-tan:     #F7E0AA; /* Dark yellow-tan */
+/* Light yellow-tan:    #F4EBDC; /* Light yellow-tan */
+/* Even darker purple:  #3A273A; /* Even darker purple */
+/* Dark purple:         #563A56; /* Dark purple */
+/* Medium purple:       #9E6B9E; /* Medium purple */
+/* Light purple:        #EDBB66; /* Light purple         ??????????????????????? */
+
+/*--------------------------------------------------------------
+1.0 Normalize
+--------------------------------------------------------------*/
+html {
+	font-family: 'Open Sans', sans-serif;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust:     100%;
+}
+
+body {
+	margin: 0 auto;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
+	display: block;
+}
+
+audio,
+canvas,
+progress,
+video {
+	display: inline-block;
+	vertical-align: baseline;
+}
+
+audio:not([controls]) {
+	display: none;
+	height: 0;
+}
+
+[hidden],
+template {
+	display: none;
+}
+
+a {
+	background-color: transparent;
+}
+
+a:active,
+a:hover {
+	outline: 0;
+}
+
+abbr[title] {
+	border-bottom: 1px dotted;
+}
+
+b,
+strong {
+	font-weight: bold;
+}
+
+dfn {
+	font-style: italic;
+}
+
+h1 {
+	font-size: 2em;
+	margin: 0.67em 0;
+}
+
+mark {
+	background: #ff0;
+	color: #000;
+}
+
+small {
+	font-size: 80%;
+}
+
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	top: -0.5em;
+}
+
+sub {
+	bottom: -0.25em;
+}
+
+img {
+	border: 0;
+}
+
+svg:not(:root) {
+	overflow: hidden;
+}
+
+figure {
+	margin: 1em 40px;
+}
+
+hr {
+	box-sizing: content-box;
+	height: 0;
+}
+
+pre {
+	overflow: auto;
+}
+
+code,
+kbd,
+pre,
+samp {
+	font-family: monospace, monospace;
+	font-size: 1em;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+	color: inherit;
+	font: inherit;
+	margin: 0;
+}
+
+button {
+	overflow: visible;
+}
+
+button,
+select {
+	text-transform: none;
+}
+
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+	-webkit-appearance: button;
+	cursor: pointer;
+}
+
+button[disabled],
+html input[disabled] {
+	cursor: default;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+input {
+	line-height: normal;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+	box-sizing: border-box;
+	padding: 0;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	height: auto;
+}
+
+input[type="search"] {
+	-webkit-appearance: textfield;
+	box-sizing: content-box;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+	-webkit-appearance: none;
+}
+
+fieldset {
+	border: 1px solid #c0c0c0;
+	margin: 0 2px;
+	padding: 0.35em 0.625em 0.75em;
+}
+
+legend {
+	border: 0;
+	padding: 0;
+}
+
+textarea {
+	overflow: auto;
+}
+
+optgroup {
+	font-weight: bold;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+td,
+th {
+	padding: 0;
+}
+
+/*--------------------------------------------------------------
+2.0 Typography
+--------------------------------------------------------------*/
+body,
+button,
+input,
+select,
+textarea {
+	font-family: 'Open Sans', sans-serif;
+	color: #404040;
+	font-size: 16px;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+.site-content {
+	font-size: 1.125em;
+	line-height:1.6em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Merriweather', serif;
+	clear: both;
+	line-height: 1.3em;
+	margin-top: 2.5rem;
+	margin-bottom: 1rem;
+}
+
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.6em; }
+h3 { font-size: 1.4em; }
+h4 { font-size: 1.2em; }
+h5 { font-size: 1.2em; }
+h6 { font-size: 1.2em; }
+
+
+p {
+	margin-bottom: 1.5em;
+}
+
+dfn,
+cite,
+em,
+i {
+	font-style: italic;
+}
+
+blockquote {
+	margin: 0 1.5em;
+}
+
+address {
+	margin: 0 0 1.5em;
+}
+
+pre {
+	background: #eee;
+	font-family: "Courier 10 Pitch", Courier, monospace;
+	font-size: 15px;
+	font-size: 0.9375rem;
+	line-height: 1.6;
+	margin-bottom: 1.6em;
+	max-width: 100%;
+	overflow: auto;
+	padding: 1.6em;
+}
+
+code,
+kbd,
+tt,
+var {
+	font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+	font-size: 15px;
+	font-size: 0.9375rem;
+}
+
+abbr,
+acronym {
+	border-bottom: 1px dotted #666;
+	cursor: help;
+}
+
+mark,
+ins {
+	background: #fff9c0;
+	text-decoration: none;
+}
+
+big {
+	font-size: 125%;
+}
+
+/*--------------------------------------------------------------
+3.0 Elements
+--------------------------------------------------------------*/
+html {
+	box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after { /* Inherit box-sizing to make it easier to change the property for components that leverage other behavior; see http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
+	box-sizing: inherit;
+}
+
+body {
+	background: #fff; /* Fallback for when there is no custom background color defined. */
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: "";
+}
+
+blockquote,
+q {
+	quotes: "" "";
+}
+
+hr {
+	background-color: #EDBB66;
+	border: 0;
+	height: 1px;
+	margin-bottom: 1.5em;
+}
+
+ul,
+ol {
+	margin: 0 0 1.5em 3em;
+}
+
+ul {
+	list-style: disc;
+}
+
+ol {
+	list-style: decimal;
+}
+
+li > ul,
+li > ol {
+	margin-bottom: 0;
+	margin-left: 1.5em;
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin: 0 1.5em 1.5em;
+}
+
+img {
+	height: auto; /* Make sure images are scaled correctly. */
+	max-width: 100%; /* Adhere to container width. */
+}
+
+table {
+	margin: 0 0 1.5em;
+	width: 100%;
+}
+
+/*--------------------------------------------------------------
+4.0 Forms
+--------------------------------------------------------------*/
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+	border: 3px solid;
+	border-color: #fff;
+	border-radius: 0;
+	background: #fff;
+	color: #000;
+	font-size: .75em;
+	line-height: 1;
+	padding: .6em 1em .4em;
+}
+
+
+button:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover,
+input[type="submit"]:hover {
+		background-color: black;
+		border-color: black;
+		color: #fff;
+	}
+
+button:focus,
+input[type="button"]:focus,
+input[type="reset"]:focus,
+input[type="submit"]:focus,
+button:active,
+input[type="button"]:active,
+input[type="reset"]:active,
+input[type="submit"]:active {
+	border-color: #aaa #bbb #bbb;
+	box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.5), inset 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+textarea {
+	color: #666;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+textarea:focus {
+	color: #111;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"] {
+	padding: 3px;
+}
+
+textarea {
+	padding-left: 3px;
+	width: 100%;
+}
+
+/*--------------------------------------------------------------
+5.0 Navigation
+--------------------------------------------------------------*/
+/*--------------------------------------------------------------
+5.1 Links
+--------------------------------------------------------------*/
+/*a {
+	color: #563A56;  /* Dark purple */
+}
+
+/*a:visited {
+	color: #563A56;  /* Dark purple */
+}
+
+a:hover,
+a:focus,
+a:active 
+
+a:focus {
+	outline: thin dotted;
+}
+
+a:hover,
+a:active {
+	outline: 0;
+}
+
+/*--------------------------------------------------------------
+5.2 Menus
+--------------------------------------------------------------*/
+
+.main-navigation {
+	clear: both;
+	display: block;
+	width: 100%;
+}
+
+.main-navigation ul {
+	display: none;
+	list-style: none;
+/*	margin: 0;
+*/	padding-left: 0;
+}
+
+.main-navigation ul ul {
+	display: none;
+	margin-left: 0.8em;
+}
+
+.main-navigation a {
+	display: block;
+	padding: 0.8em 0;
+	position: relative;
+	text-decoration: none;
+}
+
+.main-navigation ul .toggled-on {
+	display: block;
+}
+
+.main-navigation li {
+	border-top: 1px solid #eaeaea;
+	border-top: 1px solid rgba(51, 51, 51, 0.1);
+	position: relative;
+}
+
+.main-navigation .current-menu-item > a,
+.main-navigation .current-menu-ancestor > a {
+	font-weight: 700;
+}
+
+.main-navigation .nav-menu > ul > li:first-child,
+.main-navigation .nav-menu > li:first-child {
+	border-top: 0;
+}
+
+.main-navigation .menu-item-has-children > a {
+	padding-right: 48px;
+}
+
+.main-navigation .menu-item-description {
+	color: #707070;
+	color: rgba(51, 51, 51, 0.7);
+	font-family: "Noto Sans", sans-serif;
+	font-size: 12px;
+	font-size: 1.2rem;
+	font-weight: 400;
+	line-height: 1.5;
+	margin-top: 0.5em;
+}
+
+.no-js .main-navigation ul ul {
+	display: block;
+}
+
+.dropdown-toggle {
+	position: absolute;
+	height: 20px;
+	width: 20px;
+	top: 14px;
+	right: 26px;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	padding: 0;
+	font-family: 'FontAwesome';
+	background-color: #fff;
+	border: 1px solid #000;
+	content: "";
+	color: #000;
+	text-transform: lowercase; /* Stop screen readers to read the text as capital letters */
+}
+
+.dropdown-toggle:after {
+	content: "\f078";
+	font-size: 10px;
+	line-height: 20px;
+	position: relative;
+	top: 0;
+	left: 1px;
+	width: 20px;
+}
+
+.dropdown-toggle:hover,
+.dropdown-toggle:focus {
+	background-color: #563A56; /* Dark purple */
+}
+
+.dropdown-toggle.toggle-on:after {
+	content: "\f077";
+}
+
+
+/* Small menu */
+
+.menu-toggle,
+.main-navigation.toggled ul {
+	display: block;
+}
+
+.menu-toggle {
+	position: fixed;
+	z-index: 100;
+	top: 3em;
+	right: 1.5em;
+	text-transform: uppercase;
+	background-color: #9E6B9E; /* Medium purple */
+
+	color: #fff;
+	padding: 10px 12px;
+	border: solid 2px #563A56; /* Dark purple */
+}
+
+.menu-toggle:hover, .menu-toggle:focus {
+	background-color: #563A56; /* Dark purple */
+	border: 2px solid #563A56;
+	color: #F7E0AA; /* Dark yellow-tan */
+	font-weight: bold;
+}
+
+
+/* Hovering menu */
+
+
+.main-navigation.toggled {
+	position: fixed;
+	top: 3em;
+	padding: 1em;
+	z-index: 1;
+}
+
+.main-navigation.toggled ul {
+	max-height: calc(100vh - 8em);
+	overflow-y: auto;
+}
+
+.main-navigation.toggled a {
+	font-size: 1em;
+	padding: 0.8em 1em;
+	color: white;
+}
+
+.main-navigation a:hover, 
+.main-navigation a:focus {
+	background: #563A56; /* Dark purple */
+	color: #F7E0AA; /* Dark yellow-tan */
+}
+
+.main-navigation .nav-menu {
+	margin-top: 1em;
+	background-color: #9E6B9E; /* Medium purple */
+	border: 1px solid #563A56; /* Dark purple */
+}
+
+
+
+.main-navigation.toggled ul ul {
+	display: none;
+}
+.main-navigation.toggled ul ul.toggled-on,
+.main-navigation.toggled ul ul.toggled-on > ul {
+	display: block;
+}
+
+@media screen and (min-width: 600px) {
+
+	.main-navigation {
+		position: relative;
+		max-width: 960px;
+		margin: 0 auto;
+	}
+
+	.main-navigation .nav-menu {
+		background-color: transparent;
+	}
+
+	.main-navigation ul {
+		display: block;
+		text-align: center;
+		padding: 0;
+		background-color: #fff;
+		clear: both;
+	}
+
+	.main-navigation li {
+		border-top: none;
+		display: inline-block;
+		position: relative;
+		line-height: .75;
+	}
+
+	.main-navigation a {
+		padding: 0.5em 1em;
+		color: #563A56; /* Dark purple */
+		text-transform: uppercase;
+	}
+
+	.main-navigation a:hover {
+		color: #9E6B9E; /* Medium purple */
+		background-color: #fff;
+		text-decoration: underline;
+		font-weight: bold;
+	}
+
+
+
+	.main-navigation .nav-menu {
+		border: none;
+	}
+
+	.menu-toggle {
+		display: none;
+	}
+	
+
+	.main-navigation .current_page_item > a,
+	.main-navigation .current-menu-item > a,
+	.main-navigation .current_page_ancestor > a,
+	.main-navigation.current-menu-ancestor > a {
+		border: 1px solid #563A56; /* Dark purple */
+		border-radius: 5px;
+		background-color: #563A56; /* Dark purple */
+		color: #FFF;
+	}
+
+
+	.dropdown-toggle {
+		display: none;
+	}
+
+	.main-navigation .menu-item-has-children > a {
+		padding-right: 1em;
+		padding-left: 1em;
+	}
+
+
+}
+
+@media screen and (min-width: 800px) {
+
+	#logo {
+		margin-bottom: 2em;
+	}
+
+	.main-navigation {
+		min-height: 2.5em;
+	}
+
+	.main-navigation ul {
+		margin-bottom: 0;
+	}
+
+	.main-navigation li {
+		padding: 0 1em;
+	}
+
+	.main-navigation a {
+		color: #fff;
+	}
+
+	.main-navigation a:hover {
+		color: #9E6B9E; /* Medium purple */
+		background-color: #fff;
+		border-radius: 5px;
+		text-decoration: underline;
+		font-weight: bold;
+	}
+
+}
+
+
+/* Non-primary navigation stuff  */
+
+.site-main .comment-navigation,
+.site-main .posts-navigation,
+.site-main .post-navigation {
+	margin: 0 0 1.5em;
+	overflow: hidden;
+}
+
+.comment-navigation .nav-previous,
+.posts-navigation .nav-previous,
+.post-navigation .nav-previous {
+	float: left;
+	width: 50%;
+}
+
+.comment-navigation .nav-next,
+.posts-navigation .nav-next,
+.post-navigation .nav-next {
+	float: right;
+	text-align: right;
+	width: 50%;
+}
+
+
+/* Menu responsiveness */
+
+
+
+/*--------------------------------------------------------------
+6.0 Accessibility
+--------------------------------------------------------------*/
+/* Text meant only for screen readers. */
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+}
+
+.screen-reader-text:hover,
+.screen-reader-text:active,
+.screen-reader-text:focus {
+	background-color: #f1f1f1;
+	border-radius: 3px;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+	clip: auto !important;
+	color: #21759b;
+	display: block;
+	font-size: 14px;
+	font-size: 0.875rem;
+	font-weight: bold;
+	height: auto;
+	left: 5px;
+	line-height: normal;
+	padding: 15px 23px 14px;
+	text-decoration: none;
+	top: 5px;
+	width: auto;
+	z-index: 100000; /* Above WP toolbar. */
+}
+
+/*--------------------------------------------------------------
+7.0 Alignments
+--------------------------------------------------------------*/
+.alignleft {
+	display: inline;
+	float: left;
+	margin-right: 1.5em;
+}
+
+.alignright {
+	display: inline;
+	float: right;
+	margin-left: 1.5em;
+}
+
+.aligncenter {
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*--------------------------------------------------------------
+8.0 Clearings
+--------------------------------------------------------------*/
+.clear:before,
+.clear:after,
+.entry-content:before,
+.entry-content:after,
+.comment-content:before,
+.comment-content:after,
+.site-header:before,
+.site-header:after,
+.site-content:before,
+.site-content:after,
+.site-footer:before,
+.site-footer:after {
+	content: "";
+	display: table;
+}
+
+.clear:after,
+.entry-content:after,
+.comment-content:after,
+.site-header:after,
+.site-content:after,
+.site-footer:after {
+	clear: both;
+}
+
+/*--------------------------------------------------------------
+9.0 Widgets
+--------------------------------------------------------------*/
+.widget {
+	margin: 0 0 1.5em;
+}
+
+/* Make sure select elements fit in widgets. */
+.widget select {
+	max-width: 100%;
+}
+
+/* Search widget. */
+.widget_search .search-submit {
+	display: none;
+}
+
+/*--------------------------------------------------------------
+10.0 Content
+--------------------------------------------------------------*/
+/*--------------------------------------------------------------
+10.1 Global
+--------------------------------------------------------------*/
+
+a {
+	text-decoration: none;
+}
+
+.site-main {
+	margin: 1.4em;
+	font-size: .8em;
+	line-height: 1.6em;
+}
+
+@media screen and (min-width: 480px) {
+	.site-main {
+		margin: 1.8em;
+	}
+}
+
+@media screen and (min-width: 640px) {
+	.site-main {
+		font-size: 1em;
+	}
+}
+
+@media screen and (min-width: 960px) {
+	.site-main {
+		max-width: 720px;
+		margin: 0 auto;
+	}
+}
+
+/*--------------------------------------------------------------
+10.2 Posts and pages
+--------------------------------------------------------------*/
+.sticky {
+	display: block;
+}
+
+.hentry {
+	margin: 0;
+}
+
+.byline,
+.updated:not(.published) {
+	display: none;
+}
+
+.single .byline,
+.group-blog .byline {
+	display: inline;
+}
+
+.page-content,
+.entry-content,
+.entry-summary {
+	margin: 1.5em 0 0;
+}
+
+.page-links {
+	clear: both;
+	margin: 0 0 1.5em;
+}
+
+/*--------------------------------------------------------------
+10.3 Asides
+--------------------------------------------------------------*/
+.blog .format-aside .entry-title,
+.archive .format-aside .entry-title {
+	display: none;
+}
+
+/*--------------------------------------------------------------
+10.4 Comments
+--------------------------------------------------------------*/
+.comment-content a {
+	word-wrap: break-word;
+}
+
+.bypostauthor {
+	display: block;
+}
+
+/*--------------------------------------------------------------
+11.0 Infinite scroll
+--------------------------------------------------------------*/
+/* Globally hidden elements when Infinite Scroll is supported and in use. */
+.infinite-scroll .posts-navigation, /* Older / Newer Posts Navigation (always hidden) */
+.infinite-scroll.neverending .site-footer { /* Theme Footer (when set to scrolling) */
+	display: none;
+}
+
+/* When Infinite Scroll has reached its end we need to re-display elements that were hidden (via .neverending) before. */
+.infinity-end.neverending .site-footer {
+	display: block;
+}
+
+/*--------------------------------------------------------------
+12.0 Media
+--------------------------------------------------------------*/
+.page-content .wp-smiley,
+.entry-content .wp-smiley,
+.comment-content .wp-smiley {
+	border: none;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding: 0;
+}
+
+/* Make sure embeds and iframes fit their containers. */
+embed,
+iframe,
+object {
+	max-width: 100%;
+}
+
+/*--------------------------------------------------------------
+12.1 Captions
+--------------------------------------------------------------*/
+.wp-caption {
+	margin-bottom: 1.5em;
+	max-width: 100%;
+}
+
+.wp-caption img[class*="wp-image-"] {
+	display: block;
+	margin: 0 auto;
+}
+
+.wp-caption-text {
+	text-align: center;
+}
+
+.wp-caption .wp-caption-text {
+	margin: 0.8075em 0;
+}
+
+/*--------------------------------------------------------------
+12.2 Galleries
+--------------------------------------------------------------*/
+.gallery {
+	margin-bottom: 1.5em;
+}
+
+.gallery-item {
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+	width: 100%;
+}
+
+.gallery-columns-2 .gallery-item {
+	max-width: 50%;
+}
+
+.gallery-columns-3 .gallery-item {
+	max-width: 33.33%;
+}
+
+.gallery-columns-4 .gallery-item {
+	max-width: 25%;
+}
+
+.gallery-columns-5 .gallery-item {
+	max-width: 20%;
+}
+
+.gallery-columns-6 .gallery-item {
+	max-width: 16.66%;
+}
+
+.gallery-columns-7 .gallery-item {
+	max-width: 14.28%;
+}
+
+.gallery-columns-8 .gallery-item {
+	max-width: 12.5%;
+}
+
+.gallery-columns-9 .gallery-item {
+	max-width: 11.11%;
+}
+
+.gallery-caption {
+	display: block;
+}
+
+/*--------------------------------------------------------------
+13.0 Seniors Outdoors
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+13.1 Header
+--------------------------------------------------------------*/
+
+
+
+
+
+.header-container {
+	max-width: 1120px;
+	margin: 0 auto;
+}
+
+#logo {
+	margin: 1.75em 2em;
+	border: 1px solid #F7E0AA; /* Dark yellow-tan */
+	border-radius: 15px;
+	background-color: #F7E0AA;
+}
+
+
+.site-branding {
+	font-family: 'Oswald', sans-serif;
+	color: #fff;
+}
+
+.site-title {
+	font-size: 3rem;
+	display: inline-block;
+	width: 200px;
+	line-height: 1.1;
+	margin-top: 0.75em;
+	margin-bottom: 0;
+
+}
+
+.tagline {
+	text-align: right;
+	padding: 1rem 1rem 0 0;
+	line-height: 1.2;
+	margin-top: 0em;
+	margin-bottom: 0;
+	display: none;
+}
+
+.tagline span {
+	font-size: 2rem;
+}
+
+.site-header {
+	background-color: #fff;
+}
+
+.site-branding {
+	margin: 0 auto;
+}
+.site-title a {
+	color: #563A56; /* Dark purple */
+}
+#image-slider {
+	display: none;
+}
+
+
+@media screen and (min-width: 800px) {
+	.site-header {
+/*		background-color: #563A56; /* Dark purple */
+		background-color: #3a273a; /* Even darker purple */
+	}
+	.tagline {
+		display: block;
+		margin-top: 4.25em;
+	}
+	#image-slider {
+		display: block;
+	}
+	.site-title a {
+		color: #fff;
+	}
+}
+
+@media screen and (min-width: 960px) {
+	.tagline {
+		margin-top: 0;
+	}
+}
+
+/*--------------------------------------------------------------
+13.# Style Overrides
+--------------------------------------------------------------*/
+
+.single-tribe_events .entry-title { 
+	font-size: 1.6em;
+}
+
+/*--------------------------------------------------------------
+13.# Footer
+--------------------------------------------------------------*/
+
+.site-footer {
+/*	background-color: #3a273a; /* Even darker purple */
+	background-color: #563A56; /* Dark purple */
+	color: #fff;
+	text-align: center;
+	font-size: .8em;
+	padding-top: 8px;
+}
+
+@media screen and (min-width: 800px) {
+	.site-footer {
+		background-color: #3a273a; /* Even darker purple */
+	}
+}
+
+}
+

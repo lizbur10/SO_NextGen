@@ -87,7 +87,7 @@ function pmai_wp_ajax_get_acf(){
 							if ($field['parent'] == $acf_obj['key']){								
 								$fieldData = $field;
 							
-								$fieldData['id']    = uniqid();
+								$fieldData['ID'] = $fieldData['id']    = uniqid();
 								$fieldData['label'] = $field['label'];
 								$fieldData['key']   = $field['key'];					
 
