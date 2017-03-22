@@ -2,7 +2,11 @@
 /**
  * This template renders the RSVP ticket form
  *
- * @version 4.3
+ * Override this template in your own theme by creating a file at:
+ *
+ *     [your-theme]/tribe-events/tickets/rsvp.php
+ *
+ * @version 4.3.5
  *
  * @var bool $must_login
  */
@@ -15,7 +19,7 @@ $messages = Tribe__Tickets__RSVP::get_instance()->get_messages();
 $messages_class = $messages ? 'tribe-rsvp-message-display' : '';
 $now = current_time( 'timestamp' );
 ?>
-<form action="" class="cart <?php echo esc_attr( $messages_class ); ?>" method="post" enctype='multipart/form-data'>
+<form action="" class="tribe-tickets-rsvp cart <?php echo esc_attr( $messages_class ); ?>" method="post" enctype='multipart/form-data'>
 	<h2 class="tribe-events-tickets-title"><?php echo esc_html_x( 'RSVP', 'form heading', 'event-tickets' ) ?></h2>
 	<div class="tribe-rsvp-messages">
 		<?php

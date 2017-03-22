@@ -1,16 +1,18 @@
 === Gallery ===
-Contributors: webdorado
+Contributors: webdorado,wdsupport
 Donate link: https://web-dorado.com/products/wordpress-photo-gallery-plugin.html
-Tags: album, image gallery, gallery, image, images, lightbox, photo, photo gallery, photos, responsive, thumbnail, widget
+Tags:  content gallery, gallery, gallery image, image gallery, images gallery, lightbox gallery, media gallery, photo gallery, responsive gallery, thumbnail gallery, wordpress gallery, youtube gallery
 Requires at least: 3.4
-Tested up to: 4.6 
-Stable tag: 1.3.8    
+Tested up to: 4.7 
+Stable tag: 1.3.30    
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Photo Gallery is an advanced plugin with a list of tools and options for adding and editing images for different views. It is fully responsive.
+Gallery is an advanced plugin with a list of tools and options for adding and editing images for different views. It is fully responsive. 
 
 == Description ==
+
+Gallery is a fully responsive WordPress gallery plugin with advanced functionality.
 Create 100% responsive FREE WordPress photo gallery in minutes. Easy to customize and various views.    
    
 https://www.youtube.com/watch?v=4Mxg0FsFZZE&index=5&list=PLnxWPiY5tLFUsFI67acGEPAqoDMZqss5F
@@ -111,58 +113,7 @@ Upgrade to [WordPress Photo Gallery Pro](https://web-dorado.com/products/wordpre
 *   Possibility to include both videos and images within a single gallery.     
 *   Add ons support.      
 
-### Supported languages 
 
- *If you need language of Photo Gallery which is not included in this list, please contact us and we will do the translation of Photo Gallery within 3 days. If you find any mistakes in the translation, please contact us and we will make relevant corrections within 3 days. *  
-
-Afrikaans (af)  
-Albanian (sq)  
-Arabic (ar)  
-Armenian (hy_AM)  
-Belarusian (be_BY)  
-Bulgarian (bg_BG)  
-Catalan (ca)  
-Chinese, Simplified (zh_CN)  
-Croatian (hr)  
-Czech (cs_CZ)  
-Danish (da_DK)  
-Dutch (nl_NL)  
-Esperanto (eo_EO)  
-Estonian (et)  
-Finnish (fi)  
-French (fr_FR)  
-Galician (gl_ES)  
-Georgian (ka_GE)  
-German (de_DE)  
-Greek (el)  
-Hebrew (he_IL)  
-Hindi (hi_IN)  
-Hungarian (hu_HU)  
-Icelandic (is_IS) by Eggert Johannesson    
-Indonesian (id_ID)  
-Italian (it_IT)  
-Japanese (ja)  
-Korean (ko_KR)  
-Latvian (lv)  
-Lithuanian (lt_LT)  
-Macedonian (mk_MK)  
-Malay (ms_MY)  
-Maltese (mt_MT)  
-Norwegian (nb_NO)  
-Persian (fa_IR)  
-Polish (pl_PL)  
-Portuguese (pt_PT)  
-Russian (ru_RU) by Ruslan Tertyshny      
-Romanian (ro_RO)  
-Serbian (sr_RS)  
-Slovak (sk_SK)  
-Spanish (es_ES) by Alexandro Lacadena       
-Swedish (sv_SE)  
-Tamil (ta)  
-Thai (th)  
-Turkish (tr_TR)  
-Ukrainian (uk_UA)  
-Vietnamese (vi)  
 
 == Installation ==    
 
@@ -223,6 +174,114 @@ We recommend to use images with the width of 1200px to 1600px. In order to speed
 To enable the feature of adding Media Library images, go to Photo Gallery > Options > Global Options and set Import from Media Library option to Yes. After that you will be able to import photos from Media Library to Photo Gallery.     
 
 == Changelog ==
+
+= 1.3.30 =
+* Changed: Scroll load in filemanager.   
+* Fixed: Image dimensions on images reset.   
+
+= 1.3.29 =
+* Changed: Possibility to include scripts only in necessary pages.    
+
+= 1.3.28 =
+* Fixed: Filemanager allowed file types.    
+* Fixed: Instagram.   
+
+= 1.3.27 =
+* Changed: Removed bwg_option table.   
+* Fixed: Masonry galleries bug in masonry album.    
+
+= 1.3.26 =
+* Fixed: Sanitize folder names in filemanager.   
+* Fixed: Random order (pagination and lightbox).   
+* Fixed: Album widget sort direction.   
+* Fixed: Images ordering bug in lightbox.   
+* Fixed: Removed unnecessary spaces from order by.   
+* Fixed: Gallery title bug in extended album view.  
+* Fixed: Tags cloud widget styles conflict with some themes.  
+* Fixed: Open lightbox from tag cloud.   
+* Changed: Generate shortcode with ajax.   
+
+= 1.3.25 =
+* Fixed: Google Fonts.    
+* Added: Select all button on tags page.   
+
+= 1.3.24 =
+* Fixed: Google Fonts list bug.   
+
+= 1.3.23 =
+* Fixed: Ordering bug in Gallery Box.   
+* Added: Possibility to include styles/scripts in necessary pages only.   
+* Fixed: Share after image change.   
+* Fixed: Author for custom posts.   
+* Fixed: Removed unnecessary spaces from ordering.   
+* Fixed: Tag select on mobile.     
+* Changed: Include only necessary Google Fonts.      
+
+= 1.3.22 =
+* Fixed: Styles on Twenty Seventeen theme.    
+* Fixed: Conflict with lazy load in albums views.     
+* Fixed: Google fonts bad request.     
+* Fixed: Tag in gallery box url.   
+* Fixed: German translation (Thanks to Hans-Jurgen Stephan).   
+* Fixed: Tag pages display bug.   
+* Fixed: Upload only images zip.  
+* Fixed: Show galleries in pages loaded with ajax.    
+* Fixed: Conflict with "All in One SEO Pack" plugin.    
+
+= 1.3.21 =
+* Fixed: Frontend content language in AJAX response on Wordpress 4.7.   
+* Fixed: Images check all in backend on Wordpress 4.7.   
+* Fixed: Item price with parameter.   
+
+= 1.3.20 =
+* Fixed: Redirect to url for masonry view.     
+* Added: Redirect to url for slideshow and carousel views.       
+* Updated: Sumoselect.     
+
+= 1.3.19 =
+* Added: Image title position in image browser view (optional).    
+* Added: Loading icon in slideshow view.    
+* Added: Open album on title click in extended album view.     
+
+= 1.3.18 =
+* Changed: Options page design.    
+
+= 1.3.17 =
+* Changed: Dutch translations by Piet Kok.    
+
+= 1.3.16 =
+* Fixed: Ampersand in watermark and advertisement text.   
+* Fixed: Lightbox controlls toggle button on mobile.   
+* Added: Google fonts.    
+* Changed: UploadHandler class name to prevent conflict with some themes.   
+  
+= 1.3.15 =
+* Added: Images bulk rotate.   
+* Fixed: Messages in masonry album view.   
+* Fixed: Show info on image change effect end.    
+
+= 1.3.14 =
+* Fixed: Social Bulk Embed bug for facebook.    
+* Fixed: Add facebook album bug.    
+* Added: Tag select from shortcode.    
+* Fixed: Improved tag search.   
+
+= 1.3.13 =
+* Fixed: Instagram gallery autoupdate.   
+* Fixed: Add images and videos in French sites.    
+* Fixed: Image description with quotes.    
+
+= 1.3.12 =
+* Fixed: Backend French translation.         
+
+= 1.3.11 =
+* Fixed: Filename as alt/title on image insert.    
+
+= 1.3.10 =
+* Changed: Image alt/title input size.    
+
+= 1.3.9 =
+* Changed: Featured themes page.      
 
 = 1.3.8 =
 * Fixed: Ratings with opened comments.     

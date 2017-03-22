@@ -135,7 +135,8 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			'root_element' => '',
 			'downloaded' => '',
 			'auto_generate' => 0,
-			'template' => false			
+			'template' => false	,
+            'taxonomy_type' => ''
 		);
 
 		if ($parent_import and ! $parent_import_record->getById($parent_import)->isEmpty()){
@@ -254,6 +255,10 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			if ($post['is_update_previous'] and empty($post['update_previous'])) {
 				$this->errors->add('form-validation', __('Previous import for update must be selected to proceed with a new one', 'wp_all_import_plugin'));
 			}
+
+			if ( 'taxonomies' == $this->input->post('custom_type') and '' == $this->input->post('taxonomy_type')){
+                $this->errors->add('form-validation', __('Select a taxonomy to import the data', 'wp_all_import_plugin'));
+            }
 
 			$this->data['detection_feed_extension'] = false;							
 							
@@ -394,6 +399,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 					'feed_type' => $post['feed_type'],
 					'wizard_type' => $post['wizard_type'],
 					'custom_type' => $post['custom_type'],
+                    'taxonomy_type' => $post['taxonomy_type'],
 					'source' => $source,										
 					'encoding' => 'UTF-8',
 					'is_csv' => PMXI_Plugin::$is_csv,
@@ -645,7 +651,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			      	{
 			      		//PMXI_Import_Record::preprocessXml($xml);
 			      		$xml = "<?xml version=\"1.0\" encoding=\"". PMXI_Plugin::$session->encoding ."\"?>" . "\n" . $xml;					      		
-				      	
+				    
 				      	$dom = new DOMDocument('1.0', PMXI_Plugin::$session->encoding);
 						$old = libxml_use_internal_errors(true);
 						$dom->loadXML($xml);
@@ -655,8 +661,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 						if (($elements = @$xpath->query($post['xpath'])) and $elements->length){
 						
 							if ( $post['show_element'] == 1 ){
-								$this->data['node_list_count'] += $elements->length;
-								PMXI_Plugin::$session->set('count', $this->data['node_list_count']);
+								$this->data['node_list_count'] += $elements->length;								
 								if (!$loop) $this->data['dom'] = $dom;
 							}
 							
@@ -668,16 +673,20 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 							}
 
 							unset($dom, $xpath, $elements);		
-						}
+						}						
 				    }
 				}
-				unset($file);					
+				unset($file);	
+
+				PMXI_Plugin::$session->set('count', $this->data['node_list_count']);				
 			}
 			if ( ! $this->data['node_list_count']) {
 				$this->errors->add('form-validation', __('There are no elements to import based on your XPath.<br/><br/>If you are in Step 2, you probably specified filtering options that don’t match any elements present in your file.<br/>If you are seeing this error elsewhere, it means that while the XPath expression for your initial import matched some elements in your file previously, there are now zero elements in the file that match this expression.<br/>You can edit the XPath for your import by going to the Manage Imports -> Import Settings page.', 'wp_all_import_plugin')); 
 			}					
 		}
-		
+
+		$this->data['show_element'] = $post['show_element'];
+
 		PMXI_Plugin::$session->save_data();
 
 		$this->data['is_csv'] = $post['is_csv'];
@@ -964,14 +973,14 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 				}
 				unset($file);				
 			}
-			//$this->data['tagno'] = $tagno = 1;			
-			
-			$xpath = "(" . PMXI_Plugin::$session->xpath . ")[1]";		
+			//$this->data['tagno'] = $tagno = 1;						
+			$xpath = "(" . PMXI_Plugin::$session->xpath . ")[1]";
 			
 			PMXI_Plugin::$session->set('encoding', $post['import_encoding']);
 			PMXI_Plugin::$session->save_data();
 
 			$functions = $wp_uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_IMPORT_UPLOADS_BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'functions.php';
+			$functions = apply_filters( 'import_functions_file_path', $functions );
 			if ( @file_exists($functions) )
 				require_once $functions;
 
@@ -1115,6 +1124,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			PMXI_Plugin::$session->save_data();
 
 			$functions = $wp_uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_IMPORT_UPLOADS_BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'functions.php';
+			$functions = apply_filters( 'import_functions_file_path', $functions );
 			if ( @file_exists($functions) )
 				require_once $functions;
 						
@@ -1249,6 +1259,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 
 			$wp_uploads = wp_upload_dir();		
 			$functions  = $wp_uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_IMPORT_UPLOADS_BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'functions.php';
+			$functions = apply_filters( 'import_functions_file_path', $functions );
 			if ( @file_exists($functions) )
 				require_once $functions;
 			
@@ -1404,6 +1415,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 
 			$wp_uploads = wp_upload_dir();	
 			$functions = $wp_uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_IMPORT_UPLOADS_BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'functions.php';
+			$functions = apply_filters( 'import_functions_file_path', $functions );
 			if ( @file_exists($functions) )
 				require_once $functions;
 			
@@ -1457,7 +1469,8 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 				if (class_exists($class)) $default += call_user_func(array($class, "get_default_import_options"));			
 			}
 			$default['wizard_type'] = PMXI_Plugin::$session->wizard_type;
-			if (empty($default['custom_type'])) $default['custom_type'] = PMXI_Plugin::$session->custom_type;			
+			if (empty($default['custom_type'])) $default['custom_type'] = PMXI_Plugin::$session->custom_type;
+            if (empty($default['taxonomy_type'])) $default['taxonomy_type'] = PMXI_Plugin::$session->taxonomy_type;
 			if (empty($default['delimiter']))   $default['delimiter']   = PMXI_Plugin::$session->is_csv;						
 
 			$DefaultOptions = (isset(PMXI_Plugin::$session->options)) ? array_replace_recursive($default, PMXI_Plugin::$session->options) : $default;												
@@ -1504,6 +1517,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 				$template_options = $template->options;
 				$template_options['type'] = $post['type'];
 				$template_options['custom_type'] = $post['custom_type'];
+                $template_options['taxonomy_type'] = $post['taxonomy_type'];
 				$template_options['wizard_type'] = $post['wizard_type'];
 				$template_options['delimiter'] = $post['delimiter'];		
 
@@ -1522,6 +1536,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 
 			$wp_uploads = wp_upload_dir();		
 			$functions  = $wp_uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_IMPORT_UPLOADS_BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'functions.php';
+			$functions = apply_filters( 'import_functions_file_path', $functions );
 			if ( @file_exists($functions) )
 				require_once $functions;
 			
@@ -1535,7 +1550,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			if (!empty($post['content'])) {				
 				$this->_validate_template($post['content'], 'Post content');
 			}
-			elseif ($post['custom_type'] != 'shop_order'){
+			elseif ( ! in_array($post['custom_type'], array('shop_order', 'taxonomies', 'import_users')) ){
 				$this->warnings->add('2', __('<strong>Warning:</strong> your content is blank.', 'wp_all_import_plugin'));
 			}
 			
@@ -1570,9 +1585,9 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 				$post['custom_value'] = array_intersect_key($post['custom_value'], $not_empty);
 				
 				// validate
-				if (array_keys(array_filter($post['custom_name'], 'strlen')) != array_keys(array_filter($post['custom_value'], 'strlen')) and ! count(array_filter($post['custom_format'])) ) {
-					$this->errors->add('form-validation', __('Both name and value must be set for all custom parameters', 'wp_all_import_plugin'));
-				} else {
+//				if (array_keys(array_filter($post['custom_name'], 'strlen')) != array_keys(array_filter($post['custom_value'], 'strlen')) and ! count(array_filter($post['custom_format'])) ) {
+//					$this->errors->add('form-validation', __('Both name and value must be set for all custom parameters', 'wp_all_import_plugin'));
+//				} else {
 					foreach ($post['custom_name'] as $custom_name) {					
 						$this->_validate_template($custom_name, __('Custom Field Name', 'wp_all_import_plugin'));
 					}
@@ -1580,7 +1595,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 						if ( empty($post['custom_format'][$key]) ) 
 							$this->_validate_template($custom_value, __('Custom Field Value', 'wp_all_import_plugin'));					
 					}
-				}	
+//				}
 				
 				if ( $post['type'] == "post" and $post['custom_type'] == "product" and class_exists('PMWI_Plugin')){
 					// remove entires where both custom_name and custom_value are empty 
@@ -1664,52 +1679,68 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 		
 		PMXI_Plugin::$session->save_data();
 
-		if ( ! in_array($post['custom_type'], array('import_users')) ){
+        switch ($post['custom_type']){
+            case 'import_users':
+                // Get All meta keys in the system
+                $this->data['meta_keys'] = array();
+                $meta_keys = new PMXI_Model_List();
+                $meta_keys->setTable(PMXI_Plugin::getInstance()->getWPPrefix() . 'usermeta');
+                $meta_keys->setColumns('umeta_id', 'meta_key')->getBy(NULL, "umeta_id", NULL, NULL, "meta_key");
+                $hide_fields = array('first_name', 'last_name', 'nickname', 'description', PMXI_Plugin::getInstance()->getWPPrefix() . 'capabilities');
+                if ( ! empty($meta_keys) and $meta_keys->count() ){
+                    foreach ($meta_keys as $meta_key) { if (in_array($meta_key['meta_key'], $hide_fields) or strpos($meta_key['meta_key'], '_wp') === 0) continue;
+                        $this->data['meta_keys'][] = $meta_key['meta_key'];
+                    }
+                }
+                break;
+            case 'taxonomies':
+                // Get All meta keys in the system
+                $this->data['meta_keys'] = array();
+                $meta_keys = new PMXI_Model_List();
+                $meta_keys->setTable(PMXI_Plugin::getInstance()->getWPPrefix() . 'termmeta');
+                $meta_keys->setColumns('meta_id', 'meta_key')->getBy(NULL, "meta_id", NULL, NULL, "meta_key");
+                $hide_fields = array();
+                if ( ! empty($meta_keys) and $meta_keys->count() ){
+                    foreach ($meta_keys as $meta_key) { if (in_array($meta_key['meta_key'], $hide_fields)) continue;
+                        $this->data['meta_keys'][] = $meta_key['meta_key'];
+                    }
+                }
+                break;
+            default:
 
-			global $wpdb;
+                global $wpdb;
 
-			// Get all meta keys for requested post type
-			$this->data['meta_keys'] = array();		
-			$hide_fields = array('_wp_page_template', '_edit_lock', '_edit_last', '_wp_trash_meta_status', '_wp_trash_meta_time');
-			$records = get_posts( array('post_type' => $post['custom_type']) );
-			if ( ! empty($records)){			
-				foreach ($records as $record) {
-					$record_meta = get_post_meta($record->ID, '');
-					if ( ! empty($record_meta)){
-						foreach ($record_meta as $record_meta_key => $record_meta_value) {
-							if ( ! in_array($record_meta_key, $this->data['meta_keys']) and ! in_array($record_meta_key, $hide_fields)) $this->data['meta_keys'][] = $record_meta_key;
-						}
-					}
-				}
-			}		
+                // Get all meta keys for requested post type
+                $this->data['meta_keys'] = array();
+                $hide_fields = array('_edit_lock', '_edit_last', '_wp_trash_meta_status', '_wp_trash_meta_time');
+                $records = get_posts( array('post_type' => $post['custom_type']) );
+                if ( ! empty($records)){
+                    foreach ($records as $record) {
+                        $record_meta = get_post_meta($record->ID, '');
+                        if ( ! empty($record_meta)){
+                            foreach ($record_meta as $record_meta_key => $record_meta_value) {
+                                if ( ! in_array($record_meta_key, $this->data['meta_keys']) and ! in_array($record_meta_key, $hide_fields)) $this->data['meta_keys'][] = $record_meta_key;
+                            }
+                        }
+                    }
+                }
 
-			// Get existing product attributes
-			$existing_attributes = $wpdb->get_results("SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_product_attributes' LIMIT 0 , 50" );
-			$this->data['existing_attributes'] = array();
-			if ( ! empty($existing_attributes)){
-				foreach ($existing_attributes as $key => $existing_attribute) {				
-					$existing_attribute = maybe_unserialize($existing_attribute->meta_value);				
-					if (!empty($existing_attribute) and is_array($existing_attribute)): 
-						foreach ($existing_attribute as $key => $value) {
-							if (strpos($key, "pa_") === false and ! in_array($key, $this->data['existing_attributes'])) $this->data['existing_attributes'][] = $key;
-						} 
-					endif;
-				}
-			}
-		}	
-		else {
-			// Get All meta keys in the system
-			$this->data['meta_keys'] = array();
-			$meta_keys = new PMXI_Model_List();
-			$meta_keys->setTable(PMXI_Plugin::getInstance()->getWPPrefix() . 'usermeta');
-			$meta_keys->setColumns('umeta_id', 'meta_key')->getBy(NULL, "umeta_id", NULL, NULL, "meta_key");	
-			$hide_fields = array('first_name', 'last_name', 'nickname', 'description', PMXI_Plugin::getInstance()->getWPPrefix() . 'capabilities');
-			if ( ! empty($meta_keys) and $meta_keys->count() ){
-				foreach ($meta_keys as $meta_key) { if (in_array($meta_key['meta_key'], $hide_fields) or strpos($meta_key['meta_key'], '_wp') === 0) continue;
-					$this->data['meta_keys'][] = $meta_key['meta_key'];
-				}
-			}
-		}
+                // Get existing product attributes
+                $existing_attributes = $wpdb->get_results("SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_product_attributes' LIMIT 0 , 50" );
+                $this->data['existing_attributes'] = array();
+                if ( ! empty($existing_attributes)){
+                    foreach ($existing_attributes as $key => $existing_attribute) {
+                        $existing_attribute = maybe_unserialize($existing_attribute->meta_value);
+                        if (!empty($existing_attribute) and is_array($existing_attribute)):
+                            foreach ($existing_attribute as $key => $value) {
+                                if (strpos($key, "pa_") === false and ! in_array($key, $this->data['existing_attributes'])) $this->data['existing_attributes'][] = $key;
+                            }
+                        endif;
+                    }
+                }
+
+                break;
+        }
 
 		if (user_can_richedit()) {
 			wp_enqueue_script('editor');
@@ -1725,10 +1756,12 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 	protected function _validate_template($text, $field_title)
 	{
 		try {
-			$scanner = new XmlImportTemplateScanner();
-			$tokens = $scanner->scan(new XmlImportStringReader($text));
-			$parser = new XmlImportTemplateParser($tokens);
-			$tree = $parser->parse();
+		  if ($text != ''){
+        $scanner = new XmlImportTemplateScanner();
+        $tokens = $scanner->scan(new XmlImportStringReader($text));
+        $parser = new XmlImportTemplateParser($tokens);
+        $tree = $parser->parse();
+      }
 		} catch (XmlImportException $e) {
 			$this->errors->add('form-validation', sprintf(__('%s template is invalid: %s', 'wp_all_import_plugin'), $field_title, $e->getMessage()));
 		}
@@ -1754,8 +1787,6 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			if ( ! in_array(PMXI_Plugin::$session->options['custom_type'], array('import_users', 'shop_order')) ){
 				if (empty(PMXI_Plugin::$session->options['title']))
 					$this->warnings->add('form-validation', __('<strong>Warning:</strong> your title is blank.'));
-				if (empty(PMXI_Plugin::$session->options['content']))
-					$this->warnings->add('form-validation', __('<strong>Warning:</strong> your content is blank.'));			
 			}
 			
 			if (empty(PMXI_Plugin::$session->options['unique_key'])){
@@ -1800,7 +1831,8 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			}
 
 			$DefaultOptions['wizard_type'] = PMXI_Plugin::$session->wizard_type;
-			if (empty($DefaultOptions['custom_type'])) $DefaultOptions['custom_type'] = PMXI_Plugin::$session->custom_type;			
+			if (empty($DefaultOptions['custom_type'])) $DefaultOptions['custom_type'] = PMXI_Plugin::$session->custom_type;
+            if (empty($DefaultOptions['taxonomy_type'])) $DefaultOptions['taxonomy_type'] = PMXI_Plugin::$session->taxonomy_type;
 			if (empty($DefaultOptions['delimiter']))   $DefaultOptions['delimiter']   = PMXI_Plugin::$session->is_csv;			
 			
 			$post = $this->input->post( $DefaultOptions );
@@ -1837,6 +1869,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 
 			$wp_uploads = wp_upload_dir();		
 			$functions  = $wp_uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_IMPORT_UPLOADS_BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'functions.php';
+			$functions = apply_filters( 'import_functions_file_path', $functions );
 			if ( @file_exists($functions) )
 				require_once $functions;		
 			
@@ -1867,9 +1900,18 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 				if ('' == $post['custom_duplicate_value'])
 					$this->errors->add('form-validation', __('Custom field value must be specified.', 'wp_all_import_plugin'));
 			}
-			if ( 'manual' == $post['duplicate_matching'] and 'pid' == $post['duplicate_indicator']){
-				if ('' == $post['pid_xpath'])
-					$this->errors->add('form-validation', __('Post ID must be specified.', 'wp_all_import_plugin'));				
+			if ( 'manual' == $post['duplicate_matching'] ){
+				if ( 'pid' == $post['duplicate_indicator'] && '' == $post['pid_xpath'] ){
+                    $this->errors->add('form-validation', __('Post ID must be specified.', 'wp_all_import_plugin'));
+                }
+                if ( 'taxonomies' == $post['custom_type'] ){
+                    if ( 'title' == $post['duplicate_indicator'] && '' == $post['title_xpath'] ){
+                        $this->errors->add('form-validation', __('Term name must be specified.', 'wp_all_import_plugin'));
+                    }
+                    if ( 'slug' == $post['duplicate_indicator'] && '' == $post['slug_xpath'] ){
+                        $this->errors->add('form-validation', __('Term slug must be specified.', 'wp_all_import_plugin'));
+                    }
+                }
 			}
 
 			// Categories/taxonomies logic
@@ -1951,10 +1993,12 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 						break;				
 				}	
 
+				$is_validate_file = apply_filters('wp_all_import_is_validate_file_options_update', true, $this->data['import']->id);				
+
 				if ($upload_result instanceof WP_Error){
 					$this->errors = $upload_result;
 				}
-				elseif ($upload_result !== false and $this->data['import']['path'] != $filePath) {
+				elseif ($upload_result !== false and $this->data['import']['path'] != $filePath and $is_validate_file) {
 					
 					$file = new PMXI_Chunk($upload_result['filePath'], array('element' => ( ! empty($this->data['import']->root_element)) ? $this->data['import']->root_element : ''));
 					
@@ -2076,7 +2120,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 								'xpath' => PMXI_Plugin::$session->xpath,								
 								'options' => PMXI_Plugin::$session->options,								
 								'count' => PMXI_Plugin::$session->count,
-								'friendly_name' => $this->data['post']['friendly_name'],								
+								'friendly_name' => wp_all_import_clear_xss($this->data['post']['friendly_name']),
 							)
 						)->save();
 						
@@ -2097,7 +2141,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 					$xpath = $this->input->post('xpath');
 
 					$toUpdate = array( 
-						'friendly_name' => $this->data['post']['friendly_name'],
+						'friendly_name' => wp_all_import_clear_xss($this->data['post']['friendly_name']),
 						'xpath' => $this->input->post('xpath'),
 						'settings_update_on' => date('Y-m-d H:i:s')
 					);
@@ -2208,40 +2252,67 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 				
 		PMXI_Plugin::$session->save_data();
 
-		$this->data['existing_meta_keys'] = array();	
-		
-		if ( ! in_array($post['custom_type'], array('import_users'))){
+		$this->data['existing_meta_keys'] = array();
 
-			global $wpdb;
+        switch ($post['custom_type']){
+            case 'import_users':
+                // Get All meta keys in the system
+                $this->data['meta_keys'] = array();
+                $meta_keys = new PMXI_Model_List();
+                $meta_keys->setTable(PMXI_Plugin::getInstance()->getWPPrefix() . 'usermeta');
+                $meta_keys->setColumns('umeta_id', 'meta_key')->getBy(NULL, "umeta_id", NULL, NULL, "meta_key");
+                $hide_fields = array('first_name', 'last_name', 'nickname', 'description', PMXI_Plugin::getInstance()->getWPPrefix() . 'capabilities');
+                if ( ! empty($meta_keys) and $meta_keys->count() ){
+                    foreach ($meta_keys as $meta_key) { if (in_array($meta_key['meta_key'], $hide_fields) or strpos($meta_key['meta_key'], '_wp') === 0) continue;
+                        $this->data['existing_meta_keys'][] = $meta_key['meta_key'];
+                    }
+                }
+                break;
+            case 'taxonomies':
+                // Get All meta keys in the system
+                $this->data['meta_keys'] = array();
+                $meta_keys = new PMXI_Model_List();
+                $meta_keys->setTable(PMXI_Plugin::getInstance()->getWPPrefix() . 'termmeta');
+                $meta_keys->setColumns('meta_id', 'meta_key')->getBy(NULL, "meta_id", NULL, NULL, "meta_key");
+                $hide_fields = array();
+                if ( ! empty($meta_keys) and $meta_keys->count() ){
+                    foreach ($meta_keys as $meta_key) { if (in_array($meta_key['meta_key'], $hide_fields)) continue;
+                        $this->data['existing_meta_keys'][] = $meta_key['meta_key'];
+                    }
+                }
+                break;
+            default:
+                global $wpdb;
 
-			// Get all meta keys for requested post type			
-			$hide_fields = array('_wp_page_template', '_edit_lock', '_edit_last', '_wp_trash_meta_status', '_wp_trash_meta_time');
-			$records = get_posts( array('post_type' => $post['custom_type']) );
-			if ( ! empty($records)){			
-				foreach ($records as $record) {
-					$record_meta = get_post_meta($record->ID, '');
-					if ( ! empty($record_meta)){
-						foreach ($record_meta as $record_meta_key => $record_meta_value) {
-							if ( ! in_array($record_meta_key, $this->data['existing_meta_keys']) and ! in_array($record_meta_key, $hide_fields)) $this->data['existing_meta_keys'][] = $record_meta_key;
-						}
-					}
-				}
-			}	
+                // Get all meta keys for requested post type
+                $hide_fields = array('_edit_lock', '_edit_last', '_wp_trash_meta_status', '_wp_trash_meta_time');
+                $records = get_posts( array('post_type' => $post['custom_type']) );
+                if ( ! empty($records)){
+                    foreach ($records as $record) {
+                        $record_meta = get_post_meta($record->ID, '');
+                        if ( ! empty($record_meta)){
+                            foreach ($record_meta as $record_meta_key => $record_meta_value) {
+                                if ( ! in_array($record_meta_key, $this->data['existing_meta_keys']) and ! in_array($record_meta_key, $hide_fields)) $this->data['existing_meta_keys'][] = $record_meta_key;
+                            }
+                        }
+                    }
+                }
 
-			// Get existing product attributes
-			$existing_attributes = $wpdb->get_results("SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_product_attributes' LIMIT 0 , 50" );
-			$this->data['existing_attributes'] = array();
-			if ( ! empty($existing_attributes)){
-				foreach ($existing_attributes as $key => $existing_attribute) {				
-					$existing_attribute = maybe_unserialize($existing_attribute->meta_value);				
-					if (!empty($existing_attribute) and is_array($existing_attribute)): 
-						foreach ($existing_attribute as $key => $value) {
-							if (strpos($key, "pa_") === false and ! in_array($key, $this->data['existing_attributes'])) $this->data['existing_attributes'][] = $key;
-						} 
-					endif;
-				}
-			}	
-		}			
+                // Get existing product attributes
+                $existing_attributes = $wpdb->get_results("SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_product_attributes' LIMIT 0 , 50" );
+                $this->data['existing_attributes'] = array();
+                if ( ! empty($existing_attributes)){
+                    foreach ($existing_attributes as $key => $existing_attribute) {
+                        $existing_attribute = maybe_unserialize($existing_attribute->meta_value);
+                        if (!empty($existing_attribute) and is_array($existing_attribute)):
+                            foreach ($existing_attribute as $key => $value) {
+                                if (strpos($key, "pa_") === false and ! in_array($key, $this->data['existing_attributes'])) $this->data['existing_attributes'][] = $key;
+                            }
+                        endif;
+                    }
+                }
+                break;
+        }
 		
 		$this->render();
 	}	
@@ -2266,8 +2337,6 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 		if ($this->isWizard and ! in_array(PMXI_Plugin::$session->options['custom_type'], array('import_users', 'shop_order'))){
 			if (empty(PMXI_Plugin::$session->options['title']))
 				$this->warnings->add('form-validation', __('<strong>Warning:</strong> your title is blank.'));
-			if (empty(PMXI_Plugin::$session->options['content']))
-				$this->warnings->add('form-validation', __('<strong>Warning:</strong> your content is blank.'));
 		}
 
 		$this->data['post'] =& $DefaultOptions;	
@@ -2318,7 +2387,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 					'xpath' => PMXI_Plugin::$session->xpath,					
 					'options' => PMXI_Plugin::$session->options,									
 					'count' => PMXI_Plugin::$session->count,
-					'friendly_name' => PMXI_Plugin::$session->options['friendly_name'],
+					'friendly_name' => wp_all_import_clear_xss(PMXI_Plugin::$session->options['friendly_name']),
 					'feed_type' => PMXI_Plugin::$session->feed_type,
 					'parent_import_id' => ($this->data['update_previous']->isEmpty()) ? PMXI_Plugin::$session->parent_import_id : $this->data['update_previous']->parent_import_id,
 					'queue_chunk_number' => 0,
@@ -2341,7 +2410,15 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			}								
 
 			// add history log
-			$custom_type = get_post_type_object( $import->options['custom_type'] );					
+            if ($import->options['custom_type'] == 'taxonomies'){
+                $tx = get_taxonomy($import->options['taxonomy_type']);
+                $custom_type = new stdClass();
+                $custom_type->labels = new stdClass();
+                $custom_type->labels->name = empty($tx->labels->name) ? __('Taxonomy Terms', 'wp_all_import_plugin') : $tx->labels->name;
+            }
+            else{
+                $custom_type = get_post_type_object( $import->options['custom_type'] );
+            }
 
 			// unlink previous logs
 			$by = array();
@@ -2363,13 +2440,18 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 				'import_id' => $import->id,
 				'date' => date('Y-m-d H:i:s'),
 				'type' => ( PMXI_Plugin::$session->action != 'continue' ) ? 'manual' : 'continue',				
-				'summary' => sprintf(__("%d %ss created %d updated %d deleted %d skipped", "pmxi_plugin"), $import->created, $custom_type->labels->singular_name, $import->updated, $import->deleted, $import->skipped)
+				'summary' => sprintf(__("%d %s created %d updated %d deleted %d skipped", "wp_all_import_plugin"), $import->created, $custom_type->labels->name, $import->updated, $import->deleted, $import->skipped)
 			))->save();	
 
 			PMXI_Plugin::$session->set('history_id', $history_log->id);			
 
 			foreach ( get_taxonomies() as $tax ) 
 				delete_transient("pmxi_{$tax}_terms");
+
+			$functions  = $wp_uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_IMPORT_UPLOADS_BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'functions.php';
+			$functions = apply_filters( 'import_functions_file_path', $functions );
+			if ( @file_exists($functions) )
+				require_once $functions;
 
 			do_action( 'pmxi_before_xml_import', $import->id );	
 
@@ -2526,11 +2608,12 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 		if ( PMXI_Plugin::is_ajax() or ! $ajax_processing ) {	
 			
 			$functions  = $wp_uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_IMPORT_UPLOADS_BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'functions.php';
+			$functions = apply_filters( 'import_functions_file_path', $functions );
 			if ( @file_exists($functions) )
 				require_once $functions;
 
 			$iteration_start_time = time();			
-			
+
 			if ( $log_storage )
 				$log_file = wp_all_import_secure_file( $wp_uploads['basedir'] . DIRECTORY_SEPARATOR . PMXI_Plugin::LOGS_DIRECTORY, $history_log->id ) . DIRECTORY_SEPARATOR . $history_log->id . '.html';
 
@@ -2646,10 +2729,20 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 									} else {
 
 										if ( ! $history_log->isEmpty()){
-											$custom_type = get_post_type_object( $import->options['custom_type'] );			
+
+                                            if ($import->options['custom_type'] == 'taxonomies'){
+                                                $tx = get_taxonomy($import->options['taxonomy_type']);
+                                                $custom_type = new stdClass();
+                                                $custom_type->labels = new stdClass();
+                                                $custom_type->labels->name = empty($tx->labels->name) ? __('Taxonomy Terms', 'wp_all_import_plugin') : $tx->labels->name;
+                                            }
+                                            else{
+                                                $custom_type = get_post_type_object( $import->options['custom_type'] );
+                                            }
+
 											$history_log->set(array(					
 												'time_run' => time() - strtotime($history_log->date),
-												'summary' => sprintf(__("%d %ss created %d updated %d deleted %d skipped", "pmxi_plugin"), $import->created, $custom_type->labels->singular_name, $import->updated, $import->deleted, $import->skipped)
+												'summary' => sprintf(__("%d %s created %d updated %d deleted %d skipped", "wp_all_import_plugin"), $import->created, $custom_type->labels->name, $import->updated, $import->deleted, $import->skipped)
 											))->update();
 										}
 
@@ -2775,11 +2868,19 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 			wp_defer_term_counting(false);
 			wp_defer_comment_counting(false);			
 
-			// add history log			
-			$custom_type = get_post_type_object( $import->options['custom_type'] );			
+			// add history log
+            if ($import->options['custom_type'] == 'taxonomies'){
+                $tx = get_taxonomy($import->options['taxonomy_type']);
+                $custom_type = new stdClass();
+                $custom_type->labels = new stdClass();
+                $custom_type->labels->name = empty($tx->labels->name) ? __('Taxonomy Terms', 'wp_all_import_plugin') : $tx->labels->name;
+            }
+            else{
+                $custom_type = get_post_type_object( $import->options['custom_type'] );
+            }
 			$history_log->set(array(					
 				'time_run' => time() - strtotime($history_log->date),
-				'summary' => sprintf(__("%d %ss created %d updated %d deleted %d skipped", "pmxi_plugin"), $import->created, $custom_type->labels->singular_name, $import->updated, $import->deleted, $import->skipped)
+				'summary' => sprintf(__("%d %s created %d updated %d deleted %d skipped", "pmxi_plugin"), $import->created, $custom_type->labels->name, $import->updated, $import->deleted, $import->skipped)
 			))->update();
 
 			// clear import session
@@ -2790,7 +2891,7 @@ class PMXI_Admin_Import extends PMXI_Controller_Admin {
 
 			if ( $ajax_processing ) ob_start();			
 
-			do_action( 'pmxi_after_xml_import', $import->id );
+			do_action( 'pmxi_after_xml_import', $import->id, $import );
 
 			$import->delete_source( $logger );
 			$import->options['is_import_specified'] and $logger and call_user_func($logger, 'Done');	

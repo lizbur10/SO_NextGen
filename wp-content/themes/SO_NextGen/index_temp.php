@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Custom Home with Month View
+emplate Name: Custom Home with Month View
 */
 
 /**

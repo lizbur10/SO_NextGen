@@ -2,7 +2,7 @@
 
 function pmai_is_acf_update_allowed( $cur_meta_key, $options ){
 
-	if ($options['update_acf_logic'] == 'full_update') return apply_filters('pmai_is_acf_update_allowed', true, $cur_meta_key, $options);
+	if ($options['update_acf_logic'] == 'full_update') return apply_filters('pmai_is_acf_update_allowed', true, $cur_meta_key, $options);	
 
 	global $acf;
 

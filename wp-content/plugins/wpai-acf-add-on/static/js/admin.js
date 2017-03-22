@@ -52,10 +52,11 @@
 	});
 	
 	$('.add_layout select').live('click', function(){
+		
+		if ($(this).val() == "" || $(this).val() == "Select Layout") return;
 
-		if ($(this).val() == "") return;
+		var $parent = $(this).parents('.acf-flexible-content:first');		
 
-		var $parent = $(this).parents('.acf-flexible-content:first');
 		var $clone = $parent.children('.clones:first').children('div.layout[data-layout = ' + $(this).val() + ']').clone();
 		
 		var $number = parseInt($parent.children('.values:first').children().length) + 1;	
@@ -75,8 +76,8 @@
 			var name = $(this).attr('name');
 			if (name != undefined) $(this).attr({'name':$(this).attr('name').replace('ROWNUMBER', $number)});
 		});
-
-		$parent.find('.values:first').append($clone);
+		
+		$parent.children('div.values:first').append($clone);
 
 	});
 

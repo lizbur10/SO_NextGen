@@ -81,6 +81,19 @@ body {
 	margin: 0 auto;
 }
 
+div.bwg_back_0, div.bwg_back_1, div.bwg_back_2, div.bwg_back_3, div.bwg_back_4, 
+div.bwg_back_5, div.bwg_back_6, div.bwg_back_7, div.bwg_back_8, div.bwg_back_9, 
+div.bwg_back_10, div.bwg_back_11, div.bwg_back_12, div.bwg_back_13, div.bwg_back_14, 
+div.bwg_back_15, div.bwg_back_16, div.bwg_back_17, div.bwg_back_18, div.bwg_back_19, 
+div.bwg_back_20, div.bwg_back_21, div.bwg_back_22, div.bwg_back_23, div.bwg_back_24, 
+div.bwg_back_25, div.bwg_back_26, div.bwg_back_27, div.bwg_back_28, div.bwg_back_29 
+div.bwg_back_30, div.bwg_back_31, div.bwg_back_32, div.bwg_back_33, div.bwg_back_34, 
+div.bwg_back_35, div.bwg_back_36, div.bwg_back_37, div.bwg_back_38, div.bwg_back_39 {
+	font-family: 'Open Sans', sans-serif !important;
+	text-align: center;
+	margin-top: 2em;
+}
+
 article,
 aside,
 details,
@@ -572,10 +585,10 @@ a:active {
 	padding-left: 0;
 }
 
-.main-navigation li:nth-of-type(3) li:nth-of-type(2) {
+/*.main-navigation li:nth-of-type(3) li:nth-of-type(2) {
 	display:none;
 }
-
+*/
 .touchevents .main-navigation ul ul, .no-touchevents .main-navigation ul ul {
 /*	display: none;
 */	margin-left: 0.8em;
@@ -938,10 +951,10 @@ a:active {
 }
 
 @media screen and (min-width: 960px) {
-	.main-navigation li:nth-of-type(3) li:nth-of-type(2) {
+/*	.main-navigation li:nth-of-type(3) li:nth-of-type(2) {
 		display:block;
 	}
-
+*/
 	.main-navigation li {
 		padding: 0 .25em .5em;
 	}
@@ -1386,6 +1399,7 @@ a.text-link:hover {
 	margin: 0;
 }
 
+input[type="submit"],
 .so-button {
 	padding: .5em;
 /*	z-index: 9999;
@@ -1401,6 +1415,7 @@ a.text-link:hover {
 	box-shadow:         3px 3px 3px #999;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */	
 }
 
+input[type="submit"]:hover,
 .so-button:hover {
 	background-color: #EDBB66;
 }
@@ -1638,7 +1653,7 @@ a.text-link:hover {
 
 .splashscreen h3 {
 	color: #563A56; /*dark purple */
-	padding-top: 0;
+	padding-top: 1em;
 	margin-top: 0;
 	text-align: center;
 }
@@ -1657,6 +1672,7 @@ button#splash-close {
 	float: right;
 	font-size: 1em;
 	padding: 5px;
+	margin-top: 8px;
 	border-radius: 0;
 	z-index: 99999;
 }
@@ -1684,7 +1700,7 @@ button#splash-close {
 
 h3.event-title {
 	margin-bottom: 0;
-	margin-top: 0;
+	margin-top: 0.5rem;
 }
 
 .list-view p {
@@ -1727,31 +1743,43 @@ div.events-list p:nth-of-type(2) {
 }
 
 .featured h3 {
-	padding-top: 0.5rem;
+	margin-top: 1rem;
 }
 
-.featured p {
+.featured p.date {
+	margin-top: 0rem;
+	margin-bottom: 1rem;
+	font-size: 1.1rem;
+	color: #222;
+	margin-left: 0;
+	font-weight: bold;
+	padding-top: -1em;
+
+}
+
+.new-and-changed h3 {
+	font-size: 1.2rem;
+}
+
+.new-and-changed h4 {
+	margin: 0 0 0 1rem;
+}
+
+.featured p.changed {
 	margin-top: 0;
+	line-height: 1.1;
 }
 
-.event-changes h3 {
-	margin-top: 0;
-	margin-bottom: 0.5em;
-}
-
-.event-changes h4 {
-	margin: 0 0 0 1em;
-}
-
-.event-changes p {
-	margin-top: 0;
-	margin-left: 1em;
-	font-size: 0.9em;
+p.changed {
+	text-transform: uppercase;
+	color: red;
+	font-weight: bold;
 }
 
 .single-space {
 	margin-bottom: 0;
 }
+
 
 @media screen and (min-width: 960px) {
 
@@ -1762,7 +1790,7 @@ div.events-list p:nth-of-type(2) {
 		color: #222;
 	}
 
-	.featured-event-details, .event-changes {
+	.general-meeting-details, .new-and-changed {
 		padding-left: 1.5rem;
 	}
 }
@@ -1853,70 +1881,34 @@ h2.tribe-events-page-title {
 }
 
 @media screen and (min-width: 960px) {
-	#tribe-events .printable-list {
+	#tribe-events {
 		display: block;
 	}
 }
 
-/*--------------------------------------------------------------
-13.# How to Join Page
---------------------------------------------------------------*/
-
-.so-table {
-	width: 36em;
-}
-
-
-.so-table tr {
-	border-top: 1px solid #563A56; /*dark purple */
-}
-
-.so-table tr:last-of-type {
-	border-bottom: 1px solid #563A56; /*dark purple */
-}
-
-.so-table tr:first-of-type {
-	background-color: #F7E0AA;  /* dark yellow-tan */
-}
-
-.so-table td {
-	padding: 0 0.5em;
-}
-
-.so-table.board {
-	width: 60em;
-}
-
-.so-table.other {
-	width: 60em;
-}
-
-.so-table.subgroups {
-	width: 60em;
-}
-
-.so-table.board tr:nth-of-type(3) {
-	border-top: none;
-}
-
-
-.so-table.other tr:nth-of-type(5) {
-	border-top: none;
-}
-
-.so-table.subgroups tr:nth-of-type(4) {
-	border-top: none;
-}
-
-@media screen and (max-width: 959px) {
-	.so-table {
-		display: none;
-	}
-}
 
 /*--------------------------------------------------------------
 13.# Printable List Page
 --------------------------------------------------------------*/
+
+#printable-list {
+	display: none;
+}
+
+.small-view {
+	margin: 2rem;
+	font-size: 1rem;
+	line-height: 1.6rem;
+}
+
+.small-view h2 {
+	font-size: 1.4rem;
+}
+
+.small-view ul {
+	margin-left: 0rem;
+}
+
 
 .events-list {
 	margin-right: 1em;
@@ -1975,11 +1967,19 @@ h2.tribe-events-page-title {
 	width: 15%;
 }
 
-p.changed {
-	text-transform: uppercase;
-	color: red;
-	font-weight: bold;
+/*p.changed defined in Home Page - Featured
+*/
+
+@media screen and (min-width: 960px) {
+	#printable-list {
+		display: block;
+	}
+
+	div.small-view {
+		display: none;
+	}
 }
+
 
 /*--------------------------------------------------------------
 13.# Single Event Pages
@@ -2147,6 +2147,23 @@ p.changed {
 	font-size: 125%;
 }
 
+/*--------------------------------------------------------------
+13.# Feedback Form page
+--------------------------------------------------------------*/
+
+.feedback-form form {
+	margin-top: 3em;
+}
+
+.feedback-form p.question {
+	margin-top: 2.5em;
+	margin-bottom: .5em;
+}
+
+.feedback-form .so-button {
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
 
 /*--------------------------------------------------------------
 13.# Footer

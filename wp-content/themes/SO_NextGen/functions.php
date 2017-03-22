@@ -124,7 +124,7 @@ add_action( 'widgets_init', 'seniorsoutdoors_widgets_init' );
 function seniorsoutdoors_scripts() {
 	wp_enqueue_style( 'seniorsoutdoors-style', get_stylesheet_uri() );
 
-	wp_enqueue_style( 'seniorsoutdoors-font-awesome', 'http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css' );
+	wp_enqueue_style( 'seniorsoutdoors-font-awesome', 'http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css' );
 
 	wp_enqueue_style( 'seniorsoutdoors-google-fonts', 'http://fonts.googleapis.com/css?family=Oswald|Merriweather:400,700|Open+Sans:400,400i,700' );
 
@@ -179,7 +179,7 @@ function the_slug() {
 
 /** My Functions */
 function clean_events($event_string) {
-	$event_string = str_replace('[return]', '<br>', $event_string); // Replaces [return]s with line breaks.
+	$event_string = str_replace('[return]', '<br>', $event_string); // Replaces [return]sdjwright001@gmail.com, liz.burton147@gmail.com with line breaks.
 	$event_string = str_replace('Õ', "'", $event_string); //fixes apostrophe
 	$event_string = str_replace('Í', "'", $event_string); //fixes apostrophe
 	$event_string = str_replace('ê', "'", $event_string); //fixes apostrophe
@@ -191,5 +191,61 @@ function clean_events($event_string) {
 	return str_replace('Ê', ' ', $event_string); // Removes special char.
 }
 
+function clean_dates($input_date) {
+	$formatted_date = strtotime($input_date);
+	return strftime("%Y-%m-%d",$formatted_date);
+}
+
+function clean_times($input_time) {
+	$formatted_time = strtotime($input_time);
+	return strftime("%T",$formatted_time);
+}
+
+function prefix_send_email_to_admin() {
+//	$to = "MORRISJP@uwec.edu, liz.burton147@gmail.com, djwright001@gmail.com";
+	$to = "liz.burton147@gmail.com"; //FOR TESTING PURPOSES
+	$subject = "SO feedback from Web form";
+		$redirect_address = "get_stylesheet_directory_uri()/feedback-form?redirect=TRUE";
+	if (empty($_POST["likes"]) && empty($_POST["dislikes"]) && empty($_POST["missing"]) && empty($_POST["other"])) { 
+		redirect_to($redirect_address);
+	} else {
+		// Sanitize the POST field
+		$name = sanitize_text_field($_POST['name']);  //change this to an array loop
+		$email = sanitize_email($_POST['email']);
+		$likes = sanitize_text_field($_POST['likes']);
+		$dislikes = sanitize_text_field($_POST['dislikes']);
+		$missing = sanitize_text_field($_POST['missing']);
+		$other = sanitize_text_field($_POST['other']);
+		// Generate email content
+		$email_content = "FEEDBACK FROM: \r\n" . $name . "\r\n";
+		$email_content .= "EMAIL ADDRESS: \r\n" . $email . "\r\n";
+		$email_content .= "LIKES: \r\n" . wordwrap($likes, 50, "\r\n") . "\r\n";
+		$email_content .= "DISLIKES: \r\n" . wordwrap($dislikes, 50, "\r\n") . "\r\n";
+		$email_content .= "WHAT'S MISSING: \r\n" . wordwrap($missing, 50, "\r\n") . "\r\n";
+		$email_content .= "OTHER FEEDBACK: \r\n" . wordwrap($other, 50, "\r\n") . "\r\n";
+
+		// Send to appropriate email
+		mail($to, $subject, $email_content);
+
+		echo "<div style=\" text-align: center; margin: 5em auto;  width: 30em; display: block; padding: 2em; background-color: #F4EBDC; border: 3px solid #563A56; border-radius: 10px; \">
+			<h1 style=\"color: #563A56; font-family: 'Merriweather'; \">Thank you for your feedback!</h1>
+			<p style=\" font-family: 'Open Sans'; font-size: '24px'; \">Your comments and suggestions will help make this site as useful as possible for Seniors Outdoors! members.</p>
+			</div>";
+	}
+
+}
+add_action( 'admin_post_nopriv_feedback_form', 'prefix_send_email_to_admin' );
+add_action( 'admin_post_feedback_form', 'prefix_send_email_to_admin' );
 
 
+function redirect_to($new_location) {
+	header("Location: " . $new_location);
+	exit;
+}
+
+function check_if_recurring($post) {
+    if (has_term('recurring','tribe_events_cat') || (has_term('bike','tribe_events_cat')) ||
+    	(has_term('ww','tribe_events_cat')) || (has_term('ski','tribe_events_cat')) ) :
+    return true;
+	endif;
+}

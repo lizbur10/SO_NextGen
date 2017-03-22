@@ -47,7 +47,7 @@ Template Name: Custom Homepage Template
                 $wp_query = new WP_Query( array( 'post_type' => 'tribe_events', 'nopaging' => true ) );
 
                 if ( $wp_query->have_posts() ): ?>
-                    <div class="featured-event-details">
+                    <div class="general-meeting-details">
                     <?php while ( $wp_query->have_posts() ) : $wp_query->the_post();
     /*                  if ( (strpos (get_the_title(), "General Meeting") > -1) AND !$featureFound ) :
     */                       if ( (has_term('general-meeting','tribe_events_cat') ) AND !$featureFound ) :
@@ -59,8 +59,7 @@ Template Name: Custom Homepage Template
 
                             <h2>SO! General Meeting</h2>
             			    <h3 class="event-title"><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>
-            			    <p class="single-space"><?php echo $venue; ?></p>
-                            <p><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?></p>
+                            <p class="date"><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?></p>
                             <?php 
     /*                        if ( !(strpos (get_the_title(), "Potluck") > -1) AND ( !(strpos (get_the_content(), "Potluck") ) ) ) : ?>
                                  <p class="single-space">New member orientation: 5:30pm</p>
@@ -70,49 +69,53 @@ Template Name: Custom Homepage Template
     */            		    the_content(); 
                         endif; 
                     endwhile; ?>
-                    </div> 
+                    </div> <!-- general meeting details -->
                 <?php endif;
 
                 $wp_query = new WP_Query( array( 'post_type' => 'tribe_events', 'nopaging' => true ) );
 
-                if ( $wp_query->have_posts() ): 
-                    while ( $wp_query->have_posts() ) : $wp_query->the_post();
-                        if ( get_field('event_change') ) :
-                            $counter++;
-                            if ($counter == 0) : ?>
-                                <div class="event-changes">
-                                    <h2>Schedule Changes</h2>
+                ?> <div class="new-and-changed">
+                    <?php if ( $wp_query->have_posts() ): 
+                        while ( $wp_query->have_posts() ) : $wp_query->the_post();
+                            if ( get_field('event_change') ) :
+                                $counter++;
+                                if ($counter == 0) : ?>
+                                    <div class="">
+                                        <h2>Schedule Changes:</h2>
+                                <?php endif; ?>
+    <!--                                     <h3><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?>: </h3>
+                                        <h4><?php the_title(); ?></h4>
+     -->
+                                        <h3 class="event-title"><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>
+                                        <p class="date"><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?></p>
+                                        <p class="changed"><?php echo get_field('event_change') ?></p>
                             <?php endif; ?>
-                                    <h3><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?>: </h3>
-                                    <h4><?php the_title(); ?></h4>
-                                    <p class="changed"><?php echo get_field('event_change') ?></p>
-                        <?php endif; ?>
-                    <?php endwhile;
-                    if ($counter != -1) : ?>
-                                </div>
-                    <?php endif;
-                endif; 
-                $counter = -1;
+                        <?php endwhile;
+                        if ($counter != -1) : ?>
+                                    </div>
+                        <?php endif;
+                    endif; 
+                    $counter = -1;
 
-                $wp_query = new WP_Query( array( 'post_type' => 'tribe_events', 'nopaging' => true ) );
+                    $wp_query = new WP_Query( array( 'post_type' => 'tribe_events', 'nopaging' => true ) );
 
-                if ( $wp_query->have_posts() ): 
-                    while ( $wp_query->have_posts() ) : $wp_query->the_post();
-                        if (has_term('new','tribe_events_cat')) : 
-                            $counter++;
-                            if ($counter == 0) : ?>
-                                <div class="event-changes">
-                                    <h2>New Outings</h2>
+                    if ( $wp_query->have_posts() ): 
+                        while ( $wp_query->have_posts() ) : $wp_query->the_post();
+                            if (has_term('new','tribe_events_cat')) : 
+                                $counter++;
+                                if ($counter == 0) : ?>
+                                    <div class="">
+                                        <h2>New Outings:</h2>
+                                <?php endif; ?>
+                                        <h3 class="event-title"><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>
+                                        <p class="date"><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?></p>
                             <?php endif; ?>
-                                    <h3><?php echo tribe_get_start_date(null,FALSE,'l, F j'); ?>: </h3>
-                                    <h4><?php the_title(); ?></h4>
-                        <?php endif; ?>
-                    <?php endwhile;
-                    if ($counter != -1) : ?>
-                                </div>
-                    <?php endif;
-                endif; ?>
-
+                        <?php endwhile;
+                        if ($counter != -1) : ?>
+                                    </div>
+                        <?php endif;
+                    endif; ?>
+                </div> <!--New and Changed -->
             </section>
 
             <section class=" list-view">
@@ -121,36 +124,40 @@ Template Name: Custom Homepage Template
                 <h2>Upcoming Events:</h2>
                 <?php if ( $wp_query->have_posts() ): ?>
                         <?php while ( ( $wp_query->have_posts() ) && ($eventsPosted < 5) ) : $wp_query->the_post();
-                            if (!(has_term('general-meeting','tribe_events_cat'))) :
-                               $startDate = tribe_get_start_date(false);
-                               $endDate = tribe_get_end_date(false); ?>
-                                <div class="events-list">
-                                    <?php if (has_term('new','tribe_events_cat')) : ?>
-                                        <h3 class="event-title"><span class="new-outing">NEW!</span><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>                                
-                                    <?php else : ?>
-                                        <h3 class="event-title"><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>
-                                    <?php endif;
-                                    if ( !tribe_event_is_all_day( $event ) ):
-                                        echo tribe_get_start_date(null,TRUE,'l, F j, g:i a');
-                                    else :
-                                        echo tribe_get_start_date(null,FALSE,'F j'); ?> - <?php
-                                        echo tribe_get_end_date(null,FALSE,'F j'); 
-                                    endif;
-                                    ?>
-                                    <?php if (get_field('event_change')) : ?>
-                                        <p class="changed"><?php echo get_field('event_change') ?></p>
-                                    <?php endif; 
-                                    echo the_content();
-                                    ?>
+                            if (!(has_term('recurring','tribe_events_cat')) && !(has_term('ski','tribe_events_cat')) ) :
+                                if (!(has_term('general-meeting','tribe_events_cat'))) :
+                                   $startDate = tribe_get_start_date(false);
+                                   $endDate = tribe_get_end_date(false); ?>
+                                    <div class="events-list">
+                                        <?php if (has_term('new','tribe_events_cat')) : ?>
+                                            <h3 class="event-title"><span class="new-outing">NEW!</span><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>                                
+                                        <?php else : ?>
+                                            <h3 class="event-title"><a href="<?php echo get_stylesheet_directory_uri(); ?>/<?php echo the_slug(); ?>"><?php the_title(); ?></a></h3>
+                                        <?php endif;
+                                        if ( !tribe_event_is_all_day( $event ) ):
+                                            echo tribe_get_start_date(null,TRUE,'l, F j, g:i a');
+                                        else :
+                                            echo tribe_get_start_date(null,FALSE,'F j'); ?> - <?php
+                                            echo tribe_get_end_date(null,FALSE,'F j'); 
+                                        endif;
+                                        ?>
+                                        <?php if (get_field('event_change')) : ?>
+                                            <p class="changed"><?php echo get_field('event_change') ?></p>
+                                        <?php endif; 
+                                        echo the_content();
+                                        ?>
 
-                                </div>
-                            <?php else :
-                                $eventsPosted--;
+                                    </div>
+                                <?php else :
+                                    $eventsPosted--;
+                                endif;
+                            $eventsPosted++; 
                             endif;
-                        $eventsPosted++; 
                         endwhile; ?>
-                    <p><a class="text-link" href="/seniorsoutdoors/events">Go to full calendar&rsaquo;&rsaquo;</a></p>
-                    <p><a class="small-screen-suppress text-link" href="/seniorsoutdoors/printable-schedule">Go to printable schedule&rsaquo;&rsaquo;</a></p>
+                            <p><a class="text-link" href="events">Go to full calendar&rsaquo;&rsaquo;</a></p>
+                            <p><a class="small-screen-suppress text-link" href="printable-schedule">Go to printable schedule&rsaquo;&rsaquo;</a></p>
+
+                        <h4>Also: learn about <a class="text-link" href="<?php echo get_stylesheet_directory_uri(); ?>/so-subgroups">Seniors Outdoors! Subgroups</a></h4>
 <!--                     <p><a class="text-link" href="/seniorsoutdoors/events">Go to full calendar&rsaquo;&rsaquo;</a></p>
                     <p><a class="text-link" href="/seniorsoutdoors/printable-schedule">Go to printable schedule&rsaquo;&rsaquo;</a></p>
  -->

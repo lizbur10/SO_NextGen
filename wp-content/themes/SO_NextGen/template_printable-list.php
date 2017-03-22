@@ -28,9 +28,20 @@ Template Name: Printable List Template
 
 
 
-<div class="page-content">
-	<div class="events-list">
-		<?php echo do_shortcode("[print-me target='.page-title, #printable-table']"); ?>
+<div class="page-content .site-main">
+	<div class="small-view">
+		<h2>This content can only be viewed on a full-sized screen. </h2>
+		<p>If you are seeing this message, your screen size is too small to view this page.</p>
+		<p>Things to try:</p>
+		<ul>
+			<li>If you are on a laptop or desktop computer, make sure your browser window is maximized.</li>
+			<li>If you are on a tablet, you may be able to view the page in horizonal orientation.</li>
+		</ul>
+		<p>We apologize for the inconvenience.</p>
+	</div>
+	<div id="printable-list" class="events-list">
+ 		<?php echo do_shortcode("[print-me target='.page-title, #printable-table']"); ?>
+
 			<?php if ($season == "") : ?>
 				<h1 class="page-title">Seniors Outdoors! Schedule</h1>
 			<?php else : ?>
@@ -42,9 +53,9 @@ Template Name: Printable List Template
 			if ( $wp_query->have_posts() ): ?>
 				<table id="printable-table">
 					<tr>
-						<th class="date-loc">Date &amp; Location</th>
+						<th class="date-loc">Date &amp; <a class="text-link" target="_blank" href="../../outing-guidelines/#meeting_abbrev">Location</a></th>
 						<th class="outing-desc">Outing description</th>
-						<th class="difficulty">Difficulty info</th>
+						<th class="difficulty"><a class="text-link" target="_blank" href="../../outing-guidelines/#difficulty">Difficulty info</a></th>
 					</tr>
 
 					<?php while ( $wp_query->have_posts() )  : $wp_query->the_post();
@@ -95,13 +106,15 @@ Template Name: Printable List Template
 						<?php endif; ?>
 
 						<td> <?php
-								if ($startDate == $endDate) : ?>
+								if ($startDate == $endDate) { ?>
 									<p><?php echo tribe_get_start_date(null,FALSE,'D, M j'); ?> <?php echo tribe_get_start_time(); ?></p>
-								<?php else : ?>    
-									<p><?php echo tribe_get_start_date(null,FALSE,'D, M j'); ?> - <?php echo tribe_get_end_date(null,FALSE,'D, M j'); ?></p>
-								<?php endif; 
+								<?php } else if( has_term('ski','tribe_events_cat') ) { ?> 
+									<p><?php echo tribe_get_start_date(null,FALSE,'D, M j'); ?> - end of ski season</p>
+								<?php } else { ?>
+										<p><?php echo tribe_get_start_date(null,FALSE,'D, M j'); ?> - <?php echo tribe_get_end_date(null,FALSE,'D, M j'); ?></p>
+									<?php } 
 								if ($location_info) : ?>
-									<p><?php echo $location_info ?></p>
+									<p><?php echo "<br />" . $location_info ?></p>
 								<?php endif;
 /*								?>
 								<?php if  ( ( $venue_name ) && ($startDate == $endDate) ) :  ?>
@@ -120,6 +133,15 @@ Template Name: Printable List Template
 									<p class="changed"><?php echo get_field('event_change'); ?></p>
 								<?php endif;
 								the_content(); 
+								if( has_term('bike','tribe_events_cat') ) {
+										echo "<p><a class=\"text-link\" href=\"" . get_stylesheet_directory_uri() . "/so-subgroups#monday-bike\">Click here for additional details</a></p>";
+								} else if( has_term('ww','tribe_events_cat') ) {
+										echo "<p><a class=\"text-link\" href=\"" . get_stylesheet_directory_uri() . "/so-subgroups#ww\">About Wednesday Wanderers</a></p>";
+//								} else if( has_term('ski','tribe_events_cat') ) {
+//										echo "<p><a class=\"text-link\" href=\"" . get_stylesheet_directory_uri() . "/so-subgroups#downhill-ski\">About the SO! Downhill Ski Group</a></p>";
+								} else if( has_term('recurring','tribe_events_cat') ) {
+										echo "<p><a class=\"text-link\" href=\"" . get_stylesheet_directory_uri() . "/so-subgroups\">Full details</a></p>";
+								}
 /*								if($other_info): ?>
 									<span class="other-info"><?php echo $other_info ?></span></p>
 								<?php endif; 
@@ -172,7 +194,7 @@ Template Name: Printable List Template
 						</tr>
 				<?php endwhile; ?>
 					</table>
-					<p><a class="text-link" href="/seniorsoutdoors/events">See calendar view&rsaquo;&rsaquo;</a></p>
+					<p><a class="text-link" href="/events">See calendar view&rsaquo;&rsaquo;</a></p>
 			<?php else : ?>
 				<p>Sorry - no events found</p>
 			<?php endif; ?>

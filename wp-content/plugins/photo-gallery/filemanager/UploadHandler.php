@@ -11,7 +11,8 @@
  */
  
 if (function_exists('current_user_can')) {
-  if (!current_user_can('manage_options')) {
+  global $wd_bwg_options;
+  if (!current_user_can($wd_bwg_options->permissions)) {
     die('Access Denied');
   }
 }
@@ -22,12 +23,12 @@ else {
 require_once(WD_BWG_DIR . '/filemanager/controller.php');
 $controller = new FilemanagerController();
 
-$upload_handler = new UploadHandler(array(
+$upload_handler = new bwg_UploadHandler(array(
   'upload_dir' => $controller->uploads_dir . (isset($_GET['dir']) ? str_replace('\\', '', ($_GET['dir'])) : ''),
-  'accept_file_types' => '/\.(gif|jpe?g|png|bmp|mp4|flv|webm|ogg|mp3|wav|pdf|zip)$/i'
+  'accept_file_types' => '/\.(gif|jpe?g|png|aac|m4a|f4a|oga|ogg|mp3|zip)$/i'
 ));
 
-class UploadHandler {
+class bwg_UploadHandler {
     protected $options;
     // PHP File Upload error message codes:
     // http://php.net/manual/en/features.file-upload.errors.php
@@ -105,9 +106,6 @@ class UploadHandler {
       }
       $this->options += array(
         'image_versions' => array(
-          // Uncomment the following version to restrict the size of
-          // uploaded images:
-          
           // Uncomment the following to create medium sized images:
           /*
           'medium' => array(
@@ -605,35 +603,37 @@ class UploadHandler {
     }
 
     protected function handle_zip_file($file_path, $file) {
-     $zip = new ZipArchive;
-     $res = $zip->open($file_path);
-     if ($res === TRUE) {
-       $allow_extract = true;
-       for($i = 0; $i < $zip->numFiles; $i++) {
-         $OnlyFileName = $zip->getNameIndex($i);
-         $FullFileName = $zip->statIndex($i);
-         if (!($FullFileName['name'][strlen($FullFileName['name'])-1] =="/")) {
-           if (!preg_match('#\.(gif|jpe?g|png|bmp|mp4|flv|webm|ogg|mp3|wav|pdf|ini|txt)$#i', $OnlyFileName)) {
-             $allow_extract = false;
-           }
-         }
-       }
-       if ($allow_extract) {
-         $target_dir = substr($file_path, 0, strlen($file_path) - 4);
-         if (!is_dir($target_dir)) {
-           mkdir($target_dir, 0777);
-         }
-         $zip->extractTo($target_dir);
-       }
-       else {
-         $file->error = 'Zip file should contain only image files.';
-       }
-       $zip->close();
-       if ($allow_extract) {
-         $this->handle_directory($target_dir);
-       }
-     }
-   }
+      $zip = new ZipArchive;
+      $res = $zip->open($file_path);
+      if ($res === TRUE) {
+        $allow_extract = true;
+        for($i = 0; $i < $zip->numFiles; $i++) {
+          $OnlyFileName = $zip->getNameIndex($i);
+          $FullFileName = $zip->statIndex($i);
+          if (!($FullFileName['name'][strlen($FullFileName['name']) - 1] == "/")) {
+            if (!preg_match('#\.(gif|jpe?g|png|bmp|mp4|flv|webm|ogg|mp3|wav|pdf|ini|txt)$#i', $OnlyFileName)) {
+              $allow_extract = false;
+            }
+          }
+        }
+        if ($allow_extract) {
+          $target_dir = substr($file_path, 0, strlen($file_path) - 4);
+          if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777);
+          }
+          $zip->extractTo($target_dir);
+        }
+        else {
+          $file->error = 'Zip file should contain only image files.';
+        }
+        $zip->close();
+        if ($allow_extract) {
+          $this->handle_directory($target_dir);
+        }
+      }
+      unlink($file_path);
+      return $file->error;
+    }
 
     protected function handle_directory($target_dir) {
       $extracted_files = scandir($target_dir);
@@ -753,7 +753,7 @@ class UploadHandler {
             $this->handle_image_file($file_path, $file);
           }
           else {
-            $this->handle_zip_file($file_path, $file);
+            $file->error = $this->handle_zip_file($file_path, $file);
           }
         }
         else {

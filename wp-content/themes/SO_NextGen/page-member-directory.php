@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Member Directory Template
+emplate Name: Member Directory Template
 */
 
 

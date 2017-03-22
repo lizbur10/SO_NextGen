@@ -15,11 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php
 global $post;
-$day      = tribe_events_get_current_month_day();
-$event_id = "{$post->ID}-{$day['daynum']}";
-$start    = tribe_get_start_date( $post, false, 'U' );
-$end      = tribe_get_end_date( $post, false, 'U' );
-
+$day       = tribe_events_get_current_month_day();
+$event_id  = "{$post->ID}-{$day['daynum']}";
+$start     = tribe_get_start_date( $post, false, 'U' );
+$end       = tribe_get_end_date( $post, false, 'U' );
+$start_z   = tribe_get_start_date ($post, false, 'z');
+$end_z     = tribe_get_end_date( $post, false, 'z' );
+$recurring = check_if_recurring($post);
 
 /**
  * How to Use the Javascript Templating System in this View
@@ -187,8 +189,8 @@ $end      = tribe_get_end_date( $post, false, 'U' );
 
 
 ?>
-
-<?php if (get_field('event_change')) : ?>
+<?php if (!( ($start_z != $end_z) && ($recurring) )): //suppresses the event on the calendar page if both conditions are true
+	if (get_field('event_change')) : ?>
 	<div id="tribe-events-event-<?php echo $event_id ?>" class="<?php tribe_events_event_classes() ?>" data-tribejson='<?php echo tribe_events_template_data( $post ); ?>'>
 		<h3 class="tribe-events-month-event-title entry-title summary"><a href="<?php tribe_event_link( $post ); ?>" class="url"><?php the_title() ?><p class="changed"><?php echo get_field('event_change'); ?></p></a></h3>
 	</div><!-- #tribe-events-event-# -->
@@ -196,4 +198,5 @@ $end      = tribe_get_end_date( $post, false, 'U' );
 	<div id="tribe-events-event-<?php echo $event_id ?>" class="<?php tribe_events_event_classes() ?>" data-tribejson='<?php echo tribe_events_template_data( $post ); ?>'>
 		<h3 class="tribe-events-month-event-title entry-title summary"><a href="<?php tribe_event_link( $post ); ?>" class="url"><?php the_title() ?></a></h3>
 	</div><!-- #tribe-events-event-# -->
-<?php endif; ?>
+<?php endif; 
+endif; ?>

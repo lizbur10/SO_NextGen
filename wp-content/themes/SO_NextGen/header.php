@@ -7,7 +7,21 @@
  * @package seniorsoutdoors
  */
 
- $feedbackEmail = "mailto:djwright001@gmail.com";
+
+/*
+Redirect code:
+header("Location: http://new.seniorsoutdoors.org");
+exit;
+*/
+
+
+//Sets a cookie so people will only see the splash screen the first time they visit the site:
+setcookie('return_visitor', true, time() + (60*60*24*30));
+
+
+//**NOTE: recipient for the feedback form is defined in functions.php, not here;
+$feedbackEmail = "mailto:MORRISJP@uwec.edu"; //Can be deleted, I think
+
 
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
@@ -44,26 +58,36 @@
 
 	</header><!-- #masthead -->
 
-    <div class="splash-container">
-        <div class="splashscreen">
+ 	<?php 
+		$display_splash = $_COOKIE["return_visitor"];
+		if (!($display_splash)) :
+			echo "<div class=\"splash-container\">";
+		else :
+			echo "<div class=\"splash-container visually-hidden\">";
+		endif;
+	?>
+<!--     <div class="splash-container">
+ -->        <div class="splashscreen">
             <button class="so-button" id="splash-close">Close</button>
-            <h3>Welcome!</h3>
-            <p>This is a Preview Version of the new Seniors Outdoors! website.</p>
+            <h3>Welcome to the redesigned Seniors Outdoors website!</h3>
             <br>
             <p>Please let us know what you think: what you like or don't like, what's missing, etc. </p>
             <br>
-             <p><a class="centered text-link" href="<?php echo eae_encode_emails($feedbackEmail); ?>">Send Feedback via Email</a></p>
-             <p>(You can also use the button at the bottom of the screen at any time.)</p>
+			<p><a class="centered text-link" id="trigger-splash-close" target="_blank" href="feedback-form">Submit Feedback</a></p>
+            <p>(You can also use the button at the bottom of the screen at any time.)</p>
          </div>
     </div>
 
 	<div id="content" class="site-content">
         <div class="email-link">
-            <a class="so-button" href="<?php echo eae_encode_emails($feedbackEmail); ?>">Submit Feedback</a>
+            <a class="so-button" target="_blank" href="feedback-form">Submit Feedback</a>
         </div>
 
 	<script>
 		$("#splash-close").click(function () {
+		    $(".splash-container").hide();
+		});
+		$("#trigger-splash-close").click(function () {
 		    $(".splash-container").hide();
 		});
 	</script>

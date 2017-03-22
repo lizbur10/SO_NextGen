@@ -76,7 +76,9 @@ $event_id = get_the_ID();
 
 			<!-- Schedule & Recurrence Details -->
 			<div class="updated published time-details">
-				<?php if ( !tribe_event_is_all_day( $event ) ):
+				<?php if (has_term('recurring','tribe_events_cat')) :
+					$rsvp_email="mailto:" . $leader_email . "?Subject=RSVP for " . $title ;
+				elseif ( !tribe_event_is_all_day( $event ) ):
 					echo tribe_get_start_date(null,TRUE,'l, F j, g:i a');
 					$rsvp_email="mailto:" . $leader_email . "?Subject=RSVP for " . $title . ", " . tribe_get_start_date(null,TRUE,'F j');
 				else :
@@ -103,6 +105,16 @@ $event_id = get_the_ID();
 			<div class="tribe-events-single-event-description tribe-events-content entry-content description">
                 <?php
                 echo the_content(); 
+					if( has_term('bike','tribe_events_cat') ) {
+							echo "<p><a class=\"text-link\" href=\"" . get_stylesheet_directory_uri() . "/so-subgroups#monday-bike\">Click here for additional details</a></p>";
+					} else if( has_term('ww','tribe_events_cat') ) {
+							echo "<p><a class=\"text-link\" href=\"" . get_stylesheet_directory_uri() . "/so-subgroups#ww\">About Wednesday Wanderers</a></p>";
+					} else if( has_term('ski','tribe_events_cat') ) {
+							echo "<p><a class=\"text-link\" href=\"" . get_stylesheet_directory_uri() . "/so-subgroups#downhill-ski\">About the SO! Downhill Ski Group</a></p>";
+					} else if( has_term('recurring','tribe_events_cat') ) {
+							echo "<p><a class=\"text-link\" href=\"" . get_stylesheet_directory_uri() . "/so-subgroups\">Full details</a></p>";
+					}
+
 /*                $description = get_the_content(); 
                 $searchString = "[return]";
                 $replaceString = "<br>";
@@ -121,14 +133,16 @@ $event_id = get_the_ID();
 			<!-- Event Meta -->
 			<div class="event-details">
 					<?php if ( $location_info ) : ?>
-						<p><span class="field-label">Location &amp; Time:</span> <?php echo $location_info ?></p>
+<!--						<p><span class="field-label"><a class="text-link" target="blank" href="../../outing-guidelines/#meeting_abbrev">Meeting Place</a>:</span> <?php echo $location_info ?></p>
+-->						<p><span class="field-label">Meeting Place:</span> <?php echo $location_info ?></p>
 					<?php else: ?>
 						<p><span class="field-label">Meet at: </span>TBD</p>
 					<?php endif;
 
 
 					if($difficulty_info): ?>
-						<p><span class="field-label">Difficulty Info:  </span><?php echo $difficulty_info ?></p>
+<!--						<p><span class="field-label"><a class="text-link" target="blank" href="../../outing-guidelines/#difficulty">Difficulty Info</a>:  </span><?php echo $difficulty_info ?></p>
+-->						<p><span class="field-label">Difficulty Info:  </span><?php echo $difficulty_info ?></p>
 					<?php endif;  ?>
 					
 

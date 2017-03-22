@@ -1,6 +1,6 @@
 <?php 
 /*
-Template Name: List Organizers & Venues
+emplate Name: List Organizers & Venues
 */
 
 

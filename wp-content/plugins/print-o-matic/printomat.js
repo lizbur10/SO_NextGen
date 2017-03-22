@@ -1,8 +1,8 @@
 /*!
- * Print-O-Matic JavaScript v1.8.1
+ * Print-O-Matic JavaScript v1.8.4
  * http://plugins.twinpictures.de/plugins/print-o-matic/
  *
- * Copyright 2016, Twinpictures
+ * Copyright 2017, Twinpictures
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ jQuery(document).ready(function() {
 			target = jQuery(this).next();
 		}
 
-		var w = window.open(null, 'printomatic print page', 'status=no, toolbar=no, menubar=no, location=no');
+		var w = window.open('', 'printomatic print page', 'status=no, toolbar=no, menubar=no, location=no');
 		var print_html = '<!DOCTYPE html><html><head><title>' + document.getElementsByTagName('title')[0].innerHTML + '</title>';
 
 		if ( typeof print_data != 'undefined' && typeof print_data[id] != 'undefined'){
@@ -54,7 +54,7 @@ jQuery(document).ready(function() {
 			//build the blank page
 			w.document.write( print_html + '</head><body></body></html>');
 
-			if ( 'pom_do_not_print' in print_data[id] ){
+			if ( 'pom_do_not_print' in print_data[id] && print_data[id]['pom_do_not_print'] ){
 				jQuery(print_data[id]['pom_do_not_print']).hide();
 			}
 
@@ -74,10 +74,7 @@ jQuery(document).ready(function() {
 		}
 		else if ( ua.indexOf("Trident/") != -1) {
 			//console.log('IE 11 - Trident');
-			jQuery( target ).each(function(){
-				var s = jQuery.trim( jQuery( this ).clone( true ).html() );
-				jQuery( w.document.body ).append( s );
-			});
+			jQuery(w.document.body).append( jQuery( target ).clone( true ).html() );
 		}
 		else if ( ua.indexOf("Edge/") != -1 ){
 			//console.log('IE 12 - Edge');

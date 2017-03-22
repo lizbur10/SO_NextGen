@@ -119,6 +119,9 @@ abstract class Tribe__Events__Aggregator__Record__Abstract {
 			$this->meta[ $key ] = maybe_unserialize( is_array( $value ) ? reset( $value ) : $value );
 		}
 
+		// `source` will be empty when importing .ics files
+		$this->meta['source'] = ! empty ( $this->meta['source'] ) ? $this->meta['source'] : '';
+
 		// This prevents lots of isset checks for no reason
 		if ( empty( $this->meta['activity'] ) ) {
 			$this->meta['activity'] = new Tribe__Events__Aggregator__Record__Activity();
@@ -417,7 +420,7 @@ abstract class Tribe__Events__Aggregator__Record__Abstract {
 	/**
 	 * Creates a child record based on the import record
 	 *
-	 * @return boolean|WP_Error
+	 * @return boolean|WP_Error|Tribe__Events__Aggregator__Record__Abstract
 	 */
 	public function create_child_record() {
 		$post = array(
@@ -483,10 +486,14 @@ abstract class Tribe__Events__Aggregator__Record__Abstract {
 	/**
 	 * Queues the import on the Aggregator service
 	 *
-	 * @return mixed
+	 * @see Tribe__Events__Aggregator__API__Import::create()
+	 *
+	 * @return stdClass|WP_Error|int A response object, a `WP_Error` instance on failure or a record
+	 *                               post ID if the record had to be re-scheduled due to HTTP request
+	 *                               limit.
 	 */
 	public function queue_import( $args = array() ) {
-		$aggregator = Tribe__Events__Aggregator::instance();
+		$aggregator = tribe( 'events-aggregator.main' );
 
 		$is_previewing = (
 			! empty( $_GET['action'] )
@@ -501,7 +508,7 @@ abstract class Tribe__Events__Aggregator__Record__Abstract {
 		$defaults = array(
 			'type'     => $this->meta['type'],
 			'origin'   => $this->meta['origin'],
-			'source'   => $this->meta['source'],
+			'source'   => isset( $this->meta['source'] ) ? $this->meta['source'] : '',
 			'callback' => $is_previewing ? null : site_url( '/event-aggregator/insert/?key=' . urlencode( $this->meta['hash'] ) ),
 		);
 
@@ -540,8 +547,15 @@ abstract class Tribe__Events__Aggregator__Record__Abstract {
 
 		// if the Aggregator API returns a WP_Error, set this record as failed
 		if ( is_wp_error( $response ) ) {
-			$error = $response;
-			return $this->set_status_as_failed( $error );
+			// if the error is just a reschedule set this record as pending
+			/** @var WP_Error $response */
+			if ( 'core:aggregator:http_request-limit' === $response->get_error_code() ) {
+				return $this->set_status_as_pending();
+			} else {
+				$error = $response;
+
+				return $this->set_status_as_failed( $error );
+			}
 		}
 
 		// if the Aggregator response has an unexpected format, set this record as failed
@@ -554,9 +568,6 @@ abstract class Tribe__Events__Aggregator__Record__Abstract {
 			'success:create-import' != $response->message_code
 			&& 'queued' != $response->message_code
 		) {
-			/**
-			 * @todo Allow overwriting the message
-			 */
 			$error = new WP_Error(
 				$response->message_code,
 				Tribe__Events__Aggregator__Errors::build(
@@ -585,7 +596,7 @@ abstract class Tribe__Events__Aggregator__Record__Abstract {
 	}
 
 	public function get_import_data() {
-		$aggregator = Tribe__Events__Aggregator::instance();
+		$aggregator = tribe( 'events-aggregator.main' );
 		return $aggregator->api( 'import' )->get( $this->meta['import_id'] );
 	}
 
@@ -865,7 +876,7 @@ abstract class Tribe__Events__Aggregator__Record__Abstract {
 			return __( 'When this import was last scheduled to run, the daily limit for your Event Aggregator license had already been reached.', 'the-events-calendar' );
 		}
 
-		return Tribe__Events__Aggregator__Service::instance()->get_service_message( $status );
+		return tribe( 'events-aggregator.service' )->get_service_message( $status );
 	}
 
 	/**
@@ -1209,7 +1220,7 @@ abstract class Tribe__Events__Aggregator__Record__Abstract {
 			// If we have a Image Field from Service
 			if ( ! empty( $event['image'] ) ) {
 				// Attempt to grab the event image
-				$image_import = Tribe__Events__Aggregator::instance()->api( 'image' )->get( $event['image']->id );
+				$image_import = tribe( 'events-aggregator.main' )->api( 'image' )->get( $event['image']->id );
 
 				/**
 				 * Filters the returned event image url
